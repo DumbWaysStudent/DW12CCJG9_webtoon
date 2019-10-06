@@ -12,10 +12,7 @@ class App extends Component {
 
   render() {
     return (
-      <Item fixedLabel>
-        <Label>Username</Label>
-        <Input />
-      </Item>
+      <View></View>
 
     );
   }
