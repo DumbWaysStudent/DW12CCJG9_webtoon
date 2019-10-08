@@ -7,7 +7,12 @@ class ForYou extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentSlideShow: 0
     };
+  }
+
+  slideShow(images) {
+    
   }
 
   render() {
@@ -57,8 +62,6 @@ const banners = [
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
-        borderColor: "red",
         flex: 1
     },
     searchBox: {
