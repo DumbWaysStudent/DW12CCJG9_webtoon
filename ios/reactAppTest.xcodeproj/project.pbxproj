@@ -34,6 +34,16 @@
 		67967725FD064E66B4F742C4 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB0DD3DADD90494880FF8F86 /* rubicon-icon-font.ttf */; };
 		98552B9FB38D43EA9542B6AA /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F2D5D831A6348DC9DF80C35 /* SimpleLineIcons.ttf */; };
 		C422B29B5CA841A28B5DA444 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45FF3089D8344549AF69AB57 /* Zocial.ttf */; };
+		F4F26C3EADFC4F1DAB058E63 /* KOMIKAH_.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4216C5191776477DBB186397 /* KOMIKAH_.ttf */; };
+		1BB1BBFA75994AAB846B554F /* KOMIKAHB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E369B2A517E344A89EFD4D41 /* KOMIKAHB.ttf */; };
+		154068F3534B4C93A7235DE7 /* KOMIKASK.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F988A67F2D274576A19D9932 /* KOMIKASK.ttf */; };
+		F8D9FB66D5A54093A774769B /* KOMIKASL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6F9862E0B074837BB17B998 /* KOMIKASL.ttf */; };
+		FC72BFAC4CC04386A289B619 /* KOMIKHBI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 704DEFC02B2C4055A1D55F88 /* KOMIKHBI.ttf */; };
+		0BA1DB740ED444EFA91D8981 /* KOMIKHI_.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3683F3D438E14A869346DEF6 /* KOMIKHI_.ttf */; };
+		F5C81BFDDB6A4CD4B3B991EB /* KOMIKJ__.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 854B163CFFDF4F16AC00E9E4 /* KOMIKJ__.ttf */; };
+		042CE7C4CC06459BA6CA8949 /* KOMIKJI_.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E48775C15D0F45E6857AF858 /* KOMIKJI_.ttf */; };
+		0400A36ED2C34801941DB7BB /* KOMIKSKI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DB01F54503D4271AA8B335F /* KOMIKSKI.ttf */; };
+		B89A3DBC6A144967BD3E5FCE /* KOMIKSLI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4121105DB904ED48D8EA02C /* KOMIKSLI.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +98,16 @@
 		DB0DD3DADD90494880FF8F86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2F2D5D831A6348DC9DF80C35 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		45FF3089D8344549AF69AB57 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4216C5191776477DBB186397 /* KOMIKAH_.ttf */ = {isa = PBXFileReference; name = "KOMIKAH_.ttf"; path = "../assets/fonts/KOMIKAH_.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E369B2A517E344A89EFD4D41 /* KOMIKAHB.ttf */ = {isa = PBXFileReference; name = "KOMIKAHB.ttf"; path = "../assets/fonts/KOMIKAHB.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F988A67F2D274576A19D9932 /* KOMIKASK.ttf */ = {isa = PBXFileReference; name = "KOMIKASK.ttf"; path = "../assets/fonts/KOMIKASK.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F6F9862E0B074837BB17B998 /* KOMIKASL.ttf */ = {isa = PBXFileReference; name = "KOMIKASL.ttf"; path = "../assets/fonts/KOMIKASL.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		704DEFC02B2C4055A1D55F88 /* KOMIKHBI.ttf */ = {isa = PBXFileReference; name = "KOMIKHBI.ttf"; path = "../assets/fonts/KOMIKHBI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3683F3D438E14A869346DEF6 /* KOMIKHI_.ttf */ = {isa = PBXFileReference; name = "KOMIKHI_.ttf"; path = "../assets/fonts/KOMIKHI_.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		854B163CFFDF4F16AC00E9E4 /* KOMIKJ__.ttf */ = {isa = PBXFileReference; name = "KOMIKJ__.ttf"; path = "../assets/fonts/KOMIKJ__.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E48775C15D0F45E6857AF858 /* KOMIKJI_.ttf */ = {isa = PBXFileReference; name = "KOMIKJI_.ttf"; path = "../assets/fonts/KOMIKJI_.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4DB01F54503D4271AA8B335F /* KOMIKSKI.ttf */ = {isa = PBXFileReference; name = "KOMIKSKI.ttf"; path = "../assets/fonts/KOMIKSKI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F4121105DB904ED48D8EA02C /* KOMIKSLI.ttf */ = {isa = PBXFileReference; name = "KOMIKSLI.ttf"; path = "../assets/fonts/KOMIKSLI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +237,16 @@
 				DB0DD3DADD90494880FF8F86 /* rubicon-icon-font.ttf */,
 				2F2D5D831A6348DC9DF80C35 /* SimpleLineIcons.ttf */,
 				45FF3089D8344549AF69AB57 /* Zocial.ttf */,
+				4216C5191776477DBB186397 /* KOMIKAH_.ttf */,
+				E369B2A517E344A89EFD4D41 /* KOMIKAHB.ttf */,
+				F988A67F2D274576A19D9932 /* KOMIKASK.ttf */,
+				F6F9862E0B074837BB17B998 /* KOMIKASL.ttf */,
+				704DEFC02B2C4055A1D55F88 /* KOMIKHBI.ttf */,
+				3683F3D438E14A869346DEF6 /* KOMIKHI_.ttf */,
+				854B163CFFDF4F16AC00E9E4 /* KOMIKJ__.ttf */,
+				E48775C15D0F45E6857AF858 /* KOMIKJI_.ttf */,
+				4DB01F54503D4271AA8B335F /* KOMIKSKI.ttf */,
+				F4121105DB904ED48D8EA02C /* KOMIKSLI.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -377,6 +407,16 @@
 				67967725FD064E66B4F742C4 /* rubicon-icon-font.ttf in Resources */,
 				98552B9FB38D43EA9542B6AA /* SimpleLineIcons.ttf in Resources */,
 				C422B29B5CA841A28B5DA444 /* Zocial.ttf in Resources */,
+				F4F26C3EADFC4F1DAB058E63 /* KOMIKAH_.ttf in Resources */,
+				1BB1BBFA75994AAB846B554F /* KOMIKAHB.ttf in Resources */,
+				154068F3534B4C93A7235DE7 /* KOMIKASK.ttf in Resources */,
+				F8D9FB66D5A54093A774769B /* KOMIKASL.ttf in Resources */,
+				FC72BFAC4CC04386A289B619 /* KOMIKHBI.ttf in Resources */,
+				0BA1DB740ED444EFA91D8981 /* KOMIKHI_.ttf in Resources */,
+				F5C81BFDDB6A4CD4B3B991EB /* KOMIKJ__.ttf in Resources */,
+				042CE7C4CC06459BA6CA8949 /* KOMIKJI_.ttf in Resources */,
+				0400A36ED2C34801941DB7BB /* KOMIKSKI.ttf in Resources */,
+				B89A3DBC6A144967BD3E5FCE /* KOMIKSLI.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
