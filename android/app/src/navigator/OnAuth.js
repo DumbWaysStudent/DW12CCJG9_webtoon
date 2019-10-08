@@ -1,18 +1,48 @@
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import For_You from '../screens/For_You'
+import ForYou from '../screens/ForYou'
 
 
 const OnAuth = createStackNavigator({
-        For_You: {
-            screen: For_You,
+        ForYou: {
+            screen: ForYou,
             navigationOptions: () => ({
                 header: null,
             })
-        }
+        },
+        // Favourite: {
+
+        // },
+        // Profile: {
+
+        // },
+        // EditProfile: {
+
+        // },
+        // DetailWebtoon: {
+
+        // },
+        // DetailEpisode: {
+
+        // },
+        // MyWebtoonCreation: {
+
+        // },
+        // CreateWebtoon: {
+
+        // },
+        // CreateWebtoonEpisode: {
+
+        // },
+        // EditMyWebtoon: {
+
+        // },
+        // EditMyWebtoonEpisode: {
+
+        // }
     },
     {
-        initialRouteName: 'For_You'
+        initialRouteName: 'ForYou'
     }
 );
 
