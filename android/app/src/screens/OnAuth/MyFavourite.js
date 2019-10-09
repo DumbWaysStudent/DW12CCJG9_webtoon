@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 2,
         borderRightWidth: 2,
         borderBottomWidth: 2,
-        borderColor: '#ddd',
+        borderColor: '#444',
         borderRadius: 5,
         marginLeft: 10,
         marginTop: 8,
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
       paddingVertical: 15,
       paddingHorizontal:12,
       borderLeftWidth: 2,
-      borderLeftColor: '#ddd'
+      borderLeftColor: '#444'
     },
     bannerContainer: {
       borderTopWidth: 2,
       borderLeftWidth: 2,
       borderRightWidth: 2,
       borderBottomWidth: 2,
-      borderColor: '#ddd',
+      borderColor: '#444',
       borderRadius: 5,
       marginLeft: 10,
       width: '94%',
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     },
     bannerImage: {
       borderWidth: 2,
-      borderColor: '#ddd',
+      borderColor: '#444',
       width: '100%',
       height: '100%'
     },
