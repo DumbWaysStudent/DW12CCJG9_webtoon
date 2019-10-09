@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import React from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { createAppContainer} from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator  } from 'react-navigation-tabs';
 import ForYou from '../screens/ForYou'
 import Favourite from '../screens/Favourite'
@@ -12,9 +12,9 @@ const OnAuth = createBottomTabNavigator ({
             screen: ForYou,
             navigationOptions: () => ({
                 header: null,
-                tabBarLabel: "ForYou",
+                tabBarLabel: "For You",
                 tabBarIcon: ({ tintColor }) => (
-                <Icon name="home" size={18} color={tintColor} />)
+                <AntDesign name="appstore1" size={18} color={tintColor} />)
             })
         },
         Favourite: {
@@ -23,7 +23,7 @@ const OnAuth = createBottomTabNavigator ({
                 header: null,
                 tabBarLabel: "Favourite",
                 tabBarIcon: ({ tintColor }) => (
-                <Icon name="star" size={18} color={tintColor} />)
+                <AntDesign name="star" size={18} color={tintColor} />),
             })
         },
         Profile: {
@@ -32,7 +32,7 @@ const OnAuth = createBottomTabNavigator ({
                 header: null,
                 tabBarLabel: "Profile",
                 tabBarIcon: ({ tintColor }) => (
-                <Icon name="user" size={18} color={tintColor} />)
+                <FontAwesome name="user" size={18} color={tintColor} />)
             })
         },
         // EditProfile: {
@@ -63,8 +63,10 @@ const OnAuth = createBottomTabNavigator ({
     {
         initialRouteName: 'ForYou',
         tabBarOptions: {
-            activeTintColor: 'tomato',
+            activeTintColor: '#fc9003',
             inactiveTintColor: 'gray',
+            style: {marginVertical: 5},
+            labelStyle: {fontWeight: 'bold'}
           },
     }
 );

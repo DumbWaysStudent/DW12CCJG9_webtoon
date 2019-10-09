@@ -11,15 +11,33 @@ class LogIn extends Component {
         passwordInput: '',
         hidePassword: true,
         hidePwIcon: 'eye-slash',
-        loginBtnDisabled: true
+        loginBtnDisabled: true,
+        correctEmail: false,
+        correctPass: false
     };
   }
 
-  inputVerification() {
-    if (this.state.emailInput == '' || this.state.passwordInput == '') {
-        this.setState({loginBtnDisabled: true})
+  inputVerification(currentInput) {
+    if (currentInput == 'email') {
+        let
+        correct = this.state.emailInput.match(/(^[a-zA-Z]+|^[0-9]+|^[a-zA-Z0-9\.]+)@([a-zA-Z0-9]+)\.([a-zA-Z]+)/g)
+        if (correct != null) {
+            this.state.correctEmail = true
+        } else {
+            this.state.correctEmail = false
+        }
+    } else if (currentInput == 'password') {
+        if (this.state.passwordInput !== '') {
+            this.state.correctPass = true
+        } else {
+            this.state.correctPass = false
+        }
+    }
+    
+    if (this.state.correctEmail == true && this.state.correctPass == true) {
+        this.setState({loginBtnDisabled: false})
     } else {
-      this.setState({loginBtnDisabled: false})
+        this.setState({loginBtnDisabled: true})
     }
   }
 
@@ -35,7 +53,7 @@ class LogIn extends Component {
 
   loginSubmitHandle()
   {
-      
+      alert('Login....')
   }
 
   render() {
@@ -57,7 +75,7 @@ class LogIn extends Component {
                             style={styles.input}
                             value={this.state.emailInput}
                             keyboardType="email-address"
-                            onKeyPress={() => this.inputVerification()}
+                            onKeyPress={() => this.inputVerification('email')}
                             onChangeText={(text) => this.setState({emailInput: text})}
                         />
                         <Icon name="" />
@@ -68,7 +86,7 @@ class LogIn extends Component {
                             style={styles.input}
                             secureTextEntry={this.state.hidePassword}
                             value={this.state.passwordInput}
-                            onKeyPress={() => this.inputVerification()}
+                            onKeyPress={() => this.inputVerification('password')}
                             onChangeText={(text) => this.setState({passwordInput: text})}
                         />
                         <Icon
@@ -80,7 +98,7 @@ class LogIn extends Component {
                     </Item>
                     <Button
                         style={this.state.loginBtnDisabled ? styles.btnSubmitDisabled : styles.btnSubmit}
-                        onPress={() => alert(this.state.loginBtnDisabled)}
+                        onPress={() => this.loginSubmitHandle()}
                         disabled={this.state.loginBtnDisabled}
                     >
                         <Text style={styles.btnSubmitText}>Log In</Text>

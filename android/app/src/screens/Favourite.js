@@ -13,47 +13,11 @@ class Favourite extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-          <Item style={styles.searchBox}>
-              <Input style={styles.searchBoxInput}/>
-              <Icon
-                name="search"
-                size={20}
-                style={styles.searchBoxIcon}
-              />
-          </Item>
-          <Item style={styles.bannerContainer}>
-            <Thumbnail style={styles.bannerImage} square source={{uri: banners[0].image}}/>
-            {/* <Thumbnail style={styles.bannerImage} square source={{uri: banners[1].image}}/>
-            <Thumbnail style={styles.bannerImage} square source={{uri: banners[2].image}}/> */}
-            <Item>
-              
-            </Item>
-          </Item>
-          <Item style={styles.favoriteBanner}>
-            <Text style={styles.favoriteBannerTitle}>Favourite Page</Text>
-          </Item>
-          <Item style={styles.listAllToon}>
-
-          </Item>
+          
       </SafeAreaView>
     )
   }
 }
-
-const banners = [
-  {
-    title: 'The Secret of Angel',
-    image: 'https://akcdn.detik.net.id/community/media/visual/2019/04/03/dac43146-7dd4-49f4-89ca-d81f57b070fc.jpeg?w=770&q=90'
-  },
-  {
-    title: 'Pasutri Gaje',
-    image: 'https://akcdn.detik.net.id/community/media/visual/2019/04/03/dac43146-7dd4-49f4-89ca-d81f57b070fc.jpeg?w=770&q=90'
-  },
-  {
-    title: 'Young Mom',
-    image: 'https://akcdn.detik.net.id/community/media/visual/2019/04/03/dac43146-7dd4-49f4-89ca-d81f57b070fc.jpeg?w=770&q=90'
-  }
-]
 
 const styles = StyleSheet.create({
     container: {

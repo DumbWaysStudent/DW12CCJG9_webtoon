@@ -5129,6 +5129,11 @@ react-native-gesture-handler@^1.4.1:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-image-slider-show@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-image-slider-show/-/react-native-image-slider-show-1.0.3.tgz#4df4c0ba520074f7a5513cca9a83ea48ac8868a5"
+  integrity sha512-9Tysqt4Q1I2OIYN1hJ+291Axy9JwsKFpr1a4uxu9uDMLGgkYsOLhbsMdgj7qVBmtLWZDQ9Kr45r+LNIRmmSvGg==
+
 react-native-iphone-x-helper@^1.0.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
@@ -5160,6 +5165,13 @@ react-native-screens@1.0.0-alpha.23, "react-native-screens@^1.0.0 || ^1.0.0-alph
   integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
   dependencies:
     debounce "^1.2.0"
+
+react-native-swiper-flatlist@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-2.0.2.tgz#c4807b2dd6b6e4793c78cc9588a9f8584a457be8"
+  integrity sha512-4wg77Nm2g4YP6fO66yxzQkMpvejGUipvGX5s+7OYMBADK2hGKwBmT2YTlOn1O6lSGbZfu0gu6FW6MDIdiJmz6Q==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-tab-view@^2.9.0:
   version "2.10.0"
