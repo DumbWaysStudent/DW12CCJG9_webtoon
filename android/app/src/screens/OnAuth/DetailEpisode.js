@@ -7,24 +7,19 @@ class DetailWebtoon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listEpisode: [
+      pageList: [
         {
           id: 1,
-          title: 'Ep.1',
-          image: require('../../main/assets/images/14587286205684423455.jpg'),
-          lastUpdate: '1 Januari 2019'
+          image: require('../../main/assets/images/Noblesse/14587286121364423458.jpg'),
         },
         {
           id: 2,
-          title: 'Ep.2',
-          image: require('../../main/assets/images/14587286394124423462.jpg'),
-          lastUpdate: '7 Januari 2019'
+          image: require('../../main/assets/images/Noblesse/14587286122444423453.jpg'),
         },
         {
           id: 3,
-          title: 'Ep.3',
-          image: require('../../main/assets/images/14593149300964423470.jpg'),
-          lastUpdate: '14 Januari 2019'
+          image: require('../../main/assets/images/Noblesse/14587286122984423451.jpg'),
+
         }
       ],
       inputValue: 'Shared React Native'
@@ -47,7 +42,7 @@ class DetailWebtoon extends Component {
             <Icon name="arrow-left" size={23} />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Noblesse Awakening</Text>
+          <Text style={styles.headerTitle}>Ep.1</Text>
 
           <TouchableOpacity
             onPress={() => this.ShareMessage()}
@@ -56,26 +51,17 @@ class DetailWebtoon extends Component {
           </TouchableOpacity>
 
         </View>
-        <View style={styles.banner}>
-          <Image source={require('../../main/assets/images/noblesse-awakening.jpg')} style={styles.bannerImage} />
-        </View>
-        <View style={styles.listEpisode}>
-          <FlatList
+        <FlatList
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
-            data={this.state.listEpisode.reverse()}
+            data={this.state.pageList}
             renderItem={({ item }) => 
-              <View style={styles.episodeItem}>
-                <Thumbnail square source={item.image} style={styles.episodeImage} />
-                <View style={styles.episodeInfo}>
-                  <Text style={styles.episodeTitle}>{item.title}</Text>
-                  <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
-                </View>
+              <View style={styles.page}>
+                <Image source={item.image} style={styles.pageImage} />
               </View>
             }
             keyExtractor={item => item.id}
           />
-        </View>
       </SafeAreaView>
     )
   }
@@ -88,7 +74,8 @@ const styles = StyleSheet.create({
     header: {
       flexDirection: 'row',
       paddingVertical: 12,
-      borderColor: '#444'
+      borderBottomWidth: 1,
+      borderColor: '#ddd'
     },
     headerBackBtn: {
       flex: 1,
@@ -107,41 +94,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       padding: 6
     },
-    banner: {
-      width: '100%',
-      height: 200,
-      borderBottomWidth: 2,
-      borderColor: '#444',
-      margin: 0
-    },
-    bannerImage: {
-      width: '100%',
-      height: '100%',
-    },
-    listEpisode: {
-      marginTop: 30
-    },
-    episodeItem: {
-      flexDirection: 'row',
-      padding: 5,
-      marginBottom: 10,
-      borderBottomWidth: 1,
-      borderColor: '#eee',
-    },
-    episodeImage: {
-      borderRadius: 3
-    },
-    episodeInfo: {
-      padding: 5
-    },
-    episodeTitle: {
-      fontSize: 14,
-      fontWeight: 'bold'
-    },
-    episodeLastUpade: {
-      fontSize: 12,
-      fontWeight: 'bold',
-      color: '#999'
+    pageImage: {
+        width: '100%',
+        height: 500
     }
 })
 
