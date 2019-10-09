@@ -3,11 +3,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { createAppContainer} from 'react-navigation';
 import { createBottomTabNavigator  } from 'react-navigation-tabs';
-import ForYou from '../screens/ForYou'
-import Favourite from '../screens/Favourite'
-import Profile from '../screens/Profile'
+import ForYou from '../screens/OnAuth/ForYou'
+import Favourite from '../screens/OnAuth/Favourite'
+import Profile from '../screens/OnAuth/Profile'
 
-const OnAuth = createBottomTabNavigator ({
+const OnAuthTabs = createBottomTabNavigator ({
         ForYou: {
             screen: ForYou,
             navigationOptions: () => ({
@@ -71,4 +71,4 @@ const OnAuth = createBottomTabNavigator ({
     }
 );
 
-export default createAppContainer(OnAuth);
+export default createAppContainer(OnAuthTabs);

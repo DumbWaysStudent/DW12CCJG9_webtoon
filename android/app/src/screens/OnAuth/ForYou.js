@@ -13,77 +13,77 @@ class ForYou extends Component {
       interval: null,
       dataSource: [
         {
-          url: require('../main/assets/images/noblesse-awakening.jpg')
+          url: require('../../main/assets/images/noblesse-awakening.jpg')
         },
         {
-          url: require('../main/assets/images/tower-of-god.jpg')
+          url: require('../../main/assets/images/tower-of-god.jpg')
         },
         {
-          url: require('../main/assets/images/unordinary.png')
+          url: require('../../main/assets/images/unordinary.png')
         }
       ],
       favouriteData: [
         {
           id: 1,
           title: 'God Of Highschool',
-          image: require('../main/assets/images/goh.jpg')
+          image: require('../../main/assets/images/goh.jpg')
         },
         {
           id: 2,
           title: 'Dice',
-          image: require('../main/assets/images/dice.jpg')
+          image: require('../../main/assets/images/dice.jpg')
         },
         {
           id: 3,
           title: 'Bastard',
-          image: require('../main/assets/images/bastard.jpg')
+          image: require('../../main/assets/images/bastard.jpg')
         },
         {
           id: 4,
           title: 'UnTouchable',
-          image: require('../main/assets/images/untouchable.png')
+          image: require('../../main/assets/images/untouchable.png')
         },
         {
           id: 5,
           title: 'Dr Frost',
-          image: require('../main/assets/images/dr-frost.jpg')
+          image: require('../../main/assets/images/dr-frost.jpg')
         }
       ],
       listAllToonData: [
         {
           id: 1,
           title: 'UnTouchable',
-          image: require('../main/assets/images/untouchable.png')
+          image: require('../../main/assets/images/untouchable.png')
         },
         {
           id: 2,
           title: 'Dr Frost',
-          image: require('../main/assets/images/dr-frost.jpg')
+          image: require('../../main/assets/images/dr-frost.jpg')
         },
         {
           id: 4,
           title: 'Nobleese Awakening',
-          image: require('../main/assets/images/noblesse-awakening.jpg')
+          image: require('../../main/assets/images/noblesse-awakening.jpg')
         },
         {
           id: 5,
           title: 'Girls Of The Wild',
-          image: require('../main/assets/images/girls-of-the-wild.png')
+          image: require('../../main/assets/images/girls-of-the-wild.png')
         },
         {
           id: 6,
           title: "Melvina's Theraphy",
-          image: require('../main/assets/images/melvinas-therapy.jpg')
+          image: require('../../main/assets/images/melvinas-therapy.jpg')
         },
         {
           id: 7,
           title: "Siren's Lament",
-          image: require('../main/assets/images/sirens-lament.jpg')
+          image: require('../../main/assets/images/sirens-lament.jpg')
         },
         {
           id: 8,
           title: "Winter Woods",
-          image: require('../main/assets/images/winter-woods.jpg')
+          image: require('../../main/assets/images/winter-woods.jpg')
         },
         
       ]

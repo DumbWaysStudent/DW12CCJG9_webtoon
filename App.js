@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import {createAppContainer } from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs'
 
-import OnAuth from './android/app/src/navigator/OnAuth'
+import RootNavigator from './android/app/src/navigator/RootNavigator'
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class App extends Component {
 
   render() {
     return (
-      <OnAuth />
+      <RootNavigator />
     );
   }
 }
