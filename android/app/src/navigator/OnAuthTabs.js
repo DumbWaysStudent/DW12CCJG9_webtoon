@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { createAppContainer} from 'react-navigation';
 import { createBottomTabNavigator  } from 'react-navigation-tabs';
 import ForYou from '../screens/OnAuth/ForYou'
-import Favourite from '../screens/OnAuth/Favourite'
+import MyFavourite from '../screens/OnAuth/MyFavourite'
 import Profile from '../screens/OnAuth/Profile'
 
 const OnAuthTabs = createBottomTabNavigator ({
@@ -17,11 +17,11 @@ const OnAuthTabs = createBottomTabNavigator ({
                 <AntDesign name="appstore1" size={18} color={tintColor} />)
             })
         },
-        Favourite: {
-            screen: Favourite,
+        MyFavourite: {
+            screen: MyFavourite,
             navigationOptions: () => ({
                 header: null,
-                tabBarLabel: "Favourite",
+                tabBarLabel: "My Favourite",
                 tabBarIcon: ({ tintColor }) => (
                 <AntDesign name="star" size={18} color={tintColor} />),
             })
@@ -37,7 +37,7 @@ const OnAuthTabs = createBottomTabNavigator ({
         },
     },
     {
-        initialRouteName: 'ForYou',
+        initialRouteName: 'MyFavourite',
         tabBarOptions: {
             activeTintColor: '#fc9003',
             inactiveTintColor: 'gray',
