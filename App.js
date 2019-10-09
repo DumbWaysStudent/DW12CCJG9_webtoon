@@ -15,11 +15,7 @@ class App extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <RootNavigator />
-=======
       <OnAuthStack />
->>>>>>> 74d1dde835de31d22a536cd5d082592645d7bc51
     );
   }
 }
