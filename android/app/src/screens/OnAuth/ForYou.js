@@ -142,6 +142,7 @@ class ForYou extends Component {
           <Item style={styles.listAllToon}>
             <Text style={styles.listAllToonTitle}>All</Text>
             <FlatList
+            style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
             data={this.state.listAllToonData}
             renderItem={({ item }) =>

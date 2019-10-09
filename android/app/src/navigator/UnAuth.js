@@ -1,6 +1,6 @@
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import LogIn from '../screens/LogIn'
+import LogIn from '../screens/UnAuth/LogIn'
 
 
 const UnAuth = createStackNavigator({

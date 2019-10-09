@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import {createAppContainer } from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs'
-
-import OnAuth from './android/app/src/navigator/OnAuth'
+import OnAuthStack from './android/app/src/navigator/OnAuthStack';
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +10,7 @@ class App extends Component {
 
   render() {
     return (
-      <OnAuth />
+      <OnAuthStack />
     );
   }
 }
