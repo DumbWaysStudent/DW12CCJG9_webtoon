@@ -35,30 +35,6 @@ const OnAuthTabs = createBottomTabNavigator ({
                 <FontAwesome name="user" size={18} color={tintColor} />)
             })
         },
-        // EditProfile: {
-
-        // },
-        // DetailWebtoon: {
-
-        // },
-        // DetailEpisode: {
-
-        // },
-        // MyWebtoonCreation: {
-
-        // },
-        // CreateWebtoon: {
-
-        // },
-        // CreateWebtoonEpisode: {
-
-        // },
-        // EditMyWebtoon: {
-
-        // },
-        // EditMyWebtoonEpisode: {
-
-        // }
     },
     {
         initialRouteName: 'ForYou',
