@@ -73,7 +73,7 @@ class MyWebtoonCreation extends Component {
               <Item style={styles.webtoonItem}>
                 <Thumbnail source={item.image}  style={styles.webtoonImage} square />
                 <View>
-                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.webtoonTitle}>{item.title}</Text>
+                  <Text onPress={() => this.props.navigation.navigate('EditMyWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.webtoonTitle}>{item.title}</Text>
                   <Text style={styles.episodes}>{item.episodes}</Text>
                 </View>
               </Item>
