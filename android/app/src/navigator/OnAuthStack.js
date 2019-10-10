@@ -6,8 +6,10 @@ import MyWebtoonCreation from '../screens/OnAuth/MyWebtoonCreation';
 import CreateWebtoon from '../screens/OnAuth/CreateWebtoon';
 import CreateWebtoonEpisode from '../screens/OnAuth/CreateWebtoonEpisode';
 import EditMyWebtoon from '../screens/OnAuth/EditMyWebtoon';
+import DetailWebtoon from '../screens/OnAuth/DetailWebtoon';
+import DetailEpisode from '../screens/OnAuth/DetailEpisode'
 
-const OnAuthProfileStack = createStackNavigator ({
+const OnAuthStack = createStackNavigator ({
     EditProfile: {
         screen: EditProfile,
         navigationOptions: () => ({
@@ -37,10 +39,22 @@ const OnAuthProfileStack = createStackNavigator ({
         navigationOptions: () => ({
             header: null
         })
-    }
+    },
+    DetailWebtoon: {
+        screen: DetailWebtoon,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
+    DetailEpisode: {
+        screen: DetailEpisode,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
 },
 {
     initialRouteName: 'EditMyWebtoon'
 })
 
-export default createAppContainer(OnAuthProfileStack);
+export default createAppContainer(OnAuthStack);

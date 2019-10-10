@@ -1,17 +1,15 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import UnAuthS from './UnAuth';
 import OnAuthT from './OnAuthTabs';
-import OnAuthHomeStack from './OnAuthHomeStack';
-import OnAuthProfileStack from './OnAuthProfileStack'
+import OnAuthStack from './OnAuthStack'
 
 const RootNavigator = createSwitchNavigator({
     UnAuth: UnAuthS,
     OnAuthTabs: OnAuthT,
-    OnAuthHomeStack: OnAuthHomeStack,
-    OnAuthProfileStack: OnAuthProfileStack
+    OnAuthStack: OnAuthStack
 },
 {
-    initialRouteName: 'OnAuthTabs',
+    initialRouteName: 'OnAuthStack',
 })
 
 export default createAppContainer(RootNavigator);
