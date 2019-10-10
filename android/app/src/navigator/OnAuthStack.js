@@ -52,9 +52,6 @@ const OnAuthStack = createStackNavigator ({
             header: null
         })
     },
-},
-{
-    initialRouteName: 'EditMyWebtoonEpisode'
 })
 
 export default createAppContainer(OnAuthStack);
