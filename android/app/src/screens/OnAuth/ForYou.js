@@ -29,31 +29,36 @@ class ForYou extends Component {
           seriesID: '01',
           title: 'God Of Highschool',
           seriesID: '01',
-          image: require('../../main/assets/images/goh.jpg')
+          image: require('../../main/assets/images/goh.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 2,
           title: 'Dice',
           seriesID: '01',
-          image: require('../../main/assets/images/dice.jpg')
+          image: require('../../main/assets/images/dice.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 3,
           title: 'Bastard',
           seriesID: '01',
-          image: require('../../main/assets/images/bastard.jpg')
+          image: require('../../main/assets/images/bastard.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 4,
           title: 'UnTouchable',
           seriesID: '01',
-          image: require('../../main/assets/images/untouchable.png')
+          image: require('../../main/assets/images/untouchable.png'),
+          prevScreen: 'ForYou'
         },
         {
           id: 5,
           title: 'Dr Frost',
           seriesID: '01',
-          image: require('../../main/assets/images/dr-frost.jpg')
+          image: require('../../main/assets/images/dr-frost.jpg'),
+          prevScreen: 'ForYou'
         }
       ],
       listAllToonData: [
@@ -61,43 +66,50 @@ class ForYou extends Component {
           id: 1,
           title: 'UnTouchable',
           seriesID: '01',
-          image: require('../../main/assets/images/untouchable.png')
+          image: require('../../main/assets/images/untouchable.png'),
+          prevScreen: 'ForYou'
         },
         {
           id: 2,
           title: 'Dr Frost',
           seriesID: '01',
-          image: require('../../main/assets/images/dr-frost.jpg')
+          image: require('../../main/assets/images/dr-frost.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 3,
           title: 'Nobleese Awakening',
           seriesID: '01',
-          image: require('../../main/assets/images/noblesse-awakening.jpg')
+          image: require('../../main/assets/images/noblesse-awakening.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 4,
           title: 'Girls Of The Wild',
           seriesID: '01',
-          image: require('../../main/assets/images/girls-of-the-wild.png')
+          image: require('../../main/assets/images/girls-of-the-wild.png'),
+          prevScreen: 'ForYou'
         },
         {
           id: 5,
           title: "Melvina's Theraphy",
           seriesID: '01',
-          image: require('../../main/assets/images/melvinas-therapy.jpg')
+          image: require('../../main/assets/images/melvinas-therapy.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 6,
           title: "Siren's Lament",
           seriesID: '01',
-          image: require('../../main/assets/images/sirens-lament.jpg')
+          image: require('../../main/assets/images/sirens-lament.jpg'),
+          prevScreen: 'ForYou'
         },
         {
           id: 7,
           title: "Winter Woods",
           seriesID: '01',
-          image: require('../../main/assets/images/winter-woods.jpg')
+          image: require('../../main/assets/images/winter-woods.jpg'),
+          prevScreen: 'ForYou'
         },
         
       ]

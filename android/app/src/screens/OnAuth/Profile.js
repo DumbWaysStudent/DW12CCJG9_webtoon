@@ -39,7 +39,7 @@ class Profile extends Component {
             </View>
             <View style={styles.options}>
               <View style={[styles.optionsItem, styles.optionsItemTopBorder]}>
-                <TouchableOpacity style={{flexDirection: 'row'}}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyWebtoonCreation')} style={{flexDirection: 'row'}}>
                   <Text style={styles.optionsText}>My Webtoon Creation</Text>
                   <Icon style={{marginLeft: 10, marginVertical: 2}} name="angle-right" size={20} />
                 </TouchableOpacity>
