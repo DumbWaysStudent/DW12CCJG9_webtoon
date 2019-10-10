@@ -7,11 +7,18 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePicture: require('../../main/assets/images/noblesse-awakening.jpg')
+      profilePicture: this.props.navigation.getParam('profilePic'),
+      profileName: this.props.navigation.getParam('name')
     };
   }
 
   render() {
+    if (!this.state.profileName) {
+      this.setState({
+        profileName: 'Fikri Haikal',
+        profilePicture: require('../../main/assets/images/user-icon.png.jpg')
+      })
+    }
     return (
       <SafeAreaView style={styles.container}>
           <View style={styles.header}>
@@ -19,9 +26,8 @@ class Profile extends Component {
             <View style={styles.headerTitle}>
               <Text style={styles.headerTitleText}>Profile</Text>
             </View>
-
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('EditProfile')}
+              onPress={() => this.props.navigation.navigate('EditProfile', {name: this.state.profileName, profilePic: this.state.profilePicture})}
               style={styles.headerEditBtn}>
               <Icon name="edit" size={23} />
             </TouchableOpacity>
@@ -29,7 +35,7 @@ class Profile extends Component {
           </View>
             <View style={styles.profilePicture}>
               <Image large source={this.state.profilePicture} style={styles.profilePictureImage} />
-              <Text style={styles.profileName}>Fikri Haikal</Text>
+              <Text style={styles.profileName}>{this.state.profileName}</Text>
             </View>
             <View style={styles.options}>
               <View style={[styles.optionsItem, styles.optionsItemTopBorder]}>
@@ -39,7 +45,7 @@ class Profile extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.optionsItem}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')}>
                   <Text style={styles.optionsText}>Log Out</Text>
                 </TouchableOpacity>
               </View>

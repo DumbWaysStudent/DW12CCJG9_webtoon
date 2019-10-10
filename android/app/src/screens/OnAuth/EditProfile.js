@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native';
 import  { Text } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ImagePicker from 'react-native-image-picker';
@@ -8,7 +8,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePicture: require('../../main/assets/images/noblesse-awakening.jpg')
+      profilePicture: this.props.navigation.getParam('profilePic'),
+      profileName: this.props.navigation.getParam('name')
     };
   }
 
@@ -37,13 +38,19 @@ class Profile extends Component {
         const source = { uri: response.uri }
 
         this.setState({
-          profilePicture: source
+          profilePicture: source,
         })
       }
     })
   }
 
   render() {
+    if (!this.state.profileName) {
+      this.setState({
+        profileName: 'Fikri Haikal',
+        profilePicture: require('../../main/assets/images/user-icon.png.jpg')
+      })
+    }
     return (
       <SafeAreaView style={styles.container}>
           <View style={styles.header}>
@@ -53,7 +60,7 @@ class Profile extends Component {
             </View>
 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Profile')}
+              onPress={() => this.props.navigation.navigate('Profile', {name: this.state.profileName, profilePic: this.state.profilePicture})}
               style={styles.headerEditBtn}>
               <Icon name="check" size={23} />
             </TouchableOpacity>
@@ -62,9 +69,13 @@ class Profile extends Component {
             <View style={styles.profilePicture}>
               <Image large source={this.state.profilePicture} style={styles.profilePictureImage} />
               <TouchableOpacity onPress={()=> this.imagePickerHandler()}>
-                <Icon name="camera" />
+                <Icon name="camera" size={20} />
               </TouchableOpacity>
-              <Text style={styles.profileName}>Fikri Haikal</Text>
+              <TextInput
+                style={styles.profileNameEdit}
+                value={this.state.profileName}
+                onChangeText={(text)=> this.setState({profileName: text})}
+              />
             </View>
       </SafeAreaView>
     )
@@ -105,9 +116,16 @@ const styles = StyleSheet.create({
     height: 140 ,
     borderRadius: 140/2
   },
-  profileName: {
+  profileNameEdit: {
+    width: 200,
+    marginTop: 7,
+    borderRadius: 3,
     fontWeight: 'bold',
-    padding: 8
+    padding: 8,
+    borderWidth: 2,
+    borderColor: '#444',
+    textAlign: 'center',
+    fontSize: 16
   },
   optionsItem: {
     borderBottomWidth: 2,
