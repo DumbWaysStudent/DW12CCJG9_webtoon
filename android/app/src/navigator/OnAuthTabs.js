@@ -3,9 +3,26 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { createAppContainer} from 'react-navigation';
 import { createBottomTabNavigator  } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
 import ForYou from '../screens/OnAuth/ForYou'
 import MyFavourite from '../screens/OnAuth/MyFavourite'
 import Profile from '../screens/OnAuth/Profile'
+import EditProfile from '../screens/OnAuth/EditProfile';
+
+const OnAuthProfileStack = createStackNavigator({
+    Profile: {
+        screen: Profile,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
+    EditProfile: {
+        screen: EditProfile,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
+})
 
 const OnAuthTabs = createBottomTabNavigator ({
         ForYou: {
@@ -27,7 +44,7 @@ const OnAuthTabs = createBottomTabNavigator ({
             })
         },
         Profile: {
-            screen: Profile,
+            screen: OnAuthProfileStack,
             navigationOptions: () => ({
                 header: null,
                 tabBarLabel: "Profile",
