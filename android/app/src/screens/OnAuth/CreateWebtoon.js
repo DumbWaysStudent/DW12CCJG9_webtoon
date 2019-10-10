@@ -66,7 +66,7 @@ class CreateWebtoon extends Component {
                       <Item style={styles.episodeItem}>
                         <Thumbnail source={item.image}  style={styles.episodeImage} square />
                         <View style={styles.episodeInfo}>
-                          <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.episodeTitle}>{item.title}</Text>
+                          <Text onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', {prevScreen: 'CreateWebtoon', name: item.title})} style={styles.episodeTitle}>{item.title}</Text>
                           <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                         </View>
                       </Item>
@@ -74,7 +74,7 @@ class CreateWebtoon extends Component {
                     keyExtractor={item => item.id}
                 />
               </View>
-              <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode')}>
+              <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode', {prevScreen: 'CreateWebtoon'})}>
                   <Text style={styles.palleteBtnText}>
                       <Icon name="plus" /> Add Episode
                   </Text>
@@ -122,7 +122,10 @@ const styles = StyleSheet.create({
       palleteItemInput: {
           borderWidth: 2,
           borderColor: '#444',
-          borderRadius: 4
+          borderRadius: 4,
+          fontWeight: 'bold',
+          paddingHorizontal: 8,
+          fontSize: 16
       },
       episodeItem: {
           alignItems: 'flex-start',

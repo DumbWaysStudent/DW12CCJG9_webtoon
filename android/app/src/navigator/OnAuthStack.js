@@ -5,6 +5,7 @@ import MyWebtoonCreation from '../screens/OnAuth/MyWebtoonCreation';
 import CreateWebtoon from '../screens/OnAuth/CreateWebtoon';
 import CreateWebtoonEpisode from '../screens/OnAuth/CreateWebtoonEpisode';
 import EditMyWebtoon from '../screens/OnAuth/EditMyWebtoon';
+import EditMyWebtoonEpisode from '../screens/OnAuth/EditMyWebtoonEpisode'
 import DetailWebtoon from '../screens/OnAuth/DetailWebtoon';
 import DetailEpisode from '../screens/OnAuth/DetailEpisode'
 
@@ -33,6 +34,12 @@ const OnAuthStack = createStackNavigator ({
             header: null
         })
     },
+    EditMyWebtoonEpisode: {
+        screen: EditMyWebtoonEpisode,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
     DetailWebtoon: {
         screen: DetailWebtoon,
         navigationOptions: () => ({
@@ -47,7 +54,7 @@ const OnAuthStack = createStackNavigator ({
     },
 },
 {
-    initialRouteName: 'EditMyWebtoon'
+    initialRouteName: 'EditMyWebtoonEpisode'
 })
 
 export default createAppContainer(OnAuthStack);

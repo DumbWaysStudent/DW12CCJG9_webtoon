@@ -9,7 +9,7 @@ const RootNavigator = createSwitchNavigator({
     OnAuthStack: OnAuthStack
 },
 {
-    initialRouteName: 'OnAuthTabs',
+    initialRouteName: 'OnAuthStack',
 })
 
 export default createAppContainer(RootNavigator);

@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput} 
 import  { Text, Thumbnail, Item, Button } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-class CreateWebtoonEpisode extends Component {
+class EditMyWebtoonEpisode extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ class CreateWebtoonEpisode extends Component {
                 <Icon name="arrow-left" size={23} />
             </TouchableOpacity>
 
-            <Text style={styles.headerTitle}>Webtoon Episode</Text>
+            <Text style={styles.headerTitle}>Edit Webtoon Episode</Text>
 
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate(this.props.navigation.getParam('prevScreen'), {name: this.state.profileName, profilePic: this.state.profilePicture})}
@@ -49,7 +49,7 @@ class CreateWebtoonEpisode extends Component {
           <View style={styles.createWebtoonEpPallete}>
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Name</Text>
-              <TextInput style={styles.palleteItemInput} />
+              <TextInput style={styles.palleteItemInput} value={this.props.navigation.getParam('name')} />
             </View>
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Add Image</Text>
@@ -61,7 +61,6 @@ class CreateWebtoonEpisode extends Component {
                       <Thumbnail source={item.image}  style={styles.image} square />
                       <View style={styles.imageInfo}>
                         <Text style={styles.imageTitle}>{item.id + '.' + item.title}</Text>
-                        <Button style={styles.imageDeleteBtn}><Text style={styles.imageDeleteText}>Delete</Text></Button>
                     </View>
                   </Item>
                 }
@@ -69,10 +68,15 @@ class CreateWebtoonEpisode extends Component {
               />
             </View>
             <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode')}>
-                  <Text style={styles.palleteBtnText}>
-                      <Icon name="plus" /> Image
-                  </Text>
-                </Button>
+                <Text style={styles.palleteBtnText}>
+                  <Icon name="plus" /> Image
+                </Text>
+            </Button>
+            <Button style={[styles.palleteBtn, styles.palleteBtnRemove]}>
+                <Text style={styles.palleteBtnText}>
+                    Delete Episode
+                </Text>
+              </Button>
           </View>
       </SafeAreaView>
     )
@@ -158,7 +162,12 @@ const styles = StyleSheet.create({
       },
       palleteBtnText: {
           textTransform: 'capitalize'
-      }
+      },
+      palleteBtnRemove: {
+        paddingHorizontal: 80,
+        marginTop: 15,
+        backgroundColor: 'red'
+      },
 })
 
-export default CreateWebtoonEpisode;
+export default EditMyWebtoonEpisode;

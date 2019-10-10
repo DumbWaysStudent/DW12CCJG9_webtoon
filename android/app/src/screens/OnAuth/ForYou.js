@@ -207,7 +207,10 @@ const styles = StyleSheet.create({
         width: '94%',
     },
     searchBoxInput: {
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        fontWeight: 'bold',
+        paddingHorizontal: 8,
+        fontSize: 16
     },
     searchBoxIcon: {
       paddingVertical: 15,

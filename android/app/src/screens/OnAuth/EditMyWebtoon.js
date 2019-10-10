@@ -66,7 +66,7 @@ class EditMyWebtoon extends Component {
                       <Item style={styles.episodeItem}>
                         <Thumbnail source={item.image}  style={styles.episodeImage} square />
                         <View style={styles.episodeInfo}>
-                          <Text onPress={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'EditMyWebtoon'})} style={styles.episodeTitle}>{item.title}</Text>
+                          <Text onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', {prevScreen: 'EditMyWebtoon', name: item.title})} style={styles.episodeTitle}>{item.title}</Text>
                           <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                         </View>
                       </Item>
@@ -74,12 +74,12 @@ class EditMyWebtoon extends Component {
                     keyExtractor={item => item.id}
                 />
               </View>
-              <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode')}>
+              <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode', {prevScreen: 'EditMyWebtoon'})}>
                   <Text style={styles.palleteBtnText}>
                       <Icon name="plus" /> Add Episode
                   </Text>
               </Button>
-              <Button style={[styles.palleteBtn, styles.palleteBtnRemove]} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode')}>
+              <Button style={[styles.palleteBtn, styles.palleteBtnRemove]}>
                 <Text style={styles.palleteBtnText}>
                     Delete Webtoon
                 </Text>
@@ -128,7 +128,9 @@ const styles = StyleSheet.create({
           borderWidth: 2,
           borderColor: '#444',
           borderRadius: 4,
-          padding: 5
+          fontWeight: 'bold',
+          paddingHorizontal: 8,
+          fontSize: 16
       },
       episodeItem: {
           alignItems: 'flex-start',
