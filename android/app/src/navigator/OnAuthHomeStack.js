@@ -17,6 +17,9 @@ const OnAuthHomeStack = createStackNavigator ({
             header: null
         })
     },
+},
+{
+    initialRouteName: 'DetailEpisode'
 })
 
 export default createAppContainer(OnAuthHomeStack);

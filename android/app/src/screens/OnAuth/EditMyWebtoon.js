@@ -66,7 +66,7 @@ class EditMyWebtoon extends Component {
                       <Item style={styles.episodeItem}>
                         <Thumbnail source={item.image}  style={styles.episodeImage} square />
                         <View style={styles.episodeInfo}>
-                          <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.episodeTitle}>{item.title}</Text>
+                          <Text onPress={() => this.props.navigation.navigate('DetailEpisode')} style={styles.episodeTitle}>{item.title}</Text>
                           <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                         </View>
                       </Item>
