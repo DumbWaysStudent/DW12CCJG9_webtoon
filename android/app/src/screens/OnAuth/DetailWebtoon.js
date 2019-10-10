@@ -74,7 +74,7 @@ class DetailWebtoon extends Component {
               <View style={styles.episodeItem}>
                 <Thumbnail square source={item.image} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
-                  <Text style={styles.episodeTitle}>{item.title}</Text>
+                  <Text onPress={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'DetailWebtoon'})} style={styles.episodeTitle}>{item.title}</Text>
                   <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                 </View>
               </View>

@@ -38,7 +38,7 @@ class DetailEpisode extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
 
-          <TouchableOpacity style={styles.headerBackBtn}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.navigation.getParam('prevScreen'))} style={styles.headerBackBtn}>
             <Icon name="arrow-left" size={23} />
           </TouchableOpacity>
 

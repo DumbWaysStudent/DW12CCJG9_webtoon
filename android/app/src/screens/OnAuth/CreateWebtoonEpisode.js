@@ -11,23 +11,18 @@ class CreateWebtoonEpisode extends Component {
             '01': [
               {
                 id: 1,
-                title: 'Ep.1',
-                image: require('../../main/assets/images/14587286205684423455.jpg'),
-                lastUpdate: '1 Januari 2019'
+                title: '14587286205684423455.jpg',
+                image: require('../../main/assets/images/Noblesse/14587286121364423458.jpg'),
               },
               {
                 id: 2,
-                title: 'Ep.2',
-                series: 'Noblesse Awakening',
-                image: require('../../main/assets/images/14587286394124423462.jpg'),
-                lastUpdate: '7 Januari 2019'
+                title: '14587286394124423462.jpg',
+                image: require('../../main/assets/images/Noblesse/14587286122444423453.jpg'),
               },
               {
                 id: 3,
-                title: 'Ep.3',
-                series: 'Noblesse Awakening',
-                image: require('../../main/assets/images/14593149300964423470.jpg'),
-                lastUpdate: '14 Januari 2019'
+                title: '14593149300964423470.jpg',
+                image: require('../../main/assets/images/Noblesse/14587286122984423451.jpg'),
               }
             ]
         }
@@ -50,6 +45,34 @@ class CreateWebtoonEpisode extends Component {
               style={styles.headerOkBtn}>
               <Icon name="check" size={23} />
             </TouchableOpacity>
+          </View>
+          <View style={styles.createWebtoonEpPallete}>
+            <View style={styles.palleteItem}>
+              <Text style={styles.palleteItemTitle}>Name</Text>
+              <TextInput style={styles.palleteItemInput} />
+            </View>
+            <View style={styles.palleteItem}>
+              <Text style={styles.palleteItemTitle}>Add Image</Text>
+              <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  data={this.state.listEpisode['01'].reverse()}
+                  renderItem={({ item }) =>
+                    <Item style={styles.imageItem}>
+                      <Thumbnail source={item.image}  style={styles.image} square />
+                      <View style={styles.imageInfo}>
+                        <Text style={styles.imageTitle}>{item.id + '.' + item.title}</Text>
+                        <Button style={styles.imageDeleteBtn}><Text style={styles.imageDeleteText}>Delete</Text></Button>
+                    </View>
+                  </Item>
+                }
+                keyExtractor={item => item.id}
+              />
+            </View>
+            <Button style={styles.palleteBtn} onPress={() => this.props.navigation.navigate('CreateWebtoonEpisode')}>
+                  <Text style={styles.palleteBtnText}>
+                      <Icon name="plus" /> Image
+                  </Text>
+                </Button>
           </View>
       </SafeAreaView>
     )
@@ -95,39 +118,43 @@ const styles = StyleSheet.create({
           borderColor: '#444',
           borderRadius: 4
       },
-      episodeItem: {
+      imageItem: {
           alignItems: 'flex-start',
           borderBottomWidth: 0,
           marginBottom: 15,
       },
-      episodeImage: {
+      image: {
           borderWidth: 2,
           borderColor: '#444',
           width: 70,
           height: 70
       },
-      episodeInfo: {
+      imageInfo: {
           padding: 5,
           marginLeft: 8
       },
-      episodeTitle: {
+      imageTitle: {
         fontSize: 14,
         fontWeight: 'bold'
       },
-      episodeLastUpade: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        color: '#999'
+      imageDeleteBtn: {
+        width: '55%',
+        paddingHorizontal: 13,
+        backgroundColor: 'red'
+      },
+      imageDeleteText: {
+        textTransform: 'capitalize',
+        fontWeight: 'bold'
       },
       palleteBtn: {
           width: '82%',
           alignSelf: 'center',
-          paddingHorizontal: 80,
+          paddingHorizontal: 100,
           backgroundColor: '#fa9001',
           borderRadius: 6
       },
       palleteBtnText: {
-          alignSelf: 'center',
+          textTransform: 'capitalize'
       }
 })
 

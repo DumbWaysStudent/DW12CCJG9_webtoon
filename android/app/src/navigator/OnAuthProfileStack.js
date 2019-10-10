@@ -33,7 +33,7 @@ const OnAuthProfileStack = createStackNavigator ({
     }
 },
 {
-    initialRouteName: 'EditProfile'
+    initialRouteName: 'CreateWebtoonEpisode'
 })
 
 export default createAppContainer(OnAuthProfileStack);
