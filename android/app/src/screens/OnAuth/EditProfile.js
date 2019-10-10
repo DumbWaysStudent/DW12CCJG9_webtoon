@@ -4,7 +4,7 @@ import  { Text } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ImagePicker from 'react-native-image-picker';
 
-class Profile extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Profile;
+export default EditProfile;

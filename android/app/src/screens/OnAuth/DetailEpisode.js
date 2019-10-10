@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image
 import {Thumbnail} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-class DetailWebtoon extends Component {
+class DetailEpisode extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DetailWebtoon;
+export default DetailEpisode;

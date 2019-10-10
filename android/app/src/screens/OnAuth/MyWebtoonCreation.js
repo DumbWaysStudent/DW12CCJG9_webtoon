@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList} from 'react
 import  { Text, Button, Fab, Item, Thumbnail } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-class Profile extends Component {
+class MyWebtoonCreation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,15 +66,6 @@ class Profile extends Component {
           </View>
 
           <View style={{ flex: 1 }}>
-          <Fab
-            active={this.state.active}
-            direction="up"
-            containerStyle={{ }}
-            style={{ backgroundColor: '#5067FF' }}
-            position="bottomRight"
-            onPress={() => this.setState({ active: !this.state.active })}>
-            <Icon name="plus" />
-          </Fab>
           <FlatList
             showsHorizontalScrollIndicator={false}
             data={this.state.listMyWebtoon}
@@ -89,6 +80,12 @@ class Profile extends Component {
             }
             keyExtractor={item => item.id}
             />
+          <Fab
+            style={{ backgroundColor: '#5067FF' }}
+            position="bottomRight"
+            onPress={() => this.props.navigation.navigate('CreateWebtoon')}>
+            <Icon name="plus" />
+          </Fab>
           </View>
       </SafeAreaView>
     )
@@ -136,4 +133,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Profile;
+export default MyWebtoonCreation;
