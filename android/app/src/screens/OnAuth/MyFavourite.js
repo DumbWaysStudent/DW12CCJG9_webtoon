@@ -12,30 +12,35 @@ class MyFavourite extends Component {
         {
           id: 1,
           title: 'God Of Highschool',
+          seriesID: '01',
           image: require('../../main/assets/images/goh.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 2,
           title: 'Dice',
+          seriesID: '01',
           image: require('../../main/assets/images/dice.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 3,
           title: 'Bastard',
+          seriesID: '01',
           image: require('../../main/assets/images/bastard.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 4,
           title: 'UnTouchable',
+          seriesID: '01',
           image: require('../../main/assets/images/untouchable.png'),
           rating: '100+ Favourite'
         },
         {
           id: 5,
           title: 'Dr Frost',
+          seriesID: '01',
           image: require('../../main/assets/images/dr-frost.jpg'),
           rating: '100+ Favourite'
         }
@@ -45,30 +50,35 @@ class MyFavourite extends Component {
         {
           id: 1,
           title: 'God Of Highschool',
+          seriesID: '01',
           image: require('../../main/assets/images/goh.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 2,
           title: 'Dice',
+          seriesID: '01',
           image: require('../../main/assets/images/dice.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 3,
           title: 'Bastard',
+          seriesID: '01',
           image: require('../../main/assets/images/bastard.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 4,
           title: 'UnTouchable',
+          seriesID: '01',
           image: require('../../main/assets/images/untouchable.png'),
           rating: '100+ Favourite'
         },
         {
           id: 5,
           title: 'Dr Frost',
+          seriesID: '01',
           image: require('../../main/assets/images/dr-frost.jpg'),
           rating: '100+ Favourite'
         }
@@ -109,14 +119,12 @@ class MyFavourite extends Component {
               <Item style={styles.favoriteBannerItem}>
                 <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
                 <View>
-                  <Text style={styles.favoriteBannerTitle}>{item.title}</Text>
+                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteList[item.id - 1])} style={styles.favoriteBannerTitle}>{item.title}</Text>
                   <Text style={styles.favouriteRating}>{item.rating}</Text>
                 </View>
               </Item>
             }
             keyExtractor={item => item.id}
-            ItemSeparatorComponent={this.renderSeparator} 
-            ListHeaderComponent={this.renderHeader}  
             />
       </SafeAreaView>
     )

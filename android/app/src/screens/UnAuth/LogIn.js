@@ -53,7 +53,7 @@ class LogIn extends Component {
 
   loginSubmitHandle()
   {
-      alert('Login....')
+      this.props.navigation.navigate('ForYou')
   }
 
   render() {

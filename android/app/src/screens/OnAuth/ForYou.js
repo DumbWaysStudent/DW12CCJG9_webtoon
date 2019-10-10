@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import { View, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import {Text, Input, Item, Thumbnail, Button} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
@@ -25,27 +25,34 @@ class ForYou extends Component {
       favouriteData: [
         {
           id: 1,
+          seriesID: '01',
+          seriesID: '01',
           title: 'God Of Highschool',
+          seriesID: '01',
           image: require('../../main/assets/images/goh.jpg')
         },
         {
           id: 2,
           title: 'Dice',
+          seriesID: '01',
           image: require('../../main/assets/images/dice.jpg')
         },
         {
           id: 3,
           title: 'Bastard',
+          seriesID: '01',
           image: require('../../main/assets/images/bastard.jpg')
         },
         {
           id: 4,
           title: 'UnTouchable',
+          seriesID: '01',
           image: require('../../main/assets/images/untouchable.png')
         },
         {
           id: 5,
           title: 'Dr Frost',
+          seriesID: '01',
           image: require('../../main/assets/images/dr-frost.jpg')
         }
       ],
@@ -53,36 +60,43 @@ class ForYou extends Component {
         {
           id: 1,
           title: 'UnTouchable',
+          seriesID: '01',
           image: require('../../main/assets/images/untouchable.png')
         },
         {
           id: 2,
           title: 'Dr Frost',
+          seriesID: '01',
           image: require('../../main/assets/images/dr-frost.jpg')
         },
         {
-          id: 4,
+          id: 3,
           title: 'Nobleese Awakening',
+          seriesID: '01',
           image: require('../../main/assets/images/noblesse-awakening.jpg')
         },
         {
-          id: 5,
+          id: 4,
           title: 'Girls Of The Wild',
+          seriesID: '01',
           image: require('../../main/assets/images/girls-of-the-wild.png')
         },
         {
-          id: 6,
+          id: 5,
           title: "Melvina's Theraphy",
+          seriesID: '01',
           image: require('../../main/assets/images/melvinas-therapy.jpg')
         },
         {
-          id: 7,
+          id: 6,
           title: "Siren's Lament",
+          seriesID: '01',
           image: require('../../main/assets/images/sirens-lament.jpg')
         },
         {
-          id: 8,
+          id: 7,
           title: "Winter Woods",
+          seriesID: '01',
           image: require('../../main/assets/images/winter-woods.jpg')
         },
         
@@ -131,7 +145,9 @@ class ForYou extends Component {
             data={this.state.favouriteData}
             renderItem={({ item }) =>
               <Item style={styles.favoriteBannerItem}>
-                <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteData[item.id - 1]) }>
+                  <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
+                </TouchableOpacity>
                 <Text style={styles.favoriteBannerItemTitle}>{item.title}</Text>
               </Item>
             }
@@ -149,7 +165,7 @@ class ForYou extends Component {
               <Item style={styles.listAllToonItem}>
                 <Thumbnail source={item.image} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
-                  <Text style={styles.listAllToonItemTitle}>{item.title}</Text>
+                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
                   <Button style={styles.favouritePlusBtn}><Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
                 </Item>
               </Item>

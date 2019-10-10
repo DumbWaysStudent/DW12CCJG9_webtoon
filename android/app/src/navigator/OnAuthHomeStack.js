@@ -4,10 +4,7 @@ import { createStackNavigator  } from 'react-navigation-stack';
 import DetailWebtoon from '../screens/OnAuth/DetailWebtoon';
 import DetailEpisode from '../screens/OnAuth/DetailEpisode'
 
-const OnAuthStack = createStackNavigator ({
-    // EditProfile: {
-
-    // },
+const OnAuthHomeStack = createStackNavigator ({
     DetailWebtoon: {
         screen: DetailWebtoon,
         navigationOptions: () => ({
@@ -20,24 +17,6 @@ const OnAuthStack = createStackNavigator ({
             header: null
         })
     },
-    // MyWebtoonCreation: {
-
-    // },
-    // CreateWebtoon: {
-
-    // },
-    // CreateWebtoonEpisode: {
-
-    // },
-    // EditMyWebtoon: {
-
-    // },
-    // EditMyWebtoonEpisode: {
-
-    // }
-},
-{
-    initialRouteName: 'DetailWebtoon'
 })
 
-export default createAppContainer(OnAuthStack);
+export default createAppContainer(OnAuthHomeStack);

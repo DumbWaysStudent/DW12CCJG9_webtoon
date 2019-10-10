@@ -21,28 +21,21 @@ class Profile extends Component {
             </View>
 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('EditProfile')}
               style={styles.headerEditBtn}>
-              <Icon name="edit" size={23} />
+              <Icon name="check" size={23} />
             </TouchableOpacity>
 
           </View>
-            <View style={styles.profilePicture}>
-              <Image large source={this.state.profilePicture} style={styles.profilePictureImage} />
-              <Text style={styles.profileName}>Fikri Haikal</Text>
+          <View style={styles.profilePicture}>
+              <Image source={this.state.profilePicture} />
             </View>
             <View style={styles.options}>
-              <View style={[styles.optionsItem, styles.optionsItemTopBorder]}>
-                <TouchableOpacity style={{flexDirection: 'row'}}>
-                  <Text style={styles.optionsText}>My Webtoon Creation</Text>
-                  <Icon style={{marginLeft: 10, marginVertical: 2}} name="angle-right" size={20} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.optionsItem}>
-                <TouchableOpacity>
-                  <Text style={styles.optionsText}>Log Out</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.optionsItem}>
+                <Text style={styles.optionsText}>My Webtoon Creation <Icon name="angle-right" size={20} /></Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.optionsItem}>
+                <Text style={styles.optionsText}>Log Out</Text>
+              </TouchableOpacity>
             </View>
       </SafeAreaView>
     )
@@ -74,28 +67,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     padding: 6
   },
-  profilePicture: {
-    alignItems: 'center',
-    paddingVertical: 15
-  },
-  profilePictureImage: {
-    width: 140,
-    height: 140 ,
-    borderRadius: 140/2
-  },
-  profileName: {
-    fontWeight: 'bold',
-    padding: 8
-  },
-  optionsItem: {
-    borderBottomWidth: 2,
-    borderColor: '#444',
-    paddingVertical: 20,
-    paddingHorizontal: 10
-  },
-  optionsItemTopBorder: {
-    borderTopWidth: 2,
-  }
 })
 
 export default Profile;

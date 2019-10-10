@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share} from 'react-native';
-import {Thumbnail} from 'native-base'
+import {Thumbnail} from 'native-base';
+import { NavigationAction, NavigationActions } from 'react-navigation';
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 class DetailWebtoon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listEpisode: [
-        {
-          id: 1,
-          title: 'Ep.1',
-          image: require('../../main/assets/images/14587286205684423455.jpg'),
-          lastUpdate: '1 Januari 2019'
-        },
-        {
-          id: 2,
-          title: 'Ep.2',
-          image: require('../../main/assets/images/14587286394124423462.jpg'),
-          lastUpdate: '7 Januari 2019'
-        },
-        {
-          id: 3,
-          title: 'Ep.3',
-          image: require('../../main/assets/images/14593149300964423470.jpg'),
-          lastUpdate: '14 Januari 2019'
-        }
-      ],
+      listEpisode: {
+        '01': [
+          {
+            id: 1,
+            title: 'Ep.1',
+            image: require('../../main/assets/images/14587286205684423455.jpg'),
+            lastUpdate: '1 Januari 2019'
+          },
+          {
+            id: 2,
+            title: 'Ep.2',
+            series: 'Noblesse Awakening',
+            image: require('../../main/assets/images/14587286394124423462.jpg'),
+            lastUpdate: '7 Januari 2019'
+          },
+          {
+            id: 3,
+            title: 'Ep.3',
+            series: 'Noblesse Awakening',
+            image: require('../../main/assets/images/14593149300964423470.jpg'),
+            lastUpdate: '14 Januari 2019'
+          }
+        ]
+      },
       inputValue: 'Shared React Native'
     };
   }
@@ -43,11 +48,11 @@ class DetailWebtoon extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
 
-          <TouchableOpacity style={styles.headerBackBtn}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ForYou')} style={styles.headerBackBtn}>
             <Icon name="arrow-left" size={23} />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Noblesse Awakening</Text>
+          <Text style={styles.headerTitle}>{this.props.navigation.getParam('title')}</Text>
 
           <TouchableOpacity
             onPress={() => this.ShareMessage()}
@@ -56,14 +61,15 @@ class DetailWebtoon extends Component {
           </TouchableOpacity>
 
         </View>
+        
         <View style={styles.banner}>
-          <Image source={require('../../main/assets/images/noblesse-awakening.jpg')} style={styles.bannerImage} />
+          <Image source={this.props.navigation.getParam('image')} style={styles.bannerImage} />
         </View>
         <View style={styles.listEpisode}>
           <FlatList
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
-            data={this.state.listEpisode.reverse()}
+            data={this.state.listEpisode[this.props.navigation.getParam('seriesID')].reverse()}
             renderItem={({ item }) => 
               <View style={styles.episodeItem}>
                 <Thumbnail square source={item.image} style={styles.episodeImage} />
@@ -100,7 +106,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontWeight: 'bold',
       fontSize: 18,
-      paddingVertical: 5
+      paddingVertical: 5,
+      textTransform: 'capitalize'
     },
     headerShareBtn: {
       flex: 1,

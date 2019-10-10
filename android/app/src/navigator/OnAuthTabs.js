@@ -37,7 +37,7 @@ const OnAuthTabs = createBottomTabNavigator ({
         },
     },
     {
-        initialRouteName: 'MyFavourite',
+        initialRouteName: 'ForYou',
         tabBarOptions: {
             activeTintColor: '#fc9003',
             inactiveTintColor: 'gray',
