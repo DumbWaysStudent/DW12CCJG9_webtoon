@@ -81,7 +81,7 @@ class MyWebtoonCreation extends Component {
             keyExtractor={item => item.id}
             />
           <Fab
-            style={{ backgroundColor: '#5067FF' }}
+            style={{ backgroundColor: '#fc9003' }}
             position="bottomRight"
             onPress={() => this.props.navigation.navigate('CreateWebtoon')}>
             <Icon name="plus" />

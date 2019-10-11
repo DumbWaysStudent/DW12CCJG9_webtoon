@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput} from 'react-native';
-import  { Text, Thumbnail, Item, Button } from 'native-base'
+import  { Text, Thumbnail, Item, Button } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 class EditMyWebtoonEpisode extends Component {
