@@ -70,10 +70,10 @@ class MyWebtoonCreation extends Component {
             showsHorizontalScrollIndicator={false}
             data={this.state.listMyWebtoon}
             renderItem={({ item }) =>
-              <Item style={styles.webtoonItem}>
+              <Item onPress={() => this.props.navigation.navigate('EditMyWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.webtoonItem}>
                 <Thumbnail source={item.image}  style={styles.webtoonImage} square />
                 <View>
-                  <Text onPress={() => this.props.navigation.navigate('EditMyWebtoon', this.state.listMyWebtoon[item.id - 1])} style={styles.webtoonTitle}>{item.title}</Text>
+                  <Text style={styles.webtoonTitle}>{item.title}</Text>
                   <Text style={styles.episodes}>{item.episodes}</Text>
                 </View>
               </Item>

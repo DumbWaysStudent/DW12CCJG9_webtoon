@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share} from 'react-native';
-import {Thumbnail} from 'native-base';
+import {Thumbnail, Item} from 'native-base';
 import { NavigationAction, NavigationActions } from 'react-navigation';
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -71,13 +71,13 @@ class DetailWebtoon extends Component {
             showsVerticalScrollIndicator={false}
             data={this.state.listEpisode[this.props.navigation.getParam('seriesID')].reverse()}
             renderItem={({ item }) => 
-              <View style={styles.episodeItem}>
+              <Item onPress={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'DetailWebtoon'})} style={styles.episodeItem}>
                 <Thumbnail square source={item.image} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
-                  <Text onPress={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'DetailWebtoon'})} style={styles.episodeTitle}>{item.title}</Text>
+                  <Text style={styles.episodeTitle}>{item.title}</Text>
                   <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                 </View>
-              </View>
+              </Item>
             }
             keyExtractor={item => item.id}
           />

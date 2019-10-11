@@ -63,10 +63,10 @@ class CreateWebtoon extends Component {
                     showsHorizontalScrollIndicator={false}
                     data={this.state.listEpisode['01'].reverse()}
                     renderItem={({ item }) =>
-                      <Item style={styles.episodeItem}>
+                      <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', {prevScreen: 'CreateWebtoon', name: item.title})} style={styles.episodeItem}>
                         <Thumbnail source={item.image}  style={styles.episodeImage} square />
                         <View style={styles.episodeInfo}>
-                          <Text onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', {prevScreen: 'CreateWebtoon', name: item.title})} style={styles.episodeTitle}>{item.title}</Text>
+                          <Text style={styles.episodeTitle}>{item.title}</Text>
                           <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
                         </View>
                       </Item>

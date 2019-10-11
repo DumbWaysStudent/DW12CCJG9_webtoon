@@ -188,10 +188,10 @@ class ForYou extends Component {
             showsVerticalScrollIndicator={false}
             data={this.state.listAllToonData}
             renderItem={({ item }) =>
-              <Item style={styles.listAllToonItem}>
+              <Item onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItem}>
                 <Thumbnail source={item.image} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
-                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
+                  <Text style={styles.listAllToonItemTitle}>{item.title}</Text>
                   <Button style={styles.favouritePlusBtn}><Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
                 </Item>
               </Item>

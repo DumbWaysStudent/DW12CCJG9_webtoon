@@ -121,10 +121,10 @@ class MyFavourite extends Component {
             showsHorizontalScrollIndicator={false}
             data={this.state.data}
             renderItem={({ item }) =>
-              <Item style={styles.favoriteBannerItem}>
+              <Item onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteList[item.id - 1])}  style={styles.favoriteBannerItem}>
                 <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
                 <View>
-                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteList[item.id - 1])} style={styles.favoriteBannerTitle}>{item.title}</Text>
+                  <Text style={styles.favoriteBannerTitle}>{item.title}</Text>
                   <Text style={styles.favouriteRating}>{item.rating}</Text>
                 </View>
               </Item>
