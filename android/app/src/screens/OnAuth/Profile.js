@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
   },
   optionsItemTopBorder: {
     borderTopWidth: 2,
+  },
+  optionsText: {
+    fontWeight: 'bold'
   }
 })
 

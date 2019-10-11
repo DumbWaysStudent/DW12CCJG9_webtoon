@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView} from 'react-native';
-import {Button, Text, Input, Form, Label, Item, Container, Content} from 'native-base'
+import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 class LogIn extends Component {
@@ -60,11 +60,12 @@ class LogIn extends Component {
     return (
         <SafeAreaView style={styles.appContainer}>
             <View style={styles.titleContainer}>
+                <Image style={styles.logo} source={require('../../main/assets/logo/smokeLogo.png')} />
                 <Text style={styles.appTitle}>
                     Log In
                 </Text>
                 <Text style={styles.appSubtitle}>
-                    Login with your account WEBTOON
+                    Login with your SMOKETOON Account
                 </Text>
             </View>
             <View style={styles.formContainer}>
@@ -115,16 +116,22 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'column',
     },
+    logo: {
+        width: 80,
+        height: 80
+    },
     titleContainer: {
         marginHorizontal: 5,
-        marginTop: 150,
+        marginTop: 110,
         // borderWidth: 1,
         alignItems: 'center'
     },
     appTitle: {
-        fontSize: 30
+        fontSize: 30,
+        fontFamily: 'KOMIKAH_'
     },
     appSubtitle: {
+        fontFamily: 'KOMIKSLI'
     },
     formContainer: {
         marginTop: 35,
@@ -141,26 +148,32 @@ const styles = StyleSheet.create({
     },
     labelInput: {
         marginLeft: 14,
-        color: '#555'
+        marginBottom: 4,
+        color: '#555',
+        fontFamily: 'KOMIKASL'
     },
-    input: {},
+    input: {
+        fontFamily: 'KOMIKASL',
+        fontSize: 12
+    },
     btnSubmit: {
         width: '100%',
-        paddingHorizontal: 108,
+        paddingHorizontal: 94,
         marginHorizontal: 10,
         marginTop: 20,
         borderWidth: 2,
         borderColor: '#000',
-        backgroundColor: 'orange'
+        backgroundColor: 'orange',
     },
     btnSubmitText: {
         textTransform: 'capitalize',
         fontSize: 16,
-        color: '#000'
+        color: '#000',
+        fontFamily: 'KOMIKAH_'
     },
     btnSubmitDisabled: {
         width: '95%',
-        paddingHorizontal: 100,
+        paddingHorizontal: 94,
         marginHorizontal: 14,
         marginTop: 20,
         borderWidth: 2,

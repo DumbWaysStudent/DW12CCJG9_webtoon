@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import {Text, Input, Item, Thumbnail, Button} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
@@ -112,7 +112,8 @@ class ForYou extends Component {
           prevScreen: 'ForYou'
         },
         
-      ]
+      ],
+      // enableScrollViewScroll: true
     };
   }
 
@@ -130,9 +131,14 @@ class ForYou extends Component {
     clearInterval(this.state.interval);
   }
 
+  // onEnableScroll(value) {
+  //   this.setState({enableScrollViewScroll: value})
+  // }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <ScrollView>
           <Item style={styles.searchBox}>
               <Input style={styles.searchBoxInput}/>
               <Icon
@@ -170,6 +176,14 @@ class ForYou extends Component {
           <Item style={styles.listAllToon}>
             <Text style={styles.listAllToonTitle}>All</Text>
             <FlatList
+            // onTouchStart={() =>  {
+            //   this.onEnableScroll(false)
+            // }}
+            
+            // onMomentumScrollEnd={()=>{
+            //   this.onEnableScroll(true)
+            // }}
+            // style={{flex: 1}}
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
             data={this.state.listAllToonData}
@@ -185,6 +199,7 @@ class ForYou extends Component {
             keyExtractor={item => item.id}
             />
           </Item>
+          </ScrollView>
       </SafeAreaView>
     )
   }
@@ -210,7 +225,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0,
         fontWeight: 'bold',
         paddingHorizontal: 8,
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 'bold'
+        // fontFamily: 'KOMIKASL'
     },
     searchBoxIcon: {
       paddingVertical: 15,
@@ -240,11 +257,13 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       borderBottomWidth: 0,
       marginTop: 18,
-      marginLeft: 10
+      marginLeft: 10,
+      marginBottom: 10
     },
     favoriteBannerTitle: {
       fontSize: 18,
-      fontWeight: 'bold',
+      fontWeight: 'bold'
+      // fontFamily: 'KOMIKAHB'
     },
     favoriteBannerItem: {
       position: 'relative',
@@ -263,24 +282,24 @@ const styles = StyleSheet.create({
     favoriteBannerItemTitle: {
       fontSize: 11,
       fontWeight: 'bold'
+      // fontFamily: 'KOMIKAH_'
     },
     listAllToon: {
       alignItems: 'flex-start',
       flexDirection: 'column',
       borderBottomWidth: 0,
-      marginTop: 6,
-      marginLeft: 10,
-      height: 140
+      marginTop: 6
     },
     listAllToonTitle: {
       fontSize: 18,
       fontWeight: 'bold',
+      // fontFamily: 'KOMIKAHB',
       marginBottom: 10,
     },
     listAllToonItem: {
       marginTop: 10,
       paddingBottom: 4,
-      borderBottomWidth: 1
+      borderBottomWidth: 1,
     },
     listAllToonItemImage: {
       width: 80,
@@ -301,7 +320,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#fc9003'
     },
     listAllToonItemTitle: {
+      fontSize: 12,
       fontWeight: 'bold'
+      // fontFamily: 'KOMIKAHB'
     }
 })
 
