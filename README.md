@@ -12,6 +12,8 @@ Smoketoon is an aplication for read webtoon online/offline for free
 <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/screenshoot/Screenshot_20191010-232947.png" width="300">     <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/screenshoot/Screenshot_20191010-233001.png" width="300">     <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/screenshoot/Screenshot_20191010-232940.png" width="300">     <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/screenshoot/Screenshot_20191010-233023.png" width="300">     <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/screenshoot/Screenshot_20191010-233029.png" width="300">
 
 ## Feature
+* Read Webtoon Online
+* Read Webtoon Offline (Coming Soon)
 * Search Webtoon
 * Add Favourite Webtoon
 * User Profile
