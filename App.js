@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RootNavigator from './android/app/src/navigator/RootNavigator'
+import RootNavigator from './src/navigator/RootNavigator'
 
 class App extends Component {
   constructor(props) {
