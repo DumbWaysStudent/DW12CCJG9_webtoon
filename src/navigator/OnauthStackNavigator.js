@@ -3,6 +3,7 @@ import { createStackNavigator  } from 'react-navigation-stack';
 import OnauthTabNavigator from './OnauthTabNavigator';
 import DetailWebtoon from '../screens/DetailWebtoon';
 import DetailEpisode from '../screens/DetailEpisode';
+import MyWebtoonCreation from '../screens/MyWebtoonCreation'
 
 const OnauthStackNavigator = createStackNavigator ({
     Home: {
@@ -19,6 +20,12 @@ const OnauthStackNavigator = createStackNavigator ({
     },
     DetailEpisode: {
         screen: DetailEpisode,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
+    MyWebtoonCreation: {
+        screen: MyWebtoonCreation,
         navigationOptions: () => ({
             header: null
         })
