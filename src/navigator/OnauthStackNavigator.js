@@ -18,7 +18,7 @@ const OnauthStackNavigator = createStackNavigator ({
     }
 },
 {
-    initialRouteName: 'DetailWebtoon'
+    initialRouteName: 'Home'
 }
 )
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share} from 'react-native';
-import {Thumbnail, Card} from 'native-base';
+import {Thumbnail, Item, Card} from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 class DetailWebtoon extends Component {
@@ -47,11 +47,11 @@ class DetailWebtoon extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate((this.props.navigation.state.params) ? this.props.navigation.getParam('prevScreen') : 'Home')} style={styles.headerBackBtn}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.navigation.getParam('prevScreen'))} style={styles.headerBackBtn}>
             <Icon name="arrow-left" style={{color: '#fff'}} size={23} />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>{(this.props.navigation.state.params) ? this.props.navigation.getParam('title') : 'Noblesse'}</Text>
+          <Text style={styles.headerTitle}>{this.props.navigation.getParam('title')}</Text>
 
           <TouchableOpacity
             onPress={() => this.ShareMessage()}
@@ -62,15 +62,15 @@ class DetailWebtoon extends Component {
         </View>
         
         <View style={styles.banner}>
-          <Image source={(this.props.navigation.state.params) ? this.props.navigation.getParam('image') : require('../assets/images/noblesse-awakening.jpg')} style={styles.bannerImage} />
+          <Image source={this.props.navigation.getParam('image')} style={styles.bannerImage} />
         </View>
         <View style={styles.listEpisode}>
           <FlatList
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
-            data={this.state.listEpisode[(this.props.navigation.state.params) ? this.props.navigation.getParam('seriesID') : '01'].reverse()}
+            data={this.state.listEpisode[this.props.navigation.getParam('seriesID')].reverse()}
             renderItem={({ item }) => 
-              <Card style={styles.episodeItem}>
+              <Card onTouchEnd={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'DetailWebtoon'})} style={styles.episodeItem}>
                 <Thumbnail square source={item.image} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
                   <Text style={styles.episodeTitle}>{item.title}</Text>
