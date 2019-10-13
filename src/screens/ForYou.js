@@ -163,7 +163,7 @@ class ForYou extends Component {
             data={this.state.favouriteData}
             renderItem={({ item }) =>
               <Card style={styles.favoriteBannerItem}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteData[item.id - 1]) }>
                   <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
                 </TouchableOpacity>
                 <Text style={styles.favoriteBannerItemTitle}>{item.title}</Text>
@@ -188,7 +188,7 @@ class ForYou extends Component {
             showsVerticalScrollIndicator={false}
             data={this.state.listAllToonData}
             renderItem={({ item }) =>
-              <Card style={styles.listAllToonItem}>
+              <Card onTouchEnd={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItem}>
                 <Thumbnail source={item.image} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
                   <Text style={styles.listAllToonItemTitle}>{item.title}</Text>
