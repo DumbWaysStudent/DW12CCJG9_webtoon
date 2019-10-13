@@ -2,12 +2,22 @@ import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { createAppContainer} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator  } from 'react-navigation-tabs';
-import ForYou from '../screens/OnAuth/ForYou'
-import Favourite from '../screens/OnAuth/Favourite'
-import Profile from '../screens/OnAuth/Profile'
+import ForYou from '../screens/ForYou'
+import MyFavourite from '../screens/MyFavourite'
+import Profile from '../screens/Profile'
 
-const OnAuthTabs = createBottomTabNavigator ({
+const ProfileStackNavigator = createStackNavigator({
+    Profile: {
+        screen: Profile,
+        navigationOptions: () => ({
+            header: null
+        })
+    }
+})
+
+const OnauthTabNavigator = createBottomTabNavigator ({
         ForYou: {
             screen: ForYou,
             navigationOptions: () => ({
@@ -17,17 +27,17 @@ const OnAuthTabs = createBottomTabNavigator ({
                 <AntDesign name="appstore1" size={18} color={tintColor} />)
             })
         },
-        Favourite: {
-            screen: Favourite,
+        MyFavourite: {
+            screen: MyFavourite,
             navigationOptions: () => ({
                 header: null,
-                tabBarLabel: "Favourite",
+                tabBarLabel: "My Favourite",
                 tabBarIcon: ({ tintColor }) => (
                 <AntDesign name="star" size={18} color={tintColor} />),
             })
         },
         Profile: {
-            screen: Profile,
+            screen: ProfileStackNavigator,
             navigationOptions: () => ({
                 header: null,
                 tabBarLabel: "Profile",
@@ -35,40 +45,16 @@ const OnAuthTabs = createBottomTabNavigator ({
                 <FontAwesome name="user" size={18} color={tintColor} />)
             })
         },
-        // EditProfile: {
-
-        // },
-        // DetailWebtoon: {
-
-        // },
-        // DetailEpisode: {
-
-        // },
-        // MyWebtoonCreation: {
-
-        // },
-        // CreateWebtoon: {
-
-        // },
-        // CreateWebtoonEpisode: {
-
-        // },
-        // EditMyWebtoon: {
-
-        // },
-        // EditMyWebtoonEpisode: {
-
-        // }
     },
     {
         initialRouteName: 'ForYou',
         tabBarOptions: {
-            activeTintColor: '#fc9003',
-            inactiveTintColor: 'gray',
-            style: {marginVertical: 5},
+            activeTintColor: '#ee7a33',
+            inactiveTintColor: '#965533',
+            style: {paddingVertical: 5, backgroundColor:'#383332', height: 60},
             labelStyle: {fontWeight: 'bold'}
           },
     }
 );
 
-export default createAppContainer(OnAuthTabs);
+export default createAppContainer(OnauthTabNavigator);

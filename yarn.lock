@@ -5166,13 +5166,6 @@ react-native-screens@1.0.0-alpha.23, "react-native-screens@^1.0.0 || ^1.0.0-alph
   dependencies:
     debounce "^1.2.0"
 
-react-native-swiper-flatlist@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-2.0.2.tgz#c4807b2dd6b6e4793c78cc9588a9f8584a457be8"
-  integrity sha512-4wg77Nm2g4YP6fO66yxzQkMpvejGUipvGX5s+7OYMBADK2hGKwBmT2YTlOn1O6lSGbZfu0gu6FW6MDIdiJmz6Q==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-native-tab-view@^2.9.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.10.0.tgz#5e249e5650502010013449ffd4e5edc18a95364b"
