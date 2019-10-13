@@ -49,7 +49,7 @@ class CreateWebtoonEpisode extends Component {
         <View style={styles.createWebtoonEpPallete}>
           <View style={styles.palleteItem}>
             <Text style={styles.palleteItemTitle}>Name</Text>
-            <TextInput style={styles.palleteItemInput} />
+            <TextInput placeholder="Insert Title......" placeholderTextColor="#999" style={styles.palleteItemInput} />
           </View>
           <View style={styles.palleteItem}>
             <Text style={styles.palleteItemTitle}>Add Image</Text>

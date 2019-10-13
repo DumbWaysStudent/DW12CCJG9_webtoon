@@ -14,35 +14,35 @@ class MyFavourite extends Component {
           id: 1,
           title: 'God Of Highschool',
           seriesID: '01',
-          image: require('../asssets/images/goh.jpg'),
+          image: require('../assets/images/goh.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 2,
           title: 'Dice',
           seriesID: '01',
-          image: require('../asssets/images/dice.jpg'),
+          image: require('../assets/images/dice.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 3,
           title: 'Bastard',
           seriesID: '01',
-          image: require('../asssets/images/bastard.jpg'),
+          image: require('../assets/images/bastard.jpg'),
           rating: '100+ Favourite'
         },
         {
           id: 4,
           title: 'UnTouchable',
           seriesID: '01',
-          image: require('../asssets/images/untouchable.png'),
+          image: require('../assets/images/untouchable.png'),
           rating: '100+ Favourite'
         },
         {
           id: 5,
           title: 'Dr Frost',
           seriesID: '01',
-          image: require('../asssets/images/dr-frost.jpg'),
+          image: require('../assets/images/dr-frost.jpg'),
           rating: '100+ Favourite'
         }
       ],
@@ -52,7 +52,7 @@ class MyFavourite extends Component {
           id: 1,
           title: 'God Of Highschool',
           seriesID: '01',
-          image: require('../asssets/images/goh.jpg'),
+          image: require('../assets/images/goh.jpg'),
           rating: '100+ Favourite',
           prevScreen: 'MyFavourite'
         },
