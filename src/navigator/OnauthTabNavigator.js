@@ -7,10 +7,17 @@ import { createBottomTabNavigator  } from 'react-navigation-tabs';
 import ForYou from '../screens/ForYou'
 import MyFavourite from '../screens/MyFavourite'
 import Profile from '../screens/Profile'
+import EditProfile from '../screens/EditProfile'
 
 const ProfileStackNavigator = createStackNavigator({
     Profile: {
         screen: Profile,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
+    EditProfile: {
+        screen: EditProfile,
         navigationOptions: () => ({
             header: null
         })
