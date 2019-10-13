@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView} from 'react-native';
-import {Button, Text, Input, Form, Label, Item, Container, Content} from 'native-base'
+import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 class LogIn extends Component {
@@ -41,6 +41,16 @@ class LogIn extends Component {
     }
   }
 
+  onChangeHandler(text, type) {
+      if (type == 'email') {
+        this.setState({emailInput: text})
+      } else if (type == 'password') {
+        this.setState({passwordInput: text})
+      }
+    this.inputVerification('email')
+    this.inputVerification('password')
+  }
+
   hidePasswordHandle(status) {
       if (status == true) {
           this.setState({hidePassword: false})
@@ -53,44 +63,44 @@ class LogIn extends Component {
 
   loginSubmitHandle()
   {
-      alert('Login....')
+      alert('Home Not Created Yet!')
   }
 
   render() {
     return (
         <SafeAreaView style={styles.appContainer}>
             <View style={styles.titleContainer}>
+                <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                 <Text style={styles.appTitle}>
-                    Log In
+                    - Log In -
                 </Text>
                 <Text style={styles.appSubtitle}>
-                    Login with your account WEBTOON
+                    Login with your SMOKETOON Account
                 </Text>
             </View>
             <View style={styles.formContainer}>
                 <Form>
-                    <Label style={styles.labelInput}>Email</Label>
+                    <Label style={styles.labelInput}>Email:</Label>
                     <Item style={styles.inputContainer}>
                         <Input
                             style={styles.input}
                             value={this.state.emailInput}
                             keyboardType="email-address"
                             onKeyPress={() => this.inputVerification('email')}
-                            onChangeText={(text) => this.setState({emailInput: text})}
+                            onChangeText={(text) => this.onChangeHandler(text, 'email')}
                         />
-                        <Icon name="" />
                     </Item>
-                    <Label style={styles.labelInput}>Password</Label>
+                    <Label style={styles.labelInput}>Password:</Label>
                     <Item style={styles.inputContainer}>
                         <Input
                             style={styles.input}
                             secureTextEntry={this.state.hidePassword}
                             value={this.state.passwordInput}
                             onKeyPress={() => this.inputVerification('password')}
-                            onChangeText={(text) => this.setState({passwordInput: text})}
+                            onChangeText={(text) => this.onChangeHandler(text, 'password')}
                         />
                         <Icon
-                            style={{padding: 10}}
+                            style={styles.iconEye}
                             name={this.state.hidePwIcon}
                             size={20}
                             onPress={() => this.hidePasswordHandle(this.state.hidePassword)}
@@ -114,20 +124,31 @@ const styles = StyleSheet.create({
     appContainer: {
         padding: 10,
         flexDirection: 'column',
+        backgroundColor:'#383332',
+        flex: 1,
+    },
+    logo: {
+        width: 140,
+        height: 140,
+        marginRight: 38
     },
     titleContainer: {
         marginHorizontal: 5,
-        marginTop: 150,
-        // borderWidth: 1,
+        marginTop: 20,
         alignItems: 'center'
     },
     appTitle: {
-        fontSize: 30
+        fontSize: 25,
+        fontFamily: 'KOMIKAH_',
+        color: '#fff'
     },
     appSubtitle: {
+        fontSize: 12,
+        fontFamily: 'KOMIKSLI',
+        color: '#fff'
     },
     formContainer: {
-        marginTop: 35,
+        marginTop: 20,
         marginHorizontal: 20
     },
     inputContainer: {
@@ -137,35 +158,48 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderColor: '#ddd',
         borderRadius: 5,
-        marginBottom: 8
+        marginBottom: 8,
+        backgroundColor: '#eee'
     },
     labelInput: {
         marginLeft: 14,
-        color: '#555'
+        marginBottom: 4,
+        color: '#fff',
+        fontFamily: 'KOMIKASL'
     },
-    input: {},
+    input: {
+        // fontFamily: 'KOMIKASL',
+        // fontSize: 12
+        // height: 50,
+        backgroundColor: '#eee'
+    },
+    iconEye: {
+        padding: 10,
+        backgroundColor: '#eee',
+    },
     btnSubmit: {
         width: '100%',
-        paddingHorizontal: 108,
+        paddingHorizontal: 94,
         marginHorizontal: 10,
         marginTop: 20,
-        borderWidth: 2,
-        borderColor: '#000',
-        backgroundColor: 'orange'
+        borderWidth: 1,
+        borderColor: '#ee7a33',
+        backgroundColor: '#ee7a33',
     },
     btnSubmitText: {
         textTransform: 'capitalize',
         fontSize: 16,
-        color: '#000'
+        color: '#fff',
+        fontFamily: 'KOMIKAH_'
     },
     btnSubmitDisabled: {
         width: '95%',
-        paddingHorizontal: 100,
+        paddingHorizontal: 94,
         marginHorizontal: 14,
         marginTop: 20,
-        borderWidth: 2,
-        borderColor: '#000',
-        backgroundColor: 'orange',
+        borderWidth: 1,
+        borderColor: '#ee7a33',
+        backgroundColor: '#ee7a33',
         opacity: 0.6
     }
 
