@@ -9,15 +9,15 @@ class DetailEpisode extends Component {
       pageList: [
         {
           id: 1,
-          image: require('../images/Noblesse/14587286121364423458.jpg'),
+          image: require('../assets/images/Noblesse/14587286121364423458.jpg'),
         },
         {
           id: 2,
-          image: require('../images/Noblesse/14587286122444423453.jpg'),
+          image: require('../assets/images/Noblesse/14587286122444423453.jpg'),
         },
         {
           id: 3,
-          image: require('../images/Noblesse/14587286122984423451.jpg'),
+          image: require('../assets/images/Noblesse/14587286122984423451.jpg'),
 
         }
       ],

@@ -12,7 +12,7 @@ class LoadingScreen extends Component {
     return (
       <View style={{flex: 1, backgroundColor: '#444', alignItems: 'center'}}>
           <View style={{marginVertical: 250}}>
-            <Image style={{width: 150, height: 150}} source={require('../images/logo/smokeLogo.png')} />
+            <Image style={{width: 150, height: 150}} source={require('../assets/images/logo/smokeLogo.png')} />
             <Text style={{color: '#fff', textAlign: 'center', marginTop: 15, fontFamily: 'KOMIKASL', fontSize: 16}}>SMOKETOON</Text>
           </View>
           <Text>{setTimeout(()=>{

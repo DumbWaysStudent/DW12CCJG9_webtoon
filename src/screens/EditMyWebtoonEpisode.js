@@ -12,17 +12,17 @@ class EditMyWebtoonEpisode extends Component {
           {
             id: 1,
             title: '14587286205684423455.jpg',
-            image: require('../images/Noblesse/14587286121364423458.jpg'),
+            image: require('../assets/images/Noblesse/14587286121364423458.jpg'),
           },
           {
             id: 2,
             title: '14587286394124423462.jpg',
-            image: require('../images/Noblesse/14587286122444423453.jpg'),
+            image: require('../assets/images/Noblesse/14587286122444423453.jpg'),
           },
           {
             id: 3,
             title: '14593149300964423470.jpg',
-            image: require('../images/Noblesse/14587286122984423451.jpg'),
+            image: require('../assets/images/Noblesse/14587286122984423451.jpg'),
           }
         ]
       }

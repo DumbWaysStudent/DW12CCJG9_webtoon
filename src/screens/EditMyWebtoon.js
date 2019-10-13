@@ -12,21 +12,21 @@ class EditMyWebtoon extends Component {
               {
                 id: 1,
                 title: 'Ep.1',
-                image: require('../images/14587286205684423455.jpg'),
+                image: require('../assets/images/14587286205684423455.jpg'),
                 lastUpdate: '1 Januari 2019'
               },
               {
                 id: 2,
                 title: 'Ep.2',
                 series: 'Noblesse Awakening',
-                image: require('../images/14587286394124423462.jpg'),
+                image: require('../assets/images/14587286394124423462.jpg'),
                 lastUpdate: '7 Januari 2019'
               },
               {
                 id: 3,
                 title: 'Ep.3',
                 series: 'Noblesse Awakening',
-                image: require('../images/14593149300964423470.jpg'),
+                image: require('../assets/images/14593149300964423470.jpg'),
                 lastUpdate: '14 Januari 2019'
               }
             ]

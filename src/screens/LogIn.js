@@ -70,7 +70,7 @@ class LogIn extends Component {
     return (
         <SafeAreaView style={styles.appContainer}>
             <View style={styles.titleContainer}>
-                <Image style={styles.logo} source={require('../images/logo/bannerSomkeToonBordered.png')} />
+                <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                 <Text style={styles.appTitle}>
                     - Log In -
                 </Text>

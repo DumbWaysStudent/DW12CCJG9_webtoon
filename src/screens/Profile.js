@@ -7,7 +7,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePicture: require('../images/profile-picture-default.png'),
+      profilePicture: require('../assets/images/profile-picture-default.png'),
       profileName: 'Fikri Haikal'
     };
   }

@@ -12,7 +12,7 @@ class MyWebtoonCreation extends Component {
               id: 1,
               title: 'God Of Highschool',
               seriesID: '01',
-              image: require('../images/goh.jpg'),
+              image: require('../assets/images/goh.jpg'),
               episodes: '40 Episode(s)',
               prevScreen: 'MyWebtoonCreation'
             },
@@ -20,7 +20,7 @@ class MyWebtoonCreation extends Component {
               id: 2,
               title: 'Dice',
               seriesID: '01',
-              image: require('../images/dice.jpg'),
+              image: require('../assets/images/dice.jpg'),
               episodes: '40 Episode(s)',
               prevScreen: 'MyWebtoonCreation'
             },
@@ -28,7 +28,7 @@ class MyWebtoonCreation extends Component {
               id: 3,
               title: 'Bastard',
               seriesID: '01',
-              image: require('../images/bastard.jpg'),
+              image: require('../assets/images/bastard.jpg'),
               episodes: '40 Episode(s)',
               prevScreen: 'MyWebtoonCreation'
             },
@@ -36,7 +36,7 @@ class MyWebtoonCreation extends Component {
               id: 4,
               title: 'UnTouchable',
               seriesID: '01',
-              image: require('../images/untouchable.png'),
+              image: require('../assets/images/untouchable.png'),
               episodes: '40 Episode(s)',
               prevScreen: 'MyWebtoonCreation'
             },
@@ -44,7 +44,7 @@ class MyWebtoonCreation extends Component {
               id: 5,
               title: 'Dr Frost',
               seriesID: '01',
-              image: require('../images/dr-frost.jpg'),
+              image: require('../assets/images/dr-frost.jpg'),
               episodes: '40 Episode(s)',
               prevScreen: 'MyWebtoonCreation'
             }

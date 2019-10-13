@@ -13,13 +13,13 @@ class ForYou extends Component {
       interval: null,
       dataSource: [
         {
-          url: require('../images/noblesse-awakening.jpg')
+          url: require('../assets/images/noblesse-awakening.jpg')
         },
         {
-          url: require('../images/tower-of-god.jpg')
+          url: require('../assets/images/tower-of-god.jpg')
         },
         {
-          url: require('../images/unordinary.png')
+          url: require('../assets/images/unordinary.png')
         }
       ],
       favouriteData: [
@@ -29,35 +29,35 @@ class ForYou extends Component {
           seriesID: '01',
           title: 'God Of Highschool',
           seriesID: '01',
-          image: require('../images/goh.jpg'),
+          image: require('../assets/images/goh.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 2,
           title: 'Dice',
           seriesID: '01',
-          image: require('../images/dice.jpg'),
+          image: require('../assets/images/dice.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 3,
           title: 'Bastard',
           seriesID: '01',
-          image: require('../images/bastard.jpg'),
+          image: require('../assets/images/bastard.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 4,
           title: 'UnTouchable',
           seriesID: '01',
-          image: require('../images/untouchable.png'),
+          image: require('../assets/images/untouchable.png'),
           prevScreen: 'ForYou'
         },
         {
           id: 5,
           title: 'Dr Frost',
           seriesID: '01',
-          image: require('../images/dr-frost.jpg'),
+          image: require('../assets/images/dr-frost.jpg'),
           prevScreen: 'ForYou'
         }
       ],
@@ -66,49 +66,49 @@ class ForYou extends Component {
           id: 1,
           title: 'UnTouchable',
           seriesID: '01',
-          image: require('../images/untouchable.png'),
+          image: require('../assets/images/untouchable.png'),
           prevScreen: 'ForYou'
         },
         {
           id: 2,
           title: 'Dr Frost',
           seriesID: '01',
-          image: require('../images/dr-frost.jpg'),
+          image: require('../assets/images/dr-frost.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 3,
           title: 'Nobleese Awakening',
           seriesID: '01',
-          image: require('../images/noblesse-awakening.jpg'),
+          image: require('../assets/images/noblesse-awakening.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 4,
           title: 'Girls Of The Wild',
           seriesID: '01',
-          image: require('../images/girls-of-the-wild.png'),
+          image: require('../assets/images/girls-of-the-wild.png'),
           prevScreen: 'ForYou'
         },
         {
           id: 5,
           title: "Melvina's Theraphy",
           seriesID: '01',
-          image: require('../images/melvinas-therapy.jpg'),
+          image: require('../assets/images/melvinas-therapy.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 6,
           title: "Siren's Lament",
           seriesID: '01',
-          image: require('../images/sirens-lament.jpg'),
+          image: require('../assets/images/sirens-lament.jpg'),
           prevScreen: 'ForYou'
         },
         {
           id: 7,
           title: "Winter Woods",
           seriesID: '01',
-          image: require('../images/winter-woods.jpg'),
+          image: require('../assets/images/winter-woods.jpg'),
           prevScreen: 'ForYou'
         },
         
