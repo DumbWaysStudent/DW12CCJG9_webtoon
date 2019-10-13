@@ -54,7 +54,7 @@ class CreateWebtoon extends Component {
         <View style={styles.createWebtoonPallete}>
           <View style={styles.palleteItem}>
             <Text style={styles.palleteItemTitle}>Title</Text>
-            <TextInput style={styles.palleteItemInput} />
+            <TextInput placeholder="Insert Title......" placeholderTextColor="#999" style={styles.palleteItemInput} />
           </View>
 
           <View style={styles.palleteItem}>
