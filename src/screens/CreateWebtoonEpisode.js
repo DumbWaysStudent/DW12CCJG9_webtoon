@@ -38,7 +38,7 @@ class CreateWebtoonEpisode extends Component {
             <Icon name="arrow-left" style={{color: '#fff'}} size={23} />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Webtoon Episode</Text>
+          <Text style={styles.headerTitle}>Create Webtoon Episode</Text>
 
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate(this.props.navigation.getParam('prevScreen'), { name: this.state.profileName, profilePic: this.state.profilePicture })}
