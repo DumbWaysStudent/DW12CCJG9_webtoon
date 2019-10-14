@@ -13,18 +13,27 @@ exports.login = (req, res) => {
 
     console.log(req.body)
 
-    User.findOne({ where: { email, password} }).then(user => {
-        if (user) {
-            const token = 'Bearer ' + jwt.sign({ userId: user.id }, 'b4C0t1n4J4');
-            res.send({
-                user,
-                token
+    User.findOne({where: {email, password}}).then(user=>{
+        if(user){
+            bcrypt.compare(password, user.password, function(err, result) {
+                if (result == true) {
+                    const token = 'Bearer ' +  jwt.sign({ userId: user.id }, 'b4C0t1n4J4');
+                    res.send({
+                        user,
+                        token
+                    });
+                } else {
+                    res.send({
+                        error: true,
+                        message: 'Wrong Password!'
+                    });
+                }
             });
         } else {
             res.send({
                 error: true,
-                message: 'E-Mail and Password Not Valid'
-            })
+                message: "E-Mail Not Registered"
+            });
         }
     });
 }

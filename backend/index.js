@@ -9,10 +9,12 @@ app.use(bodyParser.json());
 
 // controllers
 const AuthController = require('./controllers/auth');
+const UserController = require('./controllers/user');
 
 // middleware
 app.group('/api/v1/', (router) => {
     router.post('/login', AuthController.login);
+    router.post('/register', UserController.registerUser);
 });
 
 app.listen(port, () => console.log(`Listen on Port ${port}`));
