@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
+const bcrypt = require('bcrypt');
 
 const User = models.user;
 
@@ -13,7 +14,7 @@ exports.login = (req, res) => {
 
     console.log(req.body)
 
-    User.findOne({where: {email, password}}).then(user=>{
+    User.findOne({where: {email}}).then(user=>{
         if(user){
             bcrypt.compare(password, user.password, function(err, result) {
                 if (result == true) {
