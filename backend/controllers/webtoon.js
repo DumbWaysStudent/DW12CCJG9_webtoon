@@ -2,7 +2,8 @@ const models = require('../models');
 const User = models.user;
 const Webtoon = models.webtoon;
 const Favourite = models.favourite;
-
+const Episode = models.episode;
+const Image = models.image;
 
 const index = (req, res) => {
     Webtoon.findAll({
@@ -35,8 +36,21 @@ const showWebtoon = (req, res) => {
     }).then(webtoon => res.send(webtoon));
 }
 
+const showWebtoonEpisodes = (req, res) => {
+    Episode.findAll({
+        where: {
+            webtoon_id: req.params.webtoon_id
+        },
+        include: [{
+            model: Webtoon,
+            as: 'webtoonId'
+        }]
+    }).then(episodes => res.send(episodes));
+}
+
 module.exports = {
     index,
     showFavourites,
-    showWebtoon
+    showWebtoon,
+    showWebtoonEpisodes
 }
