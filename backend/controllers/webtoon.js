@@ -49,15 +49,19 @@ const showWebtoonEpisodes = (req, res) => {
 }
 
 const showWebtoonEpisodePages = (req, res) => {
-    Image.findAll({
-        where: {
-            id_episode: req.params.episode_id
-        },
-        include: [{
-            model: Episode,
-            as: 'episodeId'
-        }]
-    }).then(images => res.send(images));
+    Episode.findOne({
+        where: {webtoon_id: req.params.webtoon_id}
+    }).then((episode) => {
+        Image.findAll({
+            where: {
+                id_episode: episode.id
+            },
+            include: [{
+                model: Episode,
+                as: 'episodeId'
+            }]
+        }).then(images => res.send(images));
+    });
 }
 
 module.exports = {
