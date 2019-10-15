@@ -16,6 +16,8 @@ const WebtoonController = require('./controllers/webtoon');
 const { authenticated } = require('./middleware');
 
 app.group('/api/v1/', (router) => {
+
+    // API
     router.post('/login', AuthController.login);
     router.post('/register', UserController.registerUser);
     router.get('/webtoons', authenticated, WebtoonController.index);
