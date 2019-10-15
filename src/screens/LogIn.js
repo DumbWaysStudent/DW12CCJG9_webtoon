@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
 import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Axios from "axios";
 
 class LogIn extends Component {
   constructor(props) {
@@ -63,7 +64,19 @@ class LogIn extends Component {
 
   loginSubmitHandle()
   {
-      this.props.navigation.navigate('Home')
+      alert('Loging...');
+      Axios({
+          method: 'post',
+          url: 'http://192.168.0.35/api/v1/login',
+          data: {
+              email: 'blakes@xmail.com',
+              password: '123456'
+          }
+      })
+      .then((response) => {
+          alert('Go')
+          console.log(response);
+      })
   }
 
   render() {
