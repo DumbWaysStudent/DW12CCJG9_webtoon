@@ -64,18 +64,16 @@ class LogIn extends Component {
 
   loginSubmitHandle()
   {
-      alert('Loging...');
       Axios({
           method: 'post',
-          url: 'http://192.168.0.35/api/v1/login',
+          url: 'http://192.168.0.35:5320/api/v1/login',
           data: {
-              email: 'blakes@xmail.com',
-              password: '123456'
+              email: this.state.emailInput,
+              password: this.state.passwordInput
           }
       })
       .then((response) => {
-          alert('Go')
-          console.log(response);
+          console.log(response.data);
       })
   }
 
