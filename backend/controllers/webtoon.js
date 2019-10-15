@@ -48,9 +48,22 @@ const showWebtoonEpisodes = (req, res) => {
     }).then(episodes => res.send(episodes));
 }
 
+const showWebtoonEpisodePages = (req, res) => {
+    Image.findAll({
+        where: {
+            id_episode: req.params.episode_id
+        },
+        include: [{
+            model: Episode,
+            as: 'episodeId'
+        }]
+    }).then(images => res.send(images));
+}
+
 module.exports = {
     index,
     showFavourites,
     showWebtoon,
-    showWebtoonEpisodes
+    showWebtoonEpisodes,
+    showWebtoonEpisodePages
 }

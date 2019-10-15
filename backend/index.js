@@ -24,6 +24,7 @@ app.group('/api/v1/', (router) => {
     router.get('/webtoons/favourite', authenticated, WebtoonController.showFavourites);
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
     router.get('/webtoon/:webtoon_id/episodes', authenticated, WebtoonController.showWebtoonEpisodes);
+    router.get('/webtoon/:webtoon_id/episode/:episode_id', authenticated, WebtoonController.showWebtoonEpisodePages);
 });
 
 app.listen(port, () => console.log(`Listen on Port ${port}`));
