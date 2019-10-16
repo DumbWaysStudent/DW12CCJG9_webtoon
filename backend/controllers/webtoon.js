@@ -41,10 +41,10 @@ const showWebtoonEpisodes = (req, res) => {
         where: {
             webtoon_id: req.params.webtoon_id
         },
-        include: [{
-            model: Webtoon,
-            as: 'webtoonId'
-        }]
+        // include: [{
+        //     model: Webtoon,
+        //     as: 'webtoonId'
+        // }]
     }).then(episodes => res.send(episodes));
 }
 
