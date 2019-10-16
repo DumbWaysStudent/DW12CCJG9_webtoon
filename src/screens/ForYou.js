@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View} from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, AsyncStorage} from 'react-native';
 import {Text, Input, Item, Thumbnail, Button, Card} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
@@ -114,7 +114,24 @@ class ForYou extends Component {
         
       ],
       // enableScrollViewScroll: true
+      sigInData: null
     };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('sigInData', (err, res) => {
+      if (!err){
+        if (res == null) {
+          this.props.navigation.navigate('SignIn');
+        } else {
+          this.setState({
+            sigInData: res
+          })
+        }
+      } else {
+        console.log(err)
+      }
+    })
   }
 
   UNSAFE_componentWillMount() {
