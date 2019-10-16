@@ -150,7 +150,6 @@ class SignIn extends Component {
                         </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
-                <Text>Do You not have an account? Sign Up Now!</Text>
             </View>
         </SafeAreaView>
     );
