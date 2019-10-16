@@ -4,7 +4,6 @@ import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Axios from "axios";
 import SpinIcon from '../components/SpinIcon';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class SignIn extends Component {
   constructor(props) {
@@ -67,36 +66,7 @@ class SignIn extends Component {
 
   signInSubmitHandle()
   {
-      this.setState({
-          signIn: true,
-          loginBtnDisabled: true
-        })
-      Axios({
-          method: 'post',
-          url: 'http://192.168.0.35:5320/api/v1/login',
-          data: {
-              email: this.state.emailInput,
-              password: this.state.passwordInput
-          }
-      })
-      .then((response) => {
-        this.setState({
-          signIn: false,
-          loginBtnDisabled: false
-        })
-          if (response.data.error) {
-              alert(response.data.message)
-          } else {
-              AsyncStorage.setItem('sigInData', JSON.stringify(response.data));
-              this.props.navigation.navigate('Home');
-          }
-      }).catch((e) => {
-          this.setState({
-          signIn: false,
-          loginBtnDisabled: false
-        })
-          console.log(e);
-      })
+      
   }
 
   render() {
@@ -151,7 +121,6 @@ class SignIn extends Component {
                         </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
-                <Text>Do You Not Have an Account? <TouchableOpacity>Sign Up</TouchableOpacity></Text>
             </View>
         </SafeAreaView>
     );
