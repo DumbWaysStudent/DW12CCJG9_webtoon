@@ -4,6 +4,7 @@ import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Axios from "axios";
 import SpinIcon from '../components/SpinIcon';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class SignIn extends Component {
   constructor(props) {
@@ -66,7 +67,36 @@ class SignIn extends Component {
 
   signInSubmitHandle()
   {
-      
+      this.setState({
+          signIn: true,
+          loginBtnDisabled: true
+        })
+      Axios({
+          method: 'post',
+          url: 'http://192.168.0.35:5320/api/v1/login',
+          data: {
+              email: this.state.emailInput,
+              password: this.state.passwordInput
+          }
+      })
+      .then((response) => {
+        this.setState({
+          signIn: false,
+          loginBtnDisabled: false
+        })
+          if (response.data.error) {
+              alert(response.data.message)
+          } else {
+              AsyncStorage.setItem('sigInData', JSON.stringify(response.data));
+              this.props.navigation.navigate('Home');
+          }
+      }).catch((e) => {
+          this.setState({
+          signIn: false,
+          loginBtnDisabled: false
+        })
+          console.log(e);
+      })
   }
 
   render() {
@@ -121,6 +151,10 @@ class SignIn extends Component {
                         </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
+                <View style={styles.signUpDialog}>
+                    <Text style={styles.signUpDialogText}>Do You Not Have an Account? </Text>
+                    <Button style={styles.moveToSignUp} onPress={() => this.props.navigation.navigate('SignUp')}><Text style={styles.signUpDialogText}>Sign Up Now!</Text></Button>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -212,8 +246,27 @@ const styles = StyleSheet.create({
         borderColor: '#ee7a33',
         backgroundColor: '#ee7a33',
         opacity: 0.6
+    },
+    signUpDialog: {
+        margin: 15,
+        marginTop: 60,
+        alignSelf: 'center'
+    },
+    signUpDialogText: {
+        fontSize: 12,
+        color: '#fff',
+        fontFamily: 'KOMIKSLI',
+    },
+    moveToSignUp: {
+        marginTop: 5,
+        alignSelf: 'center',
+        alignContent: 'center',
+        width: 130,
+        height: 20,
+        backgroundColor: '#444',
+        padding: 6,
+        borderRadius: 4
     }
-
 })
 
 export default SignIn;

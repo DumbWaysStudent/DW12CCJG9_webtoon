@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image, AsyncStorage} from 'react-native';
 import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Axios from "axios";
+import SpinIcon from '../components/SpinIcon'
 
 class SignUp extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class SignUp extends Component {
         loginBtnDisabled: true,
         correctName: false,
         correctEmail: false,
-        correctPass: false
+        correctPass: false,
+        signUp: false
     };
   }
 
@@ -76,6 +78,10 @@ class SignUp extends Component {
 
   signUpHandler()
   {
+    this.setState({
+        signUp: true,
+        loginBtnDisabled: true
+      })
       Axios({
           method: 'post',
           url: 'http://192.168.0.35:5320/api/v1/register',
@@ -85,12 +91,28 @@ class SignUp extends Component {
               password: this.state.passwordInput
           }
       })
-      .then((res) => {
-          this.props.navigation.navigate('Home', {data: res})
-      })
-      .catch((e) => {
-          console.log(e)
-      })
+      .then((response) => {
+        this.setState({
+            signUp: false,
+            loginBtnDisabled: false
+        })
+        if (response.data.error) {
+            alert(response.data.message)
+        } else {
+            AsyncStorage.setItem('sigInData', JSON.stringify(response.data));
+            this.props.navigation.navigate('Home');
+        }
+    }).catch((e) => {
+        this.setState({
+            signUp: false,
+            loginBtnDisabled: false
+        })
+        console.log(e);
+    })
+  }
+
+  componentDidMount() {
+      AsyncStorage.clear();
   }
 
   render() {
@@ -147,7 +169,10 @@ class SignUp extends Component {
                         onPress={() => this.signUpHandler()}
                         disabled={this.state.loginBtnDisabled}
                     >
-                        <Text style={styles.btnSubmitText}>Sign In</Text>
+                        <Text style={styles.btnSubmitText}>Sign Up</Text>
+                        {this.state.signUp ? <SpinIcon>
+                            <Icon name="spinner" size={23} style={{color: "#fff"}} />
+                        </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
             </View>
@@ -215,7 +240,7 @@ const styles = StyleSheet.create({
     },
     btnSubmit: {
         width: '100%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 10,
         marginTop: 20,
         borderWidth: 1,
@@ -230,7 +255,7 @@ const styles = StyleSheet.create({
     },
     btnSubmitDisabled: {
         width: '95%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 14,
         marginTop: 20,
         borderWidth: 1,
