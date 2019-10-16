@@ -15,7 +15,12 @@ const UnauthStackNavigator = createStackNavigator({
         SignUp: {
             screen: SignUp,
             navigationOptions: () => ({
-                header: null,
+                headerStyle: {
+                    backgroundColor: '#383332',
+                    height: 50,
+                    color: '#fff',
+                },
+                headerTintColor: '#fff'
             })
         },
         LoadingScreen: {

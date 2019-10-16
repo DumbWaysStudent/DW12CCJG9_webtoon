@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
     titleContainer: {
         marginHorizontal: 5,
         marginTop: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%',
     },
     appTitle: {
         fontSize: 25,
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
     appSubtitle: {
         fontSize: 12,
         fontFamily: 'KOMIKSLI',
-        color: '#fff'
+        color: '#fff',
+        width: '100%',
     },
     formContainer: {
         marginTop: 20,

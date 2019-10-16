@@ -105,10 +105,10 @@ class SignIn extends Component {
             <View style={styles.titleContainer}>
                 <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                 <Text style={styles.appTitle}>
-                    - Log In -
+                    - Sign In -
                 </Text>
                 <Text style={styles.appSubtitle}>
-                    Login with your SMOKETOON Account
+                    Sign In with your SMOKETOON Account
                 </Text>
             </View>
             <View style={styles.formContainer}>
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginHorizontal: 5,
+        width: '100%',
         marginTop: 20,
         alignItems: 'center'
     },
@@ -186,7 +187,9 @@ const styles = StyleSheet.create({
     appSubtitle: {
         fontSize: 12,
         fontFamily: 'KOMIKSLI',
-        color: '#fff'
+        color: '#fff',
+        width: '100%',
+        textAlign: 'center'
     },
     formContainer: {
         marginTop: 20,
