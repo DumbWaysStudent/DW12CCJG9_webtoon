@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import  { Text } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -14,6 +14,11 @@ class Profile extends Component {
 
   updateData = (newData1, newData2) => {
     this.setState({profileName : newData1, profilePicture: newData2})
+  }
+
+  signOutHandler() {
+    AsyncStorage.clear()
+    this.props.navigation.navigate('SignIn')
   }
 
   render() {
@@ -45,7 +50,7 @@ class Profile extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.optionsItem}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')}>
+                <TouchableOpacity onPress={() => this.signOutHandler()}>
                   <Text style={styles.optionsText}>Log Out</Text>
                 </TouchableOpacity>
               </View>

@@ -1,14 +1,21 @@
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import LogIn from '../screens/LogIn'
+import SignIn from '../screens/SignIn'
+import SignUp from '../screens/SignUp';
 import LoadingScreen from '../screens/LoadingScreen'
 
 
-const UnAuth = createStackNavigator({
-        LogIn: {
-            screen: LogIn,
+const UnauthStackNavigator = createStackNavigator({
+        SignIn: {
+            screen: SignIn,
             navigationOptions: () => ({
                 header: null,
+            })
+        },
+        SignUp: {
+            screen: SignUp,
+            navigationOptions: () => ({
+                header: null
             })
         },
         LoadingScreen: {
@@ -23,4 +30,4 @@ const UnAuth = createStackNavigator({
     }
 );
 
-export default createAppContainer(UnAuth);
+export default createAppContainer(UnauthStackNavigator);
