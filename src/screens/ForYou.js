@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View,
 import {Text, Input, Item, Thumbnail, Button, Card} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
+import Axios from 'axios';
 
 
 class ForYou extends Component {
@@ -124,9 +125,11 @@ class ForYou extends Component {
         if (res == null) {
           this.props.navigation.navigate('SignIn');
         } else {
+          
           this.setState({
-            sigInData: res
+            sigInData: JSON.parse(res)
           })
+          this.getWebtoons()
         }
       } else {
         console.log(err)
@@ -151,6 +154,24 @@ class ForYou extends Component {
   // onEnableScroll(value) {
   //   this.setState({enableScrollViewScroll: value})
   // }
+
+  getWebtoons() {
+    if(this.state.sigInData != null) {
+      Axios({
+        method: 'get',
+          url: 'http://192.168.0.35:5320/api/v1/webtoons',
+          headers: {
+            'Authorization': this.state.sigInData.token
+          }
+      })
+      .then((response) => {
+        this.setState({
+          listAllToonData: response.data
+        })
+      })
+      .catch(err => console.log(err))
+    }
+  }
 
   render() {
     return (

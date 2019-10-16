@@ -1,7 +1,7 @@
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from '../screens/SignIn'
-import SignUp from '../screens/SignUp';
+import SignUp from '../screens/SignUp'
 import LoadingScreen from '../screens/LoadingScreen'
 
 
@@ -15,7 +15,12 @@ const UnauthStackNavigator = createStackNavigator({
         SignUp: {
             screen: SignUp,
             navigationOptions: () => ({
-                header: null
+                headerStyle: {
+                    backgroundColor: '#383332',
+                    height: 50,
+                    color: '#fff',
+                },
+                headerTintColor: '#fff'
             })
         },
         LoadingScreen: {
