@@ -7,24 +7,24 @@ const Image = models.image;
 
 const index = (req, res) => {
     Webtoon.findAll({
-        include: [{
-            model: User,
-            as: 'createdBy',
-            attributes: ['name']
-        }]
+        // include: [{
+        //     model: User,
+        //     as: 'createdBy',
+        //     attributes: ['name']
+        // }]
     }).then(webtoons => res.send(webtoons));
 }
 
 const showFavourites = (req, res) => {
     Favourite.findAll({
-        include: [{
-            model: Webtoon,
-            as: 'webtoonId'
-        },{
-            model: User,
-            as: 'userId',
-            attributes: ['name']
-        }]
+        // include: [{
+        //     model: Webtoon,
+        //     as: 'webtoonId'
+        // },{
+        //     model: User,
+        //     as: 'userId',
+        //     attributes: ['name']
+        // }]
     }).then(favourites => res.send(favourites));
 }
 
@@ -41,10 +41,10 @@ const showWebtoonEpisodes = (req, res) => {
         where: {
             webtoon_id: req.params.webtoon_id
         },
-        include: [{
-            model: Webtoon,
-            as: 'webtoonId'
-        }]
+        // include: [{
+        //     model: Webtoon,
+        //     as: 'webtoonId'
+        // }]
     }).then(episodes => res.send(episodes));
 }
 
@@ -54,12 +54,12 @@ const showWebtoonEpisodePages = (req, res) => {
     }).then((episode) => {
         Image.findAll({
             where: {
-                id_episode: episode.id
+                id_episode: req.params.episode_id
             },
-            include: [{
-                model: Episode,
-                as: 'episodeId'
-            }]
+            // include: [{
+            //     model: Episode,
+            //     as: 'episodeId'
+            // }]
         }).then(images => res.send(images));
     });
 }
