@@ -122,6 +122,7 @@ class ForYou extends Component {
             sigInData: JSON.parse(res)
           })
           this.getAllData()
+          console.log
         }
       } else {
         console.log(err)
@@ -149,6 +150,7 @@ class ForYou extends Component {
 
   getAllData() {
     if(this.state.sigInData != null) {
+      // console.log(this.state.sigInData.token) 
       Axios({
         method: 'get',
           url: 'http://192.168.0.35:5320/api/v1/webtoons',
@@ -219,6 +221,44 @@ class ForYou extends Component {
     return str
   }
 
+  favouriteBtnChanger(action, webtoon_id, favourite_id) {
+    console.log(webtoon_id)
+    if (action == 'addfavourite') {
+      Axios({
+        method: 'post',
+        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.user.id + '/webtoon/' + webtoon_id + '/favourite',
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+      })  
+      .then((response) => {
+        alert('Favourited!');
+      })
+      .catch(err => console.log(err));
+
+    } else if (action == 'unfavourite') {
+      Axios({
+        method: 'post',
+        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.user.id + '/webtoon/' + webtoon_id + '/favourite',
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+      })  
+      .then((response) => {
+        alert('UnFavourited!');
+      })
+      .catch(err => console.log(err));
+    }
+  }
+
+  favouriteIdMatcher(webtoonId) {
+    if (this.state.favouriteData.findIndex((x) => x.webtoonId.id == webtoonId )) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -285,17 +325,15 @@ class ForYou extends Component {
                 <Item style={styles.listAllToonItemTB}>
                   <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
                   <Button
-                    onPress={()=> alert('Favourite')}
-                    disabled={item.hasOwnProperty('preload') ? true : (this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? true : false)}
+                    onPress={()=> (this.favouriteIdMatcher(item.id) ? this.favouriteBtnChanger('addfavourite') : this.favouriteBtnChanger('unfavourite'))}
+                    disabled={item.hasOwnProperty('preload') ? true : false}
                     style={
                       item.hasOwnProperty('preload') 
                       ? styles.favouritePlusBtnDisabled
-                      : (this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 
-                      ? styles.favouritePlusBtnDisabled
-                      : styles.favouritePlusBtn)
+                      : styles.favouritePlusBtn
                     }
                   >
-                      <Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
+                    <Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name={this.favouriteIdMatcher(item.id) ? 'plus' : 'minus'} size={10} /> {(this.favouriteIdMatcher(item.id) ? 'Favourite' : 'UnFavourite')}</Text></Button>
                 </Item>
               </Card>
             }

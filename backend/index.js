@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 const AuthController = require('./controllers/auth');
 const UserController = require('./controllers/user');
 const WebtoonController = require('./controllers/webtoon');
+const FavouriteController = require('./controllers/favourite');
 
 // middleware
 const { authenticated } = require('./middleware');
@@ -23,9 +24,11 @@ app.group('/api/v1/', (router) => {
     router.get('/webtoons', authenticated, WebtoonController.index);
     router.get('/webtoons/choices', authenticated, WebtoonController.showChoicesWebtoons);
     router.get('/webtoons/popular', authenticated, WebtoonController.showPolpularWebtoons);
-    router.get('/webtoons/favourite/:user_id', authenticated, WebtoonController.showMyFavourites);
-    router.get('/webtoons/favourite', authenticated, WebtoonController.showFavourites);
+    router.get('/user/:user_id/webtoons/favourite', authenticated, FavouriteController.showMyFavourites);
+    router.get('/webtoons/favourite', authenticated, FavouriteController.showFavourites);
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
+    router.post('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.addMyFavourite);
+    router.delete('/user/:user_id/webtoon/:webtoon_id/favourite/:favourite_id', authenticated, FavouriteController.deleteMyFavourite);
 });
 
 app.listen(port, () => console.log(`Listen on Port ${port}`));

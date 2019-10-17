@@ -22,49 +22,6 @@ const index = (req, res) => {
         });
     });
 }
-//
-const showMyFavourites = (req, res) => {
-    Favourite.findAll({
-        where: {user_id: req.params.user_id},
-        include: [{
-            model: Webtoon,
-            as: 'webtoonId'
-        }]
-        // {
-        //     model: User,
-        //     as: 'userId',
-        //     attributes: ['name']
-        // }]
-    })
-    .then(favourites => res.send(favourites))
-    .catch((error) => {
-        console.log(error)
-        res.send({
-            error: true
-        });
-    });
-}
-
-const showFavourites = (req, res) => {
-    Favourite.findAll({
-        include: [{
-            model: Webtoon,
-            as: 'webtoonId'
-        }]
-        // {
-        //     model: User,
-        //     as: 'userId',
-        //     attributes: ['name']
-        // }]
-    })
-    .then(favourites => res.send(favourites))
-    .catch((error) => {
-        console.log(error)
-        res.send({
-            error: true
-        });
-    });
-}
 
 const showWebtoon = (req, res) => {
     Webtoon.findOne({
@@ -128,8 +85,6 @@ const showPolpularWebtoons = (req, res) => {
 
 module.exports = {
     index,
-    showMyFavourites,
-    showFavourites,
     showWebtoon,
     showChoicesWebtoons,
     showPolpularWebtoons

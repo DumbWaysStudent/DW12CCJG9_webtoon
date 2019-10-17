@@ -24,7 +24,7 @@ const registerUser = (req, res) => {
             .then((user) => {
                 const token = 'Bearer ' +  jwt.sign({ userId: user.id }, 'b4C0t1n4J4');
                 res.send({
-                    user,
+                    id: user.id,
                     token
                 });
             })
