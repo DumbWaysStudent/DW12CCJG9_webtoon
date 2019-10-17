@@ -122,7 +122,6 @@ class ForYou extends Component {
             sigInData: JSON.parse(res)
           })
           this.getAllData()
-          console.log
         }
       } else {
         console.log(err)
@@ -167,7 +166,7 @@ class ForYou extends Component {
       // console.log(this.state.sigInData.user)
       Axios({
         method: 'get',
-        url: 'http://192.168.0.35:5320/api/v1/webtoons/favourite/' + this.state.sigInData.user.id,
+        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.id + '/webtoons/favourite',
         headers: {
           'Authorization': this.state.sigInData.token
         }
@@ -226,7 +225,7 @@ class ForYou extends Component {
     if (action == 'addfavourite') {
       Axios({
         method: 'post',
-        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.user.id + '/webtoon/' + webtoon_id + '/favourite',
+        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.id + '/webtoon/' + webtoon_id + '/favourite',
         headers: {
           'Authorization': this.state.sigInData.token
         }
@@ -239,7 +238,7 @@ class ForYou extends Component {
     } else if (action == 'unfavourite') {
       Axios({
         method: 'post',
-        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.user.id + '/webtoon/' + webtoon_id + '/favourite',
+        url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.id + '/webtoon/' + webtoon_id + '/favourite',
         headers: {
           'Authorization': this.state.sigInData.token
         }
@@ -323,17 +322,25 @@ class ForYou extends Component {
               <Card style={styles.listAllToonItem}>
                 <Thumbnail source={(item.hasOwnProperty('image')) ? {uri: `${item.image}`} : item.preload} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
-                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
+                  {console.log(item.id)}
+                  <Text
+                    onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) }
+                    style={styles.listAllToonItemTitle}>
+                      {item.title}
+                  </Text>
                   <Button
-                    onPress={()=> (this.favouriteIdMatcher(item.id) ? this.favouriteBtnChanger('addfavourite') : this.favouriteBtnChanger('unfavourite'))}
+                    onPress={()=> (this.favouriteIdMatcher(item.id) ? this.favouriteBtnChanger('addfavourite', item.id) : this.favouriteBtnChanger('unfavourite', item.id))}
                     disabled={item.hasOwnProperty('preload') ? true : false}
                     style={
                       item.hasOwnProperty('preload') 
                       ? styles.favouritePlusBtnDisabled
                       : styles.favouritePlusBtn
-                    }
-                  >
-                    <Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name={this.favouriteIdMatcher(item.id) ? 'plus' : 'minus'} size={10} /> {(this.favouriteIdMatcher(item.id) ? 'Favourite' : 'UnFavourite')}</Text></Button>
+                    }>
+                    <Text style={{fontSize: 12, textTransform: 'capitalize'}}>
+                      <Icon name={this.favouriteIdMatcher(item.id) ? 'plus' : 'minus'} size={10} />
+                      {(this.favouriteIdMatcher(item.id) ? 'Favourite' : 'UnFavourite')}
+                    </Text>
+                  </Button>
                 </Item>
               </Card>
             }
