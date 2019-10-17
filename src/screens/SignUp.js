@@ -195,9 +195,9 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginHorizontal: 5,
-        marginTop: 20,
-        alignItems: 'center',
         width: '100%',
+        marginTop: 20,
+        alignItems: 'center'
     },
     appTitle: {
         fontSize: 25,
@@ -209,17 +209,18 @@ const styles = StyleSheet.create({
         fontFamily: 'KOMIKSLI',
         color: '#fff',
         width: '100%',
+        textAlign: 'center'
     },
     formContainer: {
         marginTop: 20,
         marginHorizontal: 20
     },
     inputContainer: {
-        borderTopWidth: 2,
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: '#ddd',
+        // borderTopWidth: 2,
+        // borderLeftWidth: 2,
+        // borderRightWidth: 2,
+        borderBottomWidth: 0,
+        // borderColor: '#ddd',
         borderRadius: 5,
         marginBottom: 8,
         backgroundColor: '#eee'
@@ -234,10 +235,22 @@ const styles = StyleSheet.create({
         // fontFamily: 'KOMIKASL',
         // fontSize: 12
         // height: 50,
-        backgroundColor: '#eee'
+        borderRadius: 5,
+        backgroundColor: '#444',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
+    },
+    inputDisabled: {
+        borderRadius: 5,
+        backgroundColor: '#333',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
     },
     iconEye: {
-        padding: 10,
+        padding: 12,
+        width: 48,
         backgroundColor: '#eee',
     },
     btnSubmit: {
@@ -264,8 +277,27 @@ const styles = StyleSheet.create({
         borderColor: '#ee7a33',
         backgroundColor: '#ee7a33',
         opacity: 0.6
+    },
+    signUpDialog: {
+        margin: 15,
+        marginTop: 60,
+        alignSelf: 'center'
+    },
+    signUpDialogText: {
+        fontSize: 12,
+        color: '#fff',
+        fontFamily: 'KOMIKSLI',
+    },
+    moveToSignUp: {
+        marginTop: 5,
+        alignSelf: 'center',
+        alignContent: 'center',
+        width: 130,
+        height: 20,
+        backgroundColor: '#444',
+        padding: 6,
+        borderRadius: 4
     }
-
 })
 
 export default SignUp;
