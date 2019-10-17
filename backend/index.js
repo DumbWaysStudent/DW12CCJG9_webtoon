@@ -21,6 +21,9 @@ app.group('/api/v1/', (router) => {
     router.post('/login', AuthController.login);
     router.post('/register', UserController.registerUser);
     router.get('/webtoons', authenticated, WebtoonController.index);
+    router.get('/webtoons/choices', authenticated, WebtoonController.showChoicesWebtoons);
+    router.get('/webtoons/popular', authenticated, WebtoonController.showPolpularWebtoons);
+    router.get('/webtoons/favourite/:user_id', authenticated, WebtoonController.showMyFavourites);
     router.get('/webtoons/favourite', authenticated, WebtoonController.showFavourites);
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
 });

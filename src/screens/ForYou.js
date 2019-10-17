@@ -14,105 +14,97 @@ class ForYou extends Component {
       interval: null,
       dataSource: [
         {
-          url: require('../assets/images/noblesse-awakening.jpg')
+          url: require('../assets/images/gif/Preload1.gif')
         },
         {
-          url: require('../assets/images/tower-of-god.jpg')
+          url: require('../assets/images/gif/Preload1.gif')
         },
         {
-          url: require('../assets/images/unordinary.png')
+          url: require('../assets/images/gif/Preload1.gif')
         }
       ],
       favouriteData: [
         {
-          id: 1,
-          seriesID: '01',
-          seriesID: '01',
-          title: 'God Of Highschool',
-          seriesID: '01',
-          image: require('../assets/images/goh.jpg'),
-          prevScreen: 'ForYou'
+          webtoonId: {
+            id: 1
+          }
         },
         {
-          id: 2,
-          title: 'Dice',
-          seriesID: '01',
-          image: require('../assets/images/dice.jpg'),
-          prevScreen: 'ForYou'
+          webtoonId: {
+            id: 1
+          }
         },
-        {
-          id: 3,
-          title: 'Bastard',
-          seriesID: '01',
-          image: require('../assets/images/bastard.jpg'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 4,
-          title: 'UnTouchable',
-          seriesID: '01',
-          image: require('../assets/images/untouchable.png'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 5,
-          title: 'Dr Frost',
-          seriesID: '01',
-          image: require('../assets/images/dr-frost.jpg'),
-          prevScreen: 'ForYou'
-        }
       ],
       listAllToonData: [
         {
-          id: 1,
-          title: 'UnTouchable',
-          seriesID: '01',
-          image: require('../assets/images/untouchable.png'),
-          prevScreen: 'ForYou'
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
         },
         {
-          id: 2,
-          title: 'Dr Frost',
-          seriesID: '01',
-          image: require('../assets/images/dr-frost.jpg'),
-          prevScreen: 'ForYou'
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
         },
         {
-          id: 3,
-          title: 'Nobleese Awakening',
-          seriesID: '01',
-          image: require('../assets/images/noblesse-awakening.jpg'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 4,
-          title: 'Girls Of The Wild',
-          seriesID: '01',
-          image: require('../assets/images/girls-of-the-wild.png'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 5,
-          title: "Melvina's Theraphy",
-          seriesID: '01',
-          image: require('../assets/images/melvinas-therapy.jpg'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 6,
-          title: "Siren's Lament",
-          seriesID: '01',
-          image: require('../assets/images/sirens-lament.jpg'),
-          prevScreen: 'ForYou'
-        },
-        {
-          id: 7,
-          title: "Winter Woods",
-          seriesID: '01',
-          image: require('../assets/images/winter-woods.jpg'),
-          prevScreen: 'ForYou'
-        },
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
+        }
+        // {
+        //   id: 2,
+        //   title: 'Dr Frost',
+        //   seriesID: '01',
+        //   image: require('../assets/images/dr-frost.jpg'),
+        //   prevScreen: 'ForYou'
+        // },
+        // {
+        //   id: 3,
+        //   title: 'Nobleese Awakening',
+        //   seriesID: '01',
+        //   image: require('../assets/images/noblesse-awakening.jpg'),
+        //   prevScreen: 'ForYou'
+        // },
+        // {
+        //   id: 4,
+        //   title: 'Girls Of The Wild',
+        //   seriesID: '01',
+        //   image: require('../assets/images/girls-of-the-wild.png'),
+        //   prevScreen: 'ForYou'
+        // },
+        // {
+        //   id: 5,
+        //   title: "Melvina's Theraphy",
+        //   seriesID: '01',
+        //   image: require('../assets/images/melvinas-therapy.jpg'),
+        //   prevScreen: 'ForYou'
+        // },
+        // {
+        //   id: 6,
+        //   title: "Siren's Lament",
+        //   seriesID: '01',
+        //   image: require('../assets/images/sirens-lament.jpg'),
+        //   prevScreen: 'ForYou'
+        // },
+        // {
+        //   id: 7,
+        //   title: "Winter Woods",
+        //   seriesID: '01',
+        //   image: require('../assets/images/winter-woods.jpg'),
+        //   prevScreen: 'ForYou'
+        // },
         
+      ],
+      popularWebtoonData: [
+        {
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
+        },
+        {
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
+        },
+        {
+          title: '.....',
+          image: require('../assets/images/gif/Preload1.gif')
+        }
       ],
       // enableScrollViewScroll: true
       sigInData: null
@@ -129,7 +121,7 @@ class ForYou extends Component {
           this.setState({
             sigInData: JSON.parse(res)
           })
-          this.getWebtoons()
+          this.getAllData()
         }
       } else {
         console.log(err)
@@ -155,7 +147,7 @@ class ForYou extends Component {
   //   this.setState({enableScrollViewScroll: value})
   // }
 
-  getWebtoons() {
+  getAllData() {
     if(this.state.sigInData != null) {
       Axios({
         method: 'get',
@@ -170,7 +162,61 @@ class ForYou extends Component {
         })
       })
       .catch(err => console.log(err))
+      // console.log(this.state.sigInData.user)
+      Axios({
+        method: 'get',
+        url: 'http://192.168.0.35:5320/api/v1/webtoons/favourite/' + this.state.sigInData.user.id,
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+      })  
+      .then((response) => {
+        this.setState({
+          favouriteData: response.data
+        })
+        // console.log(this.state.favouriteData[0].webtoonId.title)
+      })
+      .catch(err => console.log(err))
+
+      Axios({
+        method: 'get',
+        url: 'http://192.168.0.35:5320/api/v1/webtoons/choices/',
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+      })  
+      .then((response) => {
+        this.setState({
+          dataSource: response.data
+        })
+        // console.log(this.state.favouriteData[0].webtoonId.title)
+      })
+      .catch(err => console.log(err))
+
+      Axios({
+        method: 'get',
+        url: 'http://192.168.0.35:5320/api/v1/webtoons/popular',
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+      })  
+      .then((response) => {
+        // console.log(response.data[0])
+        this.setState({
+          popularWebtoonData: response.data
+        })
+        // console.log(this.state.favouriteData[0].webtoonId.title)
+      })
+      .catch(err => console.log(err))
     }
+  }
+
+  shortingTitle(str, limit) {
+    if (str.length > limit) {
+      str = str.slice(0, limit) + '...'
+    }
+
+    return str
   }
 
   render() {
@@ -187,6 +233,7 @@ class ForYou extends Component {
           </Item>
           <View style={styles.bannerContainer}>
           <Slideshow
+            titleStyle={{color: '#fff', fontFamily: 'KOMIKAHB'}}
               arrowSize={0}
               containerStyle={{borderRadius: 10}}
               height={178}
@@ -198,13 +245,13 @@ class ForYou extends Component {
             <Text style={styles.favoriteBannerTitle}><Icon name="star" /> Favourite</Text>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={this.state.favouriteData}
+            data={this.state.popularWebtoonData}
             renderItem={({ item }) =>
               <Card style={styles.favoriteBannerItem}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.favouriteData[item.id - 1]) }>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.popularWebtoonData[item.id - 1]) }>
                   <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
                 </TouchableOpacity>
-                <Text style={styles.favoriteBannerItemTitle}>{item.title}</Text>
+                <Text style={styles.favoriteBannerItemTitle}>{this.shortingTitle(item.title, 15)}</Text>
               </Card>
             }
             keyExtractor={item => item.id}
@@ -226,11 +273,16 @@ class ForYou extends Component {
             showsVerticalScrollIndicator={false}
             data={this.state.listAllToonData}
             renderItem={({ item }) =>
-              <Card onTouchEnd={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItem}>
+              <Card style={styles.listAllToonItem}>
                 <Thumbnail source={item.image} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
-                  <Text style={styles.listAllToonItemTitle}>{item.title}</Text>
-                  <Button style={styles.favouritePlusBtn}><Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
+                  <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
+                  <Button
+                    onPress={()=> alert('Favourite')}
+                    disabled={(this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? true : false)}
+                    style={(this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? styles.favouritePlusBtnDisabled : styles.favouritePlusBtn)}
+                  >
+                      <Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
                 </Item>
               </Card>
             }
@@ -309,6 +361,13 @@ const styles = StyleSheet.create({
       marginTop: 10,
       borderRadius: 5
     },
+    favoriteBannerItemHide: {
+      display: 'none',
+      width: 110,
+      height: 110,
+      marginTop: 10,
+      borderRadius: 5
+    },
     favoriteBannerItemImage: {
       width: '100%',
       height: '100%',
@@ -369,6 +428,11 @@ const styles = StyleSheet.create({
       marginTop: 5,
       height: 30,
       backgroundColor: '#ee7a33'
+    },
+    favouritePlusBtnDisabled: {
+      marginTop: 5,
+      height: 30,
+      backgroundColor: '#bb7a33'
     },
     listAllToonItemTitle: {
       fontSize: 12,

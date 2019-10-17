@@ -12,8 +12,6 @@ exports.login = (req, res) => {
 
     const password = req.body.password //use encryption in real world case!
 
-    console.log(req.body)
-
     User.findOne({where: {email}}).then(user=>{
         if(user){
             bcrypt.compare(password, user.password, function(err, result) {

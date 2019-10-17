@@ -196,11 +196,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     inputContainer: {
-        borderTopWidth: 2,
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: '#ddd',
+        // borderTopWidth: 2,
+        // borderLeftWidth: 2,
+        // borderRightWidth: 2,
+        borderBottomWidth: 0,
+        // borderColor: '#ddd',
         borderRadius: 5,
         marginBottom: 8,
         backgroundColor: '#eee'
@@ -215,10 +215,18 @@ const styles = StyleSheet.create({
         // fontFamily: 'KOMIKASL',
         // fontSize: 12
         // height: 50,
-        backgroundColor: '#eee'
+        borderRadius: 5,
+        backgroundColor: '#444',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
     },
     inputDisabled: {
-        backgroundColor: '#ddd'
+        borderRadius: 5,
+        backgroundColor: '#333',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
     },
     iconEye: {
         padding: 12,
