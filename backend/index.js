@@ -28,7 +28,7 @@ app.group('/api/v1/', (router) => {
     router.get('/webtoons/favourite', authenticated, FavouriteController.showFavourites);
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
     router.post('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.addMyFavourite);
-    router.delete('/user/:user_id/webtoon/:webtoon_id/favourite/:favourite_id', authenticated, FavouriteController.deleteMyFavourite);
+    router.delete('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.deleteMyFavourite);
 });
 
 app.listen(port, () => console.log(`Listen on Port ${port}`));

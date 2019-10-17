@@ -237,7 +237,7 @@ class ForYou extends Component {
 
     } else if (action == 'unfavourite') {
       Axios({
-        method: 'post',
+        method: 'delete',
         url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.id + '/webtoon/' + webtoon_id + '/favourite',
         headers: {
           'Authorization': this.state.sigInData.token
@@ -337,8 +337,8 @@ class ForYou extends Component {
                       : styles.favouritePlusBtn
                     }>
                     <Text style={{fontSize: 12, textTransform: 'capitalize'}}>
-                      <Icon name={this.favouriteIdMatcher(item.id) ? 'plus' : 'minus'} size={10} />
-                      {(this.favouriteIdMatcher(item.id) ? 'Favourite' : 'UnFavourite')}
+                      <Icon name={this.favouriteIdMatcher(item.id) ? 'plus' : 'minus'} size={10} /> 
+                      {(this.favouriteIdMatcher(item.id) ? ' Favourite' : ' UnFavourite')}
                     </Text>
                   </Button>
                 </Item>
