@@ -38,15 +38,15 @@ class ForYou extends Component {
       listAllToonData: [
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         },
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         },
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         }
         // {
         //   id: 2,
@@ -95,15 +95,15 @@ class ForYou extends Component {
       popularWebtoonData: [
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         },
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         },
         {
           title: '.....',
-          image: require('../assets/images/gif/Preload1.gif')
+          preload: require('../assets/images/gif/Preload1.gif')
         }
       ],
       // enableScrollViewScroll: true
@@ -249,7 +249,14 @@ class ForYou extends Component {
             renderItem={({ item }) =>
               <Card style={styles.favoriteBannerItem}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.popularWebtoonData[item.id - 1]) }>
-                  <Thumbnail source={item.image}  style={styles.favoriteBannerItemImage} square />
+                  <Thumbnail source={
+                      (item.hasOwnProperty('image'))
+                      ? {uri: `${item.image}`}
+                      : item.preload
+                    } 
+                    style={styles.favoriteBannerItemImage}
+                    square
+                  />
                 </TouchableOpacity>
                 <Text style={styles.favoriteBannerItemTitle}>{this.shortingTitle(item.title, 15)}</Text>
               </Card>
@@ -274,13 +281,19 @@ class ForYou extends Component {
             data={this.state.listAllToonData}
             renderItem={({ item }) =>
               <Card style={styles.listAllToonItem}>
-                <Thumbnail source={item.image} style={styles.listAllToonItemImage} square />
+                <Thumbnail source={(item.hasOwnProperty('image')) ? {uri: `${item.image}`} : item.preload} style={styles.listAllToonItemImage} square />
                 <Item style={styles.listAllToonItemTB}>
                   <Text onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.listAllToonData[item.id - 1]) } style={styles.listAllToonItemTitle}>{item.title}</Text>
                   <Button
                     onPress={()=> alert('Favourite')}
-                    disabled={(this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? true : false)}
-                    style={(this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? styles.favouritePlusBtnDisabled : styles.favouritePlusBtn)}
+                    disabled={item.hasOwnProperty('preload') ? true : (this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 ? true : false)}
+                    style={
+                      item.hasOwnProperty('preload') 
+                      ? styles.favouritePlusBtnDisabled
+                      : (this.state.favouriteData.findIndex((x) => x.webtoonId.id == item.id) != -1 
+                      ? styles.favouritePlusBtnDisabled
+                      : styles.favouritePlusBtn)
+                    }
                   >
                       <Text style={{fontSize: 12, textTransform: 'capitalize'}}><Icon name="plus" size={10} /> Favourite</Text></Button>
                 </Item>
