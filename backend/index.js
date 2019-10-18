@@ -13,6 +13,7 @@ const UserController = require('./controllers/user');
 const WebtoonController = require('./controllers/webtoon');
 const FavouriteController = require('./controllers/favourite');
 const EpisodeController = require('./controllers/episode');
+const ImageController = require('./controllers/image');
 
 // middleware
 const { authenticated } = require('./middleware');
@@ -39,6 +40,7 @@ app.group('/api/v1/', (router) => {
     router.post('/user/:user_id/webtoon', authenticated, WebtoonController.createMyWebtoon);
     router.put('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.updateMyWebtoon);
     router.delete('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.deleteMyWebtoon);
+    router.post('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id/image', authenticated, ImageController.createImage);
 
 });
 
