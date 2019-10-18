@@ -38,6 +38,7 @@ app.group('/api/v1/', (router) => {
     router.get('/user/:user_id/webtoons', authenticated, WebtoonController.showMyWebtoons);
     router.post('/user/:user_id/webtoon', authenticated, WebtoonController.createMyWebtoon);
     router.put('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.updateMyWebtoon);
+    router.delete('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.deleteMyWebtoon);
 
 });
 

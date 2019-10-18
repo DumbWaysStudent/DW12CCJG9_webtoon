@@ -125,7 +125,24 @@ const updateMyWebtoon = (req, res) => {
     req.body,
     {where:{id: req.params.webtoon_id,created_by: req.params.user_id},
     })
-    .then(res.send(req.body))
+    .then(() => {
+        Webtoon.findOne({where: {id: req.params.webtoon_id}})
+        .then(webtoons => res.send(webtoons));
+    })
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
+const deleteMyWebtoon = (req, res) => {
+    const {user_id, webtoon_id} = req.params;
+    Webtoon.destroy({where: {id: webtoon_id, created_by: user_id}})
+    .then(result => res.send({
+        id: webtoon_id
+    }))
     .catch((error) => {
         console.log(error)
         res.send({
@@ -141,5 +158,6 @@ module.exports = {
     showPolpularWebtoons,
     showMyWebtoons,
     createMyWebtoon,
-    updateMyWebtoon
+    updateMyWebtoon,
+    deleteMyWebtoon
 }
