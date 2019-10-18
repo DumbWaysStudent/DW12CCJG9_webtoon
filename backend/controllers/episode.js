@@ -90,9 +90,24 @@ const updateEpisode = (req, res) => {
     });
 }
 
+const deleteEpisode = (req, res) => {
+    const {episode_id} = req.params;
+    Episode.destroy({where: {id: episode_id}})
+    .then(result => res.send({
+        id: episode_id
+    }))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
 module.exports = {
     showWebtoonEpisodePages,
     createEpisode,
     updateEpisode,
+    deleteEpisode,
     showWebtoonEpisodes
 }
