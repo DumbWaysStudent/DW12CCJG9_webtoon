@@ -119,11 +119,27 @@ const createMyWebtoon = (req, res) => {
     });
 }
 
+const updateMyWebtoon = (req, res) => {
+    // const {title, genre, image} = req.body;
+    Webtoon.update(
+    req.body,
+    {where:{id: req.params.webtoon_id,created_by: req.params.user_id},
+    })
+    .then(res.send(req.body))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
 module.exports = {
     index,
     showWebtoon,
     showChoicesWebtoons,
     showPolpularWebtoons,
     showMyWebtoons,
-    createMyWebtoon
+    createMyWebtoon,
+    updateMyWebtoon
 }
