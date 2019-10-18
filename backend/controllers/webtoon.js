@@ -2,7 +2,6 @@ const models = require('../models');
 const errorHandler = require('../handlers/errorHandler');
 const User = models.user;
 const Webtoon = models.webtoon;
-const Favourite = models.favourite;
 const Sequelize = require('sequelize');
 
 const index = (req, res) => {

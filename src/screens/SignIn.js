@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image, AsyncStorage} from 'react-native';
 import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Axios from "axios";
+import SpinIcon from '../components/SpinIcon';
 
-class LogIn extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,7 +15,8 @@ class LogIn extends Component {
         hidePwIcon: 'eye-slash',
         loginBtnDisabled: true,
         correctEmail: false,
-        correctPass: false
+        correctPass: false,
+        signIn: false
     };
   }
 
@@ -61,9 +64,38 @@ class LogIn extends Component {
       }
   }
 
-  loginSubmitHandle()
+  signInSubmitHandle()
   {
-      this.props.navigation.navigate('Home')
+      this.setState({
+          signIn: true,
+          loginBtnDisabled: true
+        })
+      Axios({
+          method: 'post',
+          url: 'http://192.168.0.35:5320/api/v1/login',
+          data: {
+              email: this.state.emailInput,
+              password: this.state.passwordInput
+          }
+      })
+      .then((response) => {
+        this.setState({
+          signIn: false,
+          loginBtnDisabled: false
+        })
+          if (response.data.error) {
+              alert(response.data.message)
+          } else {
+              AsyncStorage.setItem('sigInData', JSON.stringify(response.data));
+              this.props.navigation.navigate('Home');
+          }
+      }).catch((e) => {
+          this.setState({
+          signIn: false,
+          loginBtnDisabled: false
+        })
+          console.log(e);
+      })
   }
 
   render() {
@@ -72,10 +104,10 @@ class LogIn extends Component {
             <View style={styles.titleContainer}>
                 <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                 <Text style={styles.appTitle}>
-                    - Log In -
+                    - Sign In -
                 </Text>
                 <Text style={styles.appSubtitle}>
-                    Login with your SMOKETOON Account
+                    Sign In with your SMOKETOON Account
                 </Text>
             </View>
             <View style={styles.formContainer}>
@@ -83,7 +115,7 @@ class LogIn extends Component {
                     <Label style={styles.labelInput}>Email:</Label>
                     <Item style={styles.inputContainer}>
                         <Input
-                            style={styles.input}
+                            style={this.state.signIn ? styles.inputDisabled : styles.input}
                             value={this.state.emailInput}
                             keyboardType="email-address"
                             onKeyPress={() => this.inputVerification('email')}
@@ -93,7 +125,8 @@ class LogIn extends Component {
                     <Label style={styles.labelInput}>Password:</Label>
                     <Item style={styles.inputContainer}>
                         <Input
-                            style={styles.input}
+                            disabled={this.state.signIn}
+                            style={this.state.signIn ? styles.inputDisabled : styles.input}
                             secureTextEntry={this.state.hidePassword}
                             value={this.state.passwordInput}
                             onKeyPress={() => this.inputVerification('password')}
@@ -108,12 +141,19 @@ class LogIn extends Component {
                     </Item>
                     <Button
                         style={this.state.loginBtnDisabled ? styles.btnSubmitDisabled : styles.btnSubmit}
-                        onPress={() => this.loginSubmitHandle()}
+                        onPress={() => this.signInSubmitHandle()}
                         disabled={this.state.loginBtnDisabled}
                     >
-                        <Text style={styles.btnSubmitText}>Log In</Text>
+                        <Text style={styles.btnSubmitText}>Sign In</Text>
+                        {this.state.signIn ? <SpinIcon>
+                            <Icon name="spinner" size={23} style={{color: "#fff"}} />
+                        </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
+                <View style={styles.signUpDialog}>
+                    <Text style={styles.signUpDialogText}>Do You Not Have an Account? </Text>
+                    <Button style={styles.moveToSignUp} onPress={() => this.props.navigation.navigate('SignUp')}><Text style={styles.signUpDialogText}>Sign Up Now!</Text></Button>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -134,6 +174,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginHorizontal: 5,
+        width: '100%',
         marginTop: 20,
         alignItems: 'center'
     },
@@ -145,18 +186,20 @@ const styles = StyleSheet.create({
     appSubtitle: {
         fontSize: 12,
         fontFamily: 'KOMIKSLI',
-        color: '#fff'
+        color: '#fff',
+        width: '100%',
+        textAlign: 'center'
     },
     formContainer: {
         marginTop: 20,
         marginHorizontal: 20
     },
     inputContainer: {
-        borderTopWidth: 2,
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: '#ddd',
+        // borderTopWidth: 2,
+        // borderLeftWidth: 2,
+        // borderRightWidth: 2,
+        borderBottomWidth: 0,
+        // borderColor: '#ddd',
         borderRadius: 5,
         marginBottom: 8,
         backgroundColor: '#eee'
@@ -171,15 +214,27 @@ const styles = StyleSheet.create({
         // fontFamily: 'KOMIKASL',
         // fontSize: 12
         // height: 50,
-        backgroundColor: '#eee'
+        borderRadius: 5,
+        backgroundColor: '#444',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
+    },
+    inputDisabled: {
+        borderRadius: 5,
+        backgroundColor: '#333',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
     },
     iconEye: {
-        padding: 10,
+        padding: 12,
+        width: 48,
         backgroundColor: '#eee',
     },
     btnSubmit: {
         width: '100%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 10,
         marginTop: 20,
         borderWidth: 1,
@@ -194,15 +249,34 @@ const styles = StyleSheet.create({
     },
     btnSubmitDisabled: {
         width: '95%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 14,
         marginTop: 20,
         borderWidth: 1,
         borderColor: '#ee7a33',
         backgroundColor: '#ee7a33',
         opacity: 0.6
+    },
+    signUpDialog: {
+        margin: 15,
+        marginTop: 60,
+        alignSelf: 'center'
+    },
+    signUpDialogText: {
+        fontSize: 12,
+        color: '#fff',
+        fontFamily: 'KOMIKSLI',
+    },
+    moveToSignUp: {
+        marginTop: 5,
+        alignSelf: 'center',
+        alignContent: 'center',
+        width: 130,
+        height: 20,
+        backgroundColor: '#444',
+        padding: 6,
+        borderRadius: 4
     }
-
 })
 
-export default LogIn;
+export default SignIn;

@@ -16,7 +16,7 @@ class LoadingScreen extends Component {
             <Text style={{color: '#fff', textAlign: 'center', marginTop: 15, fontFamily: 'KOMIKASL', fontSize: 16}}>SMOKETOON</Text>
           </View>
           <Text>{setTimeout(()=>{
-              this.props.navigation.navigate('LogIn')
+              this.props.navigation.navigate('SignIn')
           }, 1000)}</Text>
       </View>
     );

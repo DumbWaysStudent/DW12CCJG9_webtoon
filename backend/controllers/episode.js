@@ -1,7 +1,7 @@
 const models = require('../models');
 const Episode = models.episode;
 const Image = models.image;
-const handlers = require('../handlers/errorHandler');
+const errorHandler = require('../handlers/errorHandler');
 
 
 const showWebtoonEpisodes = (req, res) => {

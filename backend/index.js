@@ -20,27 +20,48 @@ const { authenticated } = require('./middleware');
 
 app.group('/api/v1/', (router) => {
 
-    // API
+    // ------------------- API ----------------------//
+    
+    // LOGIN
     router.post('/login', AuthController.login);
+    // REGISTER
     router.post('/register', UserController.registerUser);
+    // GET ALL WEBTOONS
     router.get('/webtoons', authenticated, WebtoonController.index);
+    // GET ALL WEBTOONS CHOICES
     router.get('/webtoons/choices', authenticated, WebtoonController.showChoicesWebtoons);
+    // GET ALL POPULAR WEBTOONS
     router.get('/webtoons/popular', authenticated, WebtoonController.showPolpularWebtoons);
+    // GET ALL MY FAVOURITE WEBTOONS
     router.get('/user/:user_id/webtoons/favourite', authenticated, FavouriteController.showMyFavourites);
-    router.get('/webtoons/favourite', authenticated, FavouriteController.showFavourites);
+    // router.get('/webtoons/favourite', authenticated, FavouriteController.showFavourites);
+    // GET WEBTOON BASED ON TITLE
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
-    router.get('/webtoon/:webtoon_id/episodes', authenticated, EpisodeController.showWebtoonEpisodes);
+    // ADD FAVOURITE WEBTOON
     router.post('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.addMyFavourite);
+    // DELETE FAVOURITE WEBTOON
     router.delete('/user/:user_id/webtoon/:webtoon_id/favourite/:favourite_id', authenticated, FavouriteController.deleteMyFavourite);
-    router.get('/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.showWebtoonEpisodePages);
-    router.post('/user/:user_id/webtoon/:webtoon_id/episode', authenticated, EpisodeController.createEpisode);
-    router.put('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.updateEpisode);
-    router.delete('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.deleteEpisode);
+    // SHOW MY WEBTOONS
     router.get('/user/:user_id/webtoons', authenticated, WebtoonController.showMyWebtoons);
+    // CREATE MY WEBTOON
     router.post('/user/:user_id/webtoon', authenticated, WebtoonController.createMyWebtoon);
+    // UPDATE MY WEBTOON
     router.put('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.updateMyWebtoon);
+    // DELETE MY WEBTOON
     router.delete('/user/:user_id/webtoon/:webtoon_id', authenticated, WebtoonController.deleteMyWebtoon);
+    // GET ALL WEBTOON EPISODE
+    router.get('/webtoon/:webtoon_id/episodes', authenticated, EpisodeController.showWebtoonEpisodes);
+    // ADD WEBTOON EPISODE
+    router.post('/user/:user_id/webtoon/:webtoon_id/episode', authenticated, EpisodeController.createEpisode);
+    // UPDATE WEBTOON EPISODE
+    router.put('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.updateEpisode);
+    // DELETE WEBTOON EPISODE
+    router.delete('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.deleteEpisode);
+    // GET ALL WEBTOON EPISODE PAGE
+    router.get('/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.showWebtoonEpisodePages);
+    // CREATE PAGE IMAGE
     router.post('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id/image', authenticated, ImageController.createImage);
+    // DELETE PAGE IMAGE
     router.delete('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id/image/:image_id', authenticated, ImageController.deleteImage);
 });
 
