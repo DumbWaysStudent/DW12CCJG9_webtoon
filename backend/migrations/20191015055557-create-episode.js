@@ -9,7 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       webtoon_id: {
         type: Sequelize.INTEGER,
@@ -17,7 +22,9 @@ module.exports = {
         references: {
           model: 'webtoons',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

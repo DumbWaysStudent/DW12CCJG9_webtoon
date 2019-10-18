@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 const AuthController = require('./controllers/auth');
 const UserController = require('./controllers/user');
 const WebtoonController = require('./controllers/webtoon');
+const FavouriteController = require('./controllers/favourite');
+const EpisodeController = require('./controllers/episode');
 
 // middleware
 const { authenticated } = require('./middleware');
@@ -21,9 +23,18 @@ app.group('/api/v1/', (router) => {
     router.post('/login', AuthController.login);
     router.post('/register', UserController.registerUser);
     router.get('/webtoons', authenticated, WebtoonController.index);
-    router.get('/webtoons/favourite', authenticated, WebtoonController.showFavourites);
+    router.get('/webtoons/choices', authenticated, WebtoonController.showChoicesWebtoons);
+    router.get('/webtoons/popular', authenticated, WebtoonController.showPolpularWebtoons);
+    router.get('/user/:user_id/webtoons/favourite', authenticated, FavouriteController.showMyFavourites);
+    router.get('/webtoons/favourite', authenticated, FavouriteController.showFavourites);
     router.get('/webtoon/:title', authenticated, WebtoonController.showWebtoon);
-    router.get('/webtoon/:webtoon_id/episodes', authenticated, WebtoonController.showWebtoonEpisodes);
+    router.get('/webtoon/:webtoon_id/episodes', authenticated, EpisodeController.showWebtoonEpisodes);
+    router.post('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.addMyFavourite);
+    router.delete('/user/:user_id/webtoon/:webtoon_id/favourite', authenticated, FavouriteController.deleteMyFavourite);
+    router.get('/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.showWebtoonEpisodePages);
+    router.post('/user/:user_id/webtoon/:webtoon_id/episode', authenticated, EpisodeController.createEpisode);
+    router.put('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.updateEpisode);
+    router.delete('/user/:user_id/webtoon/:webtoon_id/episode/:episode_id', authenticated, EpisodeController.deleteEpisode);
 });
 
 app.listen(port, () => console.log(`Listen on Port ${port}`));

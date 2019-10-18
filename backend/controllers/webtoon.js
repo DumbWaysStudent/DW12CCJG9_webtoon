@@ -1,31 +1,26 @@
 const models = require('../models');
+const errorHandler = require('../handlers/errorHandler');
 const User = models.user;
 const Webtoon = models.webtoon;
 const Favourite = models.favourite;
-const Episode = models.episode;
-const Image = models.image;
+const Sequelize = require('sequelize');
 
 const index = (req, res) => {
     Webtoon.findAll({
-        // include: [{
-        //     model: User,
-        //     as: 'createdBy',
-        //     attributes: ['name']
-        // }]
-    }).then(webtoons => res.send(webtoons));
-}
-
-const showFavourites = (req, res) => {
-    Favourite.findAll({
-        // include: [{
-        //     model: Webtoon,
-        //     as: 'webtoonId'
-        // },{
-        //     model: User,
-        //     as: 'userId',
-        //     attributes: ['name']
-        // }]
-    }).then(favourites => res.send(favourites));
+        include: [{
+            model: User,
+            as: 'createdBy',
+            attributes: ['name']
+        }],
+        attributes: ['id', 'title', 'genre', 'image', 'created_by', 'favourite_count']
+    })
+    .then(webtoons => res.send(webtoons))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
 }
 
 const showWebtoon = (req, res) => {
@@ -33,24 +28,65 @@ const showWebtoon = (req, res) => {
         where: {
             title: req.params.title
         }
-    }).then(webtoon => res.send(webtoon));
+    })
+    .then(webtoon => res.send(webtoon))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
 }
 
-const showWebtoonEpisodes = (req, res) => {
-    Episode.findAll({
+// 3 choices webtoon
+const showChoicesWebtoons = (req, res) => {
+    const {gt, gte, lte, ne, in: opIn} = Sequelize.Op;
+    Webtoon.findAll({
         where: {
-            webtoon_id: req.params.webtoon_id
+            favourite_count: {
+                [gte]: 100,
+            }
         },
-        // include: [{
-        //     model: Webtoon,
-        //     as: 'webtoonId'
-        // }]
-    }).then(episodes => res.send(episodes));
+        limit: 3,
+        attributes: [['image', 'url'], 'title']
+    })
+    .then(webtoons => res.send(webtoons))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
+// show all popular webtoon
+const showPolpularWebtoons = (req, res) => {
+    const {gt, gte, lte, ne, in: opIn} = Sequelize.Op;
+    Webtoon.findAll({
+        where: {
+            favourite_count: {
+                [gte]: 100
+            }
+        },
+        include: [{
+            model: User,
+            as: 'createdBy',
+            attributes: ['name']
+        }]
+    })
+    .then(webtoons => res.send(webtoons))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
 }
 
 module.exports = {
     index,
-    showFavourites,
     showWebtoon,
-    showWebtoonEpisodes
+    showChoicesWebtoons,
+    showPolpularWebtoons
+
 }

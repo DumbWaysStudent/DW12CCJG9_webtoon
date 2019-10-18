@@ -1,38 +1,66 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share} from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share, AsyncStorage} from 'react-native';
 import {Thumbnail, Item, Card} from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Axios from 'axios';
 
 class DetailWebtoon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listEpisode: {
-        '01': [
-          {
-            id: 1,
-            title: 'Ep.1',
-            image: require('../assets/images/14587286205684423455.jpg'),
-            lastUpdate: '1 Januari 2019'
-          },
-          {
-            id: 2,
-            title: 'Ep.2',
-            series: 'Noblesse Awakening',
-            image: require('../assets/images/14587286394124423462.jpg'),
-            lastUpdate: '7 Januari 2019'
-          },
-          {
-            id: 3,
-            title: 'Ep.3',
-            series: 'Noblesse Awakening',
-            image: require('../assets/images/14593149300964423470.jpg'),
-            lastUpdate: '14 Januari 2019'
-          }
-        ]
-      },
-      inputValue: 'Shared React Native'
+      listEpisode: [
+        {
+          title: '.....',
+          preload: require('../assets/images/gif/Preload1.gif')
+        },
+        {
+          title: '.....',
+          preload: require('../assets/images/gif/Preload1.gif')
+        },
+        {
+          title: '.....',
+          preload: require('../assets/images/gif/Preload1.gif')
+        }
+      ],
+      inputValue: this.props.navigation.getParam('title'),
+      sigInData: null
     };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('sigInData', (err, res) => {
+      if (!err){
+        if (res == null) {
+          this.props.navigation.navigate('SignIn');
+        } else {
+          
+          this.setState({
+            sigInData: JSON.parse(res)
+          })
+          this.getAllData()
+        }
+      } else {
+        console.log(err)
+      }
+    })
+  }
+
+  getAllData() {
+    console.log('ID:' + this.props.navigation.getParam('id'));
+    Axios({
+      method: 'get',
+        url: 'http://192.168.0.35:5320/api/v1/webtoon/' + this.props.navigation.getParam('id') + '/episodes',
+        headers: {
+          'Authorization': this.state.sigInData.token
+        }
+    })
+    .then((response) => {
+      this.setState({
+        listEpisode: response.data
+      })
+      console.log(response.data)
+    })
+    .catch(err => console.log(err))
   }
 
   ShareMessage() {
@@ -47,7 +75,7 @@ class DetailWebtoon extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.navigation.getParam('prevScreen'))} style={styles.headerBackBtn}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.headerBackBtn}>
             <Icon name="arrow-left" style={{color: '#fff'}} size={23} />
           </TouchableOpacity>
 
@@ -62,16 +90,23 @@ class DetailWebtoon extends Component {
         </View>
         
         <View style={styles.banner}>
-          <Image source={this.props.navigation.getParam('image')} style={styles.bannerImage} />
+          <Image source={{uri: `${this.props.navigation.getParam('image')}`}} style={styles.bannerImage} />
         </View>
         <View style={styles.listEpisode}>
           <FlatList
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
-            data={this.state.listEpisode[this.props.navigation.getParam('seriesID')].reverse()}
+            data={this.state.listEpisode.reverse()}
             renderItem={({ item }) => 
-              <Card onTouchEnd={() => this.props.navigation.navigate('DetailEpisode', {prevScreen: 'DetailWebtoon'})} style={styles.episodeItem}>
-                <Thumbnail square source={item.image} style={styles.episodeImage} />
+              <Card 
+                onTouchEnd={() => this.props.navigation.navigate('DetailEpisode', {
+                  webtoon_id: this.props.navigation.getParam('id'),
+                  episode_id: item.id,
+                  prevScreen: 'DetailWebtoon'
+                })}
+                style={styles.episodeItem}>
+                {console.log(item)}
+                <Thumbnail square source={(item.hasOwnProperty('image')) ? {uri: `${item.image}`} : item.preload} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
                   <Text style={styles.episodeTitle}>{item.title}</Text>
                   <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>

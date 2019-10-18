@@ -8,8 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      page: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       id_episode: {
         type: Sequelize.INTEGER,
@@ -17,7 +22,9 @@ module.exports = {
         references: {
           model: 'episodes',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

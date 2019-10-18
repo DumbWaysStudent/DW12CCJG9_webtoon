@@ -1,40 +1,53 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Button, Text, Input, Form, Label, Item} from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Axios from "axios";
+import SpinIcon from '../components/SpinIcon'
 
-class LogIn extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        nameInput: '',
         emailInput: '',
         passwordInput: '',
         hidePassword: true,
         hidePwIcon: 'eye-slash',
         loginBtnDisabled: true,
+        correctName: false,
         correctEmail: false,
-        correctPass: false
+        correctPass: false,
+        signUp: false
     };
   }
 
   inputVerification(currentInput) {
-    if (currentInput == 'email') {
+    if (currentInput == 'name') {
+        let correct = this.state.nameInput.match(/([!"#$%&'()*=,.:;<=>?@[\]^'{|}~]+)/g);
+        if (correct == null) {
+            this.setState({correctName: true});
+        } else {
+            this.setState({correctName: false});
+        }
+    } else if (currentInput == 'email') {
         let
         correct = this.state.emailInput.match(/(^[a-zA-Z]+|^[0-9]+|^[a-zA-Z0-9\.]+)@([a-zA-Z0-9]+)\.([a-zA-Z]+)/g)
         if (correct != null) {
-            this.state.correctEmail = true
+            this.setState({correctEmail: true});
         } else {
-            this.state.correctEmail = false
+            this.setState({correctEmail: false});
         }
     } else if (currentInput == 'password') {
         if (this.state.passwordInput !== '') {
-            this.state.correctPass = true
+            this.setState({correctPass: true});
         } else {
-            this.state.correctPass = false
+            this.setState({correctPass: false});
         }
     }
     
-    if (this.state.correctEmail == true && this.state.correctPass == true) {
+    if (this.state.correctName == true && this.state.correctEmail == true && this.state.correctPass == true) {
         this.setState({loginBtnDisabled: false})
     } else {
         this.setState({loginBtnDisabled: true})
@@ -42,11 +55,14 @@ class LogIn extends Component {
   }
 
   onChangeHandler(text, type) {
-      if (type == 'email') {
+      if (type == 'name') {
+          this.setState({nameInput: text})
+      } else if (type == 'email') {
         this.setState({emailInput: text})
       } else if (type == 'password') {
         this.setState({passwordInput: text})
       }
+    this.inputVerification('name')
     this.inputVerification('email')
     this.inputVerification('password')
   }
@@ -61,9 +77,43 @@ class LogIn extends Component {
       }
   }
 
-  loginSubmitHandle()
+  signUpHandler()
   {
-      this.props.navigation.navigate('Home')
+    this.setState({
+        signUp: true,
+        loginBtnDisabled: true
+      })
+      Axios({
+          method: 'post',
+          url: 'http://192.168.0.35:5320/api/v1/register',
+          data: {
+              name: this.state.nameInput,
+              email: this.state.emailInput,
+              password: this.state.passwordInput
+          }
+      })
+      .then((response) => {
+        this.setState({
+            signUp: false,
+            loginBtnDisabled: false
+        })
+        if (response.data.error) {
+            alert(response.data.message)
+        } else {
+            AsyncStorage.setItem('sigInData', JSON.stringify(response.data));
+            this.props.navigation.navigate('Home');
+        }
+    }).catch((e) => {
+        this.setState({
+            signUp: false,
+            loginBtnDisabled: false
+        })
+        console.log(e);
+    })
+  }
+
+  componentDidMount() {
+      AsyncStorage.clear();
   }
 
   render() {
@@ -72,14 +122,23 @@ class LogIn extends Component {
             <View style={styles.titleContainer}>
                 <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                 <Text style={styles.appTitle}>
-                    - Log In -
+                    - Sign Up -
                 </Text>
                 <Text style={styles.appSubtitle}>
-                    Login with your SMOKETOON Account
+                    Make your own SMOKETOON Account
                 </Text>
             </View>
             <View style={styles.formContainer}>
                 <Form>
+                <Label style={styles.labelInput}>Name:</Label>
+                    <Item style={styles.inputContainer}>
+                        <Input
+                            style={styles.input}
+                            value={this.state.nameInput}
+                            onKeyPress={() => this.inputVerification('name')}
+                            onChangeText={(text) => this.onChangeHandler(text, 'name')}
+                        />
+                    </Item>
                     <Label style={styles.labelInput}>Email:</Label>
                     <Item style={styles.inputContainer}>
                         <Input
@@ -108,10 +167,13 @@ class LogIn extends Component {
                     </Item>
                     <Button
                         style={this.state.loginBtnDisabled ? styles.btnSubmitDisabled : styles.btnSubmit}
-                        onPress={() => this.loginSubmitHandle()}
+                        onPress={() => this.signUpHandler()}
                         disabled={this.state.loginBtnDisabled}
                     >
-                        <Text style={styles.btnSubmitText}>Log In</Text>
+                        <Text style={styles.btnSubmitText}>Sign Up</Text>
+                        {this.state.signUp ? <SpinIcon>
+                            <Icon name="spinner" size={23} style={{color: "#fff"}} />
+                        </SpinIcon>: <Text></Text>}
                     </Button>
                 </Form>
             </View>
@@ -134,6 +196,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginHorizontal: 5,
+        width: '100%',
         marginTop: 20,
         alignItems: 'center'
     },
@@ -145,18 +208,20 @@ const styles = StyleSheet.create({
     appSubtitle: {
         fontSize: 12,
         fontFamily: 'KOMIKSLI',
-        color: '#fff'
+        color: '#fff',
+        width: '100%',
+        textAlign: 'center'
     },
     formContainer: {
         marginTop: 20,
         marginHorizontal: 20
     },
     inputContainer: {
-        borderTopWidth: 2,
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: '#ddd',
+        // borderTopWidth: 2,
+        // borderLeftWidth: 2,
+        // borderRightWidth: 2,
+        borderBottomWidth: 0,
+        // borderColor: '#ddd',
         borderRadius: 5,
         marginBottom: 8,
         backgroundColor: '#eee'
@@ -171,15 +236,27 @@ const styles = StyleSheet.create({
         // fontFamily: 'KOMIKASL',
         // fontSize: 12
         // height: 50,
-        backgroundColor: '#eee'
+        borderRadius: 5,
+        backgroundColor: '#444',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
+    },
+    inputDisabled: {
+        borderRadius: 5,
+        backgroundColor: '#333',
+        borderWidth: 1,
+        borderColor: '#555',
+        color: '#fff'
     },
     iconEye: {
-        padding: 10,
+        padding: 12,
+        width: 48,
         backgroundColor: '#eee',
     },
     btnSubmit: {
         width: '100%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 10,
         marginTop: 20,
         borderWidth: 1,
@@ -194,15 +271,34 @@ const styles = StyleSheet.create({
     },
     btnSubmitDisabled: {
         width: '95%',
-        paddingHorizontal: 94,
+        paddingHorizontal: 91,
         marginHorizontal: 14,
         marginTop: 20,
         borderWidth: 1,
         borderColor: '#ee7a33',
         backgroundColor: '#ee7a33',
         opacity: 0.6
+    },
+    signUpDialog: {
+        margin: 15,
+        marginTop: 60,
+        alignSelf: 'center'
+    },
+    signUpDialogText: {
+        fontSize: 12,
+        color: '#fff',
+        fontFamily: 'KOMIKSLI',
+    },
+    moveToSignUp: {
+        marginTop: 5,
+        alignSelf: 'center',
+        alignContent: 'center',
+        width: 130,
+        height: 20,
+        backgroundColor: '#444',
+        padding: 6,
+        borderRadius: 4
     }
-
 })
 
-export default LogIn;
+export default SignUp;
