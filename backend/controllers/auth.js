@@ -19,6 +19,7 @@ exports.login = (req, res) => {
                     const token = 'Bearer ' +  jwt.sign({ userId: user.id }, 'b4C0t1n4J4');
                     res.send({
                         id: user.id,
+                        name: user.name,
                         token
                     });
                 } else {

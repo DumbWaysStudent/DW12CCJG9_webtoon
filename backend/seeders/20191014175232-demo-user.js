@@ -17,6 +17,16 @@ module.exports = {
        email: 'blakes@xmail.com',
        password: '123456',
        name: 'blakes'
+     },
+     {
+       email: 'arapx@xmail.com',
+       password: '123456',
+       name: 'arap'
+     },
+     {
+       email: 'exinos@rmail.com',
+       password: '123456',
+       name: 'exinos'
      }
    ]);
   },

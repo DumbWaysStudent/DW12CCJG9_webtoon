@@ -13,7 +13,7 @@ Episode.findAll({
         //     model: Webtoon,
         //     as: 'webtoonId'
         // }]
-        attributes: ['id', 'title', 'image', 'webtoon_id']
+        attributes: ['title', 'image', 'createdAt', 'updatedAt']
     })
     .then(episodes => res.send(episodes))
     .catch((error) => {

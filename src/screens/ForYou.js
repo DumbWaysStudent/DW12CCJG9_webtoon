@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, AsyncStorage} from 'react-native';
-import {Text, Input, Item, Thumbnail, Button, Card} from 'native-base'
+import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Modal} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Text, Input, Item, Thumbnail, Button, Card} from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
 import Axios from 'axios';
+import SearchSuggestion from '../components/SearchSuggestions';
 
 
 class ForYou extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchValue: '',
       position: 1,
       interval: null,
+      modalVisible: false,
       dataSource: [
         {
           url: require('../assets/images/gif/Preload1.gif')
@@ -143,6 +147,12 @@ class ForYou extends Component {
     clearInterval(this.state.interval);
   }
 
+  setModalVisible(visible) {
+    this.setState({
+      modalVisible: visible
+    })
+  }
+
   // onEnableScroll(value) {
   //   this.setState({enableScrollViewScroll: value})
   // }
@@ -263,13 +273,40 @@ class ForYou extends Component {
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <Item style={styles.searchBox}>
-              <Input placeholder="Search Your Webtoon..." placeholderTextColor="#888" style={styles.searchBoxInput}/>
+              <Input onFocus={() => this.setModalVisible(true)} placeholder="Search Your Webtoon..." placeholderTextColor="#888" style={styles.searchBoxInput}/>
               <Icon
                 name="search"
                 size={20}
                 style={styles.searchBoxIcon}
               />
           </Item>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false)
+            }}>
+              <Item style={styles.searchBox}>
+                <Input
+                  value={this.state.searchValue}
+                  placeholder="Search Your Webtoon..."
+                  placeholderTextColor="#888"
+                  style={styles.searchBoxInput}
+                  onChangeText={(text) => this.setState({
+                    searchValue: text
+                  }) }
+                  />
+                <Icon
+                  name="search"
+                  size={20}
+                  style={styles.searchBoxIcon}
+                />
+              </Item>
+              <Item>
+                <SearchSuggestion results={this.state.listAllToonData}  />
+              </Item>
+              </Modal>
           <View style={styles.bannerContainer}>
           <Slideshow
             titleStyle={{color: '#fff', fontFamily: 'KOMIKAHB'}}

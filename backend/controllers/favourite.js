@@ -49,6 +49,7 @@ const showFavourites = (req, res) => {
 }
 
 const addMyFavourite = (req, res) => {
+    const { user_id, webtoon_id } = req.params;
     Favourite.create({
         user_id: req.params.user_id,
         webtoon_id: req.params.webtoon_id
@@ -61,12 +62,13 @@ const deleteMyFavourite = (req , res) => {
     console.log(req.params.favourite_id);
     Favourite.destroy({
         where: {
+            id: req.params.favourite_id,
             user_id: req.params.user_id,
             webtoon_id: req.params.webtoon_id
         }
     })
     .then(result => res.send({
-        status: result
+        id: result
     }))
     .catch(err => console.log(err));
 }

@@ -11,8 +11,7 @@ const index = (req, res) => {
             model: User,
             as: 'createdBy',
             attributes: ['name']
-        }],
-        attributes: ['id', 'title', 'genre', 'image', 'created_by', 'favourite_count']
+        }]
     })
     .then(webtoons => res.send(webtoons))
     .catch((error) => {
