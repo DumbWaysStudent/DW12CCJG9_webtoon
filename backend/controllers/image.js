@@ -20,6 +20,21 @@ const createImage = (req, res) => {
     });
 }
 
+const deleteImage = (req, res) => {
+    const {image_id} = req.params;
+    Image.destroy({where: {id: image_id }})
+    .then(result => res.send({
+        id: image_id
+    }))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
 module.exports = {
     createImage,
+    deleteImage
 }
