@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const image = sequelize.define('image', {
+    page: DataTypes.INTEGER,
     image: DataTypes.STRING,
     webtoon_id: DataTypes.INTEGER,
     id_episode: DataTypes.INTEGER,
