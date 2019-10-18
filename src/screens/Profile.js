@@ -45,7 +45,7 @@ class Profile extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.optionsItem}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('SignIn')}>
                   <Text style={styles.optionsText}>Log Out</Text>
                 </TouchableOpacity>
               </View>
