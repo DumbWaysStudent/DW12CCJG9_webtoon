@@ -82,10 +82,30 @@ const showPolpularWebtoons = (req, res) => {
     });
 }
 
+const showMyWebtoons = (req, res) => {
+    Webtoon.findAll({
+        where: {
+            created_by: req.params.user_id
+        },
+        // include: [{
+        //     model: User,
+        //     as: 'createdBy',
+        //     attributes: ['name']
+        // }]
+    })
+    .then(webtoons => res.send(webtoons))
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
 module.exports = {
     index,
     showWebtoon,
     showChoicesWebtoons,
-    showPolpularWebtoons
-
+    showPolpularWebtoons,
+    showMyWebtoons
 }
