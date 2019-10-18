@@ -69,8 +69,30 @@ const createEpisode = (req, res) => {
     });
 }
 
+const updateEpisode = (req, res) => {
+    const {image, title} = req.body;
+    Episode.update({
+        title,
+        image
+    },
+    {
+        where: {id: req.params.episode_id}
+    })
+    .then(() => {
+        Episode.findOne({where: {id: req.params.episode_id}})
+        .then(episode => res.send(episode));
+    })
+    .catch((error) => {
+        console.log(error)
+        res.send({
+            error: true
+        });
+    });
+}
+
 module.exports = {
     showWebtoonEpisodePages,
     createEpisode,
+    updateEpisode,
     showWebtoonEpisodes
 }
