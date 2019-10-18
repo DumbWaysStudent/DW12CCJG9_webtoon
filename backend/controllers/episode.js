@@ -56,6 +56,7 @@ const createEpisode = (req, res) => {
     const {image, title} = req.body;
     Episode.create({
         webtoon_id: req.params.webtoon_id,
+        created_by: req.params.user_id,
         title,
         image
     })
@@ -68,42 +69,8 @@ const createEpisode = (req, res) => {
     });
 }
 
-const updateEpisode = (req, res) => {
-    const {image, title} = req.body;
-    Episode.update({
-        title,
-        image
-    },
-    {
-        where: {id: req.params.episode_id}
-    })
-    .then(result => res.send(result))
-    .catch((error) => {
-        console.log(error)
-        res.send({
-            error: true
-        });
-    });
-}
-
-const deleteEpisode = (req, res) => {
-    const {episode_id} = req.params;
-    Episode.destroy({where: {id: episode_id}})
-    .then(result => res.send({
-        id: episode_id
-    }))
-    .catch((error) => {
-        console.log(error)
-        res.send({
-            error: true
-        });
-    });
-}
-
 module.exports = {
     showWebtoonEpisodePages,
     createEpisode,
-    updateEpisode,
-    deleteEpisode,
     showWebtoonEpisodes
 }
