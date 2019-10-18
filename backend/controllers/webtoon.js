@@ -125,7 +125,10 @@ const updateMyWebtoon = (req, res) => {
     req.body,
     {where:{id: req.params.webtoon_id,created_by: req.params.user_id},
     })
-    .then(res.send(req.body))
+    .then(() => {
+        Webtoon.findOne({where: {id: req.params.webtoon_id}})
+        .then(webtoons => res.send(webtoons));
+    })
     .catch((error) => {
         console.log(error)
         res.send({
