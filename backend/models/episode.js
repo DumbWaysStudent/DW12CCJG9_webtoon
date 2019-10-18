@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'webtoon_id',
 
     });
+
+    episode.belongsTo(models.user, {
+
+      as: 'createdBy',
+
+      foreignKey: 'created_by',
+
+    });
   };
   return episode;
 };

@@ -10,13 +10,20 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false
       },
       genre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      favourite_count: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       created_by: {
         type: Sequelize.INTEGER,

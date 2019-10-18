@@ -10,10 +10,21 @@ module.exports = {
       },
       page: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      webtoon_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'webtoons',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       id_episode: {
         type: Sequelize.INTEGER,
@@ -21,7 +32,19 @@ module.exports = {
         references: {
           model: 'episodes',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
+      created_by: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

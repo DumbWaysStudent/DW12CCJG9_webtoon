@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id_episode',
 
     });
+
+    image.belongsTo(models.user, {
+
+      as: 'createdBy',
+
+      foreignKey: 'created_by',
+
+    });
   };
   return image;
 };
