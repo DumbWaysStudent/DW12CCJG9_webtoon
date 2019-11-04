@@ -1,0 +1,34 @@
+// Webtoon - CRUD
+export const GET_WEBTOONS = 'GET_WEBTOONS'
+export const ADD_WEBTOON = 'ADD_WEBTOON'
+export const ADD_MY_WEBTOON = 'ADD_MY_WEBTOON'
+export const UPDATE_WEBTOON = 'UPDATE_WEBTOON'
+export const DELETE_WEBTOON = 'DELETE_WEBTOON'
+
+// Webtoon - Addition
+export const GET_CHOICES_WEBTOONS = 'GET_CHOICES_WEBTOONS'
+export const GET_POPULAR_WEBTOONS = 'GET_POPULAR_WEBTOONS'
+export const GET_MY_WEBTOONS = 'GET_MY_WEBTOONS'
+
+// Favourite - CRD
+export const GET_MY_FAVOURITE = 'GET_MY_FAVOURITES'
+export const ADD_MY_FAVOURITE = 'ADD_MY_FAVOURITE'
+export const DELETE_MY_FAVOURITE = 'DELETE_MY_FAVOURITE'
+
+// Episode - CRUD
+export const GET_EPISODES = 'GET_EPISODES'
+export const ADD_EPISODE = 'ADD_EPISODE'
+export const UPDATE_EPISODE = 'UPDATE_EPISODE'
+export const DELETE_EPISODE = 'DELETE_EPISODE'
+
+// Image - CRUD
+export const GET_IMAGES = 'GET_IMAGES'
+export const ADD_IMAGE = 'ADD_IMAGE'
+export const UPDATE_IMAGE = 'UPDATE_IMAGE'
+export const DELETE_IMAGE = 'DELETE_IMAGE'
+
+// Profile - RU
+export const GET_PROFILE = 'GET_PROFILE'
+export const UPDATE_PROFILE = 'UPDATE_PROFILE'
+// export const GET_PROFILE_NAME = 'GET_PROFILE_NAME'
+// export const UPDATE_PROFILE_NAME = 'UPDATE_PROFILE_NAME'
