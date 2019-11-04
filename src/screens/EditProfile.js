@@ -117,7 +117,7 @@ class EditProfile extends Component {
     this.props.navigation.navigate('Profile', { name: this.state.profileName, profilePic: this.state.profilePicture })
   }
   render() {
-    console.log(this.props.navigation.state.params)
+    // console.log()
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -135,7 +135,7 @@ class EditProfile extends Component {
 
           </View>
           <View style={styles.profilePicture}>
-            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : {uri: `https://smoketoon-api.herokuapp.com/${this.state.profilePicture.uri}`} } style={styles.profilePictureImage} />
+            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : (this.state.profilePicture.uri.match(/(^\d+)/g) === null) ? {uri: `https://smoketoon-api.herokuapp.com/${this.state.profilePicture.uri}`} : this.state.profilePicture.uri} style={styles.profilePictureImage} />
             <TouchableOpacity onPress={() => this.imagePickerHandler()}>
               <Icon name="camera" style={{ color: '#fff' }} size={20} />
             </TouchableOpacity>

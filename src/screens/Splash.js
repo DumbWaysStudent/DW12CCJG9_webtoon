@@ -51,9 +51,8 @@ class Splash extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#444', alignItems: 'center'}}>
-          <View style={{marginVertical: 250}}>
-            <Image style={{width: 150, height: 150}} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
-            <Text style={{color: '#fff', textAlign: 'center', marginTop: 15, fontFamily: 'KOMIKASL', fontSize: 16}}>SMOKETOON</Text>
+          <View style={{marginVertical: 250, marginRight: 30}}>
+            <Image style={{width: 150, height: 150}} source={require('../assets/images/logo/rsz_1bannersomketoonbordered.png')} />
           </View>
           <View style={{position: 'absolute', top: 450}}>
           <SpinIcon>
