@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, ImageBackground, AsyncStorage } from 'react-native';
-import { Text, Thumbnail, Item, Button } from 'native-base';
+import { Text, Thumbnail, Item, Button, Toast } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux';
 import * as actionWebtoon from './../redux/actions/actionWebtoon';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
+import {Image_URL} from './../services/rest-api';
 
 class CreateWebtoon extends Component {
   constructor(props) {
@@ -39,7 +40,12 @@ class CreateWebtoon extends Component {
           })
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        Toast.show({
+          text: 'Error While Load Data From LocalStorage',
+          textStyle: { fontSize: 12, fontWeight: 'bold' },
+          duration: 1000,
+          style: styles.signIntoastError
+        });
       }
     })
   }
@@ -64,7 +70,11 @@ class CreateWebtoon extends Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton)
       } else {
-        const source = { uri: response.uri }
+        const source = {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        }
 
         this.setState({
           bannerImage: source,
@@ -76,11 +86,13 @@ class CreateWebtoon extends Component {
   addEpisode() {
     if (this.state.titleValue != '' && this.state.genreValue != '' && this.state.bannerImage != require('../assets/images/gif/Preload1.gif')) {
       if ((this.props.navigation.state.params ? this.props.navigation.getParam('webtoonCreated') : this.state.webtoonCreated) == false) {
+        let formData = new FormData();
+        formData.append('title', this.state.titleValue)
+        formData.append('genre', this.state.genreValue)
+        formData.append('banner', this.state.bannerImage)
         this.props.handleAddWebtoon({
           userID: this.state.signInData.id,
-          title: this.state.titleValue,
-          genre: this.state.genreValue,
-          image: this.state.bannerImage.uri,
+          data: formData,
           token: this.state.signInData.token
         })
 
@@ -91,24 +103,29 @@ class CreateWebtoon extends Component {
 
       this.props.navigation.navigate('CreateWebtoonEpisode', (
         this.props.navigation.state.params
-        ? {
-          currEpisode: this.props.navigation.getParam('episodes'),
-          currImage: this.props.navigation.getParam('images'),
-          screenType: 'add',
-          webtoonCreated: this.state.webtoonCreated
-        }
-        : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
+          ? {
+            currEpisode: this.props.navigation.getParam('episodes'),
+            currImage: this.props.navigation.getParam('images'),
+            screenType: 'add',
+            webtoonCreated: this.state.webtoonCreated
+          }
+          : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
       ))
     } else {
-      alert('Title, Genre cannot be empty & Banner must be set!')
+      Toast.show({
+        text: 'Title, Genre cannot be empty & Banner must be set!',
+        textStyle: { fontSize: 12, fontWeight: 'bold' },
+        duration: 1000,
+        style: styles.signIntoastError
+      });
     }
   }
 
   goBackValidator() {
-    if (this.props.navigation.state.params) {
+    if (this.state.webtoonCreated || this.props.navigation.state.params) {
       this.props.handleDeleteWebtoon({
         userID: this.state.signInData.id,
-        webtoonID: this.props.navigation.getParam('webtoonID'),
+        webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
         token: this.state.signInData.token
       })
     }
@@ -139,19 +156,36 @@ class CreateWebtoon extends Component {
         //       images: this.props.navigation.getParam('images')
         //     }
         //   })
+        let formData = new FormData();
+        formData.append('title', this.state.titleValue)
+        formData.append('genre', this.state.genreValue)
+        formData.append('banner', this.state.bannerImage)
+        formData.append('status', 'published')
+
         this.props.handleAddMyWebtoon({
           userID: this.state.signInData.id,
           webtoonID: this.props.navigation.getParam('webtoonID'),
+          data: formData,
           token: this.state.signInData.token
         })
         if (this.props.localWebtoons.isSuccess) {
           this.props.navigation.goBack()
         }
       } else {
-        alert('Episode must be set!')
+        Toast.show({
+          text: 'Episode must be set!',
+          textStyle: { fontSize: 12, fontWeight: 'bold' },
+          duration: 1000,
+          style: styles.signIntoastError
+        });
       }
     } else {
-      alert('Title & Genre cannot be empty')
+      Toast.show({
+        text: 'Title & Genre cannot be empty',
+        textStyle: { fontSize: 12, fontWeight: 'bold' },
+        duration: 1000,
+        style: styles.signIntoastError
+      });
     }
   }
 
@@ -219,7 +253,7 @@ class CreateWebtoon extends Component {
                     webtoonID: this.props.navigation.getParam('webtoonID'),
                     episodeID: item.id
                   })} style={styles.episodeItem}>
-                    <Thumbnail source={{ uri: item.image }} style={styles.episodeImage} square />
+                    <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.episodeImage} square />
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>
                       <Text style={styles.episodeLastUpade}>{item.lastCreated}</Text>
@@ -374,7 +408,24 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     alignSelf: 'center',
     fontFamily: 'KOMIKAH_'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 70,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

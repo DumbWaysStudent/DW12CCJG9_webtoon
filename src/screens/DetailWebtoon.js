@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
 import * as actionEpisode from './../redux/actions/actionEpisode'
 import Axios from 'axios';
+import {Image_URL} from './../services/rest-api'
 
 class DetailWebtoon extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class DetailWebtoon extends Component {
         }
       ],
       inputValue: this.props.navigation.getParam('title'),
-      sigInData: null
+      sigInData: null,
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
 
@@ -77,6 +80,7 @@ class DetailWebtoon extends Component {
   }
 
   render() {
+    console.log(this.props.navigation.state.params)
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -96,7 +100,9 @@ class DetailWebtoon extends Component {
         </View>
         
         <View style={styles.banner}>
-          <Image source={{uri: `${this.props.navigation.getParam('image')}`}} style={styles.bannerImage} />
+          <Image
+            onLoadStart={(e) => this.setState({preloadStatus: false})}
+            source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${this.props.navigation.getParam('image')}`}} style={styles.bannerImage} />
         </View>
         <View style={styles.listEpisode}>
           <FlatList
@@ -111,7 +117,10 @@ class DetailWebtoon extends Component {
               title: item.title
             })}>
               <Card style={styles.episodeItem}>
-                <Thumbnail square source={(item.hasOwnProperty('image')) ? {uri: `${item.image}`} : item.preload} style={styles.episodeImage} />
+                <Thumbnail
+                  square
+                  onLoadStart={(e) => this.setState({preloadStatus: false})}
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
                   <Text style={styles.episodeTitle}>{item.title}</Text>
                   <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>

@@ -37,7 +37,7 @@ export default function reducerEpisode(state = initialState, action) {
                 isLoading: true
             }
         case `${types.ADD_EPISODE}_FULFILLED`:
-            state.episodes.push(action.payload.data)
+            state.episodes.unshift(action.payload.data)
             alert('Episode Created!')
             return {
                 ...state,
@@ -80,7 +80,6 @@ export default function reducerEpisode(state = initialState, action) {
             }
         case `${types.DELETE_EPISODE}_FULFILLED`:
                 let newData = state.episodes.filter((item) => item.id != action.payload.data.id)
-                alert('Episode Deleted!')
             return {
                 ...state,
                 isLoading: false,

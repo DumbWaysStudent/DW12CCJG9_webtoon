@@ -76,11 +76,12 @@ export default function reducerImage(state = initialState, action) {
                 isLoading: true
             }
         case `${types.DELETE_IMAGE}_FULFILLED`:
+            let newData = state.images.filter((item) => item.id != action.payload.data.id)
             return {
                 ...state,
                 isLoading: false,
                 isSuccess: true,
-                images: action.payload.data
+                images: newData
             }
         case `${types.DELETE_IMAGE}_REJECTED`:
             return {

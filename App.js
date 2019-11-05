@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider, connect } from 'react-redux';
+import { Root } from 'native-base';
 import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 import RootNavigator from './src/navigator/RootNavigator'
@@ -16,9 +17,11 @@ const AppWithNavigationState = connect(mapStateToProps)(AppNav);
 export default class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <AppWithNavigationState />
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <AppWithNavigationState />
+        </Provider>
+      </Root>
     );
   }
 }

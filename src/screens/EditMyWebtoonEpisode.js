@@ -9,6 +9,7 @@ import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios'
 import { ScrollView } from 'react-native-gesture-handler';
 import SpinIcon from './../components/SpinIcon'
+import {API_URL, Image_URL} from './../services/rest-api'
 
 class EditMyWebtoonEpisode extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class EditMyWebtoonEpisode extends Component {
 
           Axios({
             method: 'get',
-            url: `https://smoketoon-api.herokuapp.com/api/v1/webtoon/${this.props.navigation.getParam('webtoonID')}/episode/${this.props.navigation.getParam('episodeID')}`,
+            url: `${API_URL}/webtoon/${this.props.navigation.getParam('webtoonID')}/episode/${this.props.navigation.getParam('episodeID')}`,
             headers: {
               Authorization: this.state.signInData.token
             }
@@ -86,14 +87,20 @@ class EditMyWebtoonEpisode extends Component {
       } else {
         // this.setState({images: })
         let images = this.state.images
+        let formData = new FormData();
+        formData.append('page', this.props.localImages.images.length + 1)
+        formData.append('pageImage', {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        })
 
         this.props.handleAddImage({
           userID: this.state.signInData.id,
           webtoonID: this.props.navigation.getParam('webtoonID'),
           episodeID: this.props.navigation.getParam('episodeID'),
           token: this.state.signInData.token,
-          page: images.length + 1,
-          image: response.uri
+          formData
         })
 
         images.push({
@@ -123,7 +130,7 @@ class EditMyWebtoonEpisode extends Component {
   }
 
   deleteImageHandle(id, page) {
-    let newItem = this.state.images.filter(item => item.page != page)
+    // let newItem = this.state.images.filter(item => item.page != page)
 
     this.props.handleDeleteImage({
       userID: this.state.signInData.id,
@@ -133,18 +140,19 @@ class EditMyWebtoonEpisode extends Component {
       token: this.state.signInData.token
     })
 
-    this.setState({
-      images: newItem
-    })
+    // this.setState({
+    //   images: newItem
+    // })
   }
 
   okBtnHandle() {
-    if (this.props.navigation.getParam('title') != this.state.titleValue) {
+    if (this.props.navigation.getParam('title') != this.state.titleValue || this.props.localImages.images != false) {
       this.props.handleUpdateEpisode({
         userID: this.state.signInData.id,
         webtoonID: this.props.navigation.getParam('webtoonID'),
         episodeID: this.props.navigation.getParam('episodeID'),
-        title: this.state.titleValue,
+        title: (this.state.titleValue) ? this.state.titleValue : this.props.navigation.getParam('title'),
+        image: (this.props.localImages.images != false) ? this.props.localImages.images[0].image : this.props.navigation.getParam('image'),
         token: this.state.signInData.token
       })
 
@@ -157,6 +165,7 @@ class EditMyWebtoonEpisode extends Component {
   }
 
   render() {
+    console.log(this.props.localImages.images)
     return (
       <SafeAreaView style={styles.container}>
         <Modal animationType="none"
@@ -198,10 +207,10 @@ class EditMyWebtoonEpisode extends Component {
             <Text style={styles.palleteItemTitle}>Add Image</Text>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={this.state.images}
+              data={this.props.localImages.images}
               renderItem={({ item }) =>
                 <Item style={styles.imageItem}>
-                  <Thumbnail source={{ uri: item.image }} style={styles.image} square />
+                  <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.image} square />
                   <View style={styles.imageInfo}>
                     <Text style={styles.imageTitle}>Page {item.page}</Text>
                     <Button

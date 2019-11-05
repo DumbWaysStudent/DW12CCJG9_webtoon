@@ -9,6 +9,8 @@ import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios'
 import { ScrollView } from 'react-native-gesture-handler';
 import SpinIcon from './../components/SpinIcon'
+import { Image_URL } from './../services/rest-api'
+import { concat } from 'rxjs';
 
 class EditMyWebtoon extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class EditMyWebtoon extends Component {
       preload: require('../assets/images/gif/Preload1.gif'),
       webtoonData: null,
       signInData: null,
-      imageBanner: '',
+      bannerImage: '',
       fabstatus: false,
       listEpisode: [
         // {
@@ -43,7 +45,7 @@ class EditMyWebtoon extends Component {
             signInData: JSON.parse(res),
             titleValue: this.props.navigation.getParam('title'),
             genreValue: this.props.navigation.getParam('genre'),
-            bannerImage: this.props.navigation.getParam('image')
+            // bannerImage: this.props.navigation.getParam('image')
           })
 
           // Axios({
@@ -84,16 +86,20 @@ class EditMyWebtoon extends Component {
     }
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response =', response);
+      // console.log('Response =', response);
 
       if (response.didCancel) {
-        console.log('User Cancelled image picker')
+        // console.log('User Cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
+        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
+        // console.log('User tapped custom button: ', response.customButton)
       } else {
-        const source = { uri: response.uri }
+        const source = {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        }
 
         this.setState({
           bannerImage: source,
@@ -106,81 +112,116 @@ class EditMyWebtoon extends Component {
     let
       { title, genre, image, id } = this.props.navigation.state.params,
       { titleValue, genreValue, bannerImage } = this.state;
-    if (titleValue != title && genreValue != genre && bannerImage.uri != image) {
+    if (titleValue != title || genreValue != genre || bannerImage.uri != image) {
+      let formData = new FormData();
+      formData.append('title', this.state.titleValue)
+      formData.append('genre', this.state.genreValue)
+      formData.append('banner', this.state.bannerImage)
+
       this.props.handleUpdateWebtoon({
         userID: this.state.signInData.id,
         webtoonID: id,
-        payload: {
-          title: titleValue,
-          genre: genreValue,
-          image: bannerImage.uri,
-        },
-        token: this.state.signInData.token
-      });
-    } else if (titleValue != title && genreValue != genre) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          title: titleValue,
-          genre: genreValue,
-        },
-        token: this.state.signInData.token
-      });
-    } else if (genreValue != genre && bannerImage.uri != image) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          genre: genreValue,
-          image: bannerImage.uri,
-        },
-        token: this.state.signInData.token
-      });
-    } else if (titleValue != title && bannerImage.uri != image) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          title: titleValue,
-          image: bannerImage.uri,
-        },
-        token: this.state.signInData.token
-      });
-    } else if (titleValue != title) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          title: titleValue
-        },
+        payload: formData,
         token: this.state.signInData.token
       })
-    } else if (genreValue != genre) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          genre: genreValue
-        },
-        token: this.state.signInData.token
-      })
-    } else if (bannerImage.uri != image) {
-      this.props.handleUpdateWebtoon({
-        userID: this.state.signInData.id,
-        webtoonID: id,
-        payload: {
-          image: bannerImage.uri,
-        },
-        token: this.state.signInData.token
-      })
+        .then(() => {
+          this.props.navigation.goBack()
+        })
+        .catch(e => {
+          console.log(e)
+        })
+      // this.props.handleUpdateWebtoon({
+      //   userID: this.state.signInData.id,
+      //   webtoonID: id,
+      //   payload: {
+      //     title: titleValue,
+      //     genre: genreValue,
+      //     image: bannerImage.uri,
+      //   },
+      //   token: this.state.signInData.token
+      // })
+      // .then(() => {
+      //   this.props.navigation.goBack()
+      // })
+      // } else if (titleValue != title && genreValue != genre) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       title: titleValue,
+      //       genre: genreValue,
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
+      // } else if (genreValue != genre && bannerImage.uri != image) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       genre: genreValue,
+      //       image: bannerImage.uri,
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
+      // } else if (titleValue != title && bannerImage.uri != image) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       title: titleValue,
+      //       image: bannerImage.uri,
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
+      // } else if (titleValue != title) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       title: titleValue
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
+      // } else if (genreValue != genre) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       genre: genreValue
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
+      // } else if (bannerImage.uri != image) {
+      //   this.props.handleUpdateWebtoon({
+      //     userID: this.state.signInData.id,
+      //     webtoonID: id,
+      //     payload: {
+      //       image: bannerImage.uri,
+      //     },
+      //     token: this.state.signInData.token
+      //   })
+      //   .then(() => {
+      //     this.props.navigation.goBack()
+      //   })
     } else {
       alert('Nothing Changed')
     }
 
-    if (this.props.localWebtoons.webtoons.isSuccess) {
-      this.props.navigation.goBack()
-    }
   }
 
   addEpisode() {
@@ -272,10 +313,10 @@ class EditMyWebtoon extends Component {
                 })}
               />
             </View>
-
+            {/* {console.log(this.state.bannerImage)} */}
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Banner</Text>
-              <ImageBackground style={styles.wtimageBanner} source={(this.state.imageBanner !== '') ? this.state.imageBanner : this.props.navigation.getParam('image')} />
+              <ImageBackground style={styles.wtimageBanner} source={(this.state.bannerImage != false) ? this.state.bannerImage : { uri: `${Image_URL}/${this.props.navigation.getParam('image')}` }} />
               <Button onPress={() => this.imagePickerHandler()} style={styles.wtimageBannerChooseBtn}>
                 <Text style={styles.wtimageBannerChooseBtnText}>
                   <Icon name="image" size={20} />  Choose File...
@@ -287,11 +328,11 @@ class EditMyWebtoon extends Component {
               <Text style={styles.palleteItemTitle}>Episode</Text>
               <FlatList
                 showsHorizontalScrollIndicator={false}
-                data={ (this.props.navigation.state.params.episodes) ? this.props.navigation.getParam('episodes') : this.props.localEpisodes.episodes}
+                data={this.props.localEpisodes.episodes}
                 renderItem={({ item }) =>
-                  <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', { episodeID: item.id, webtoonID: this.props.navigation.getParam('id'), title: item.title })} style={styles.episodeItem}>
-                    <Thumbnail source={{ uri: item.image }} style={styles.episodeImage} square />
-                    {console.log(item)}
+                  <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', { image: item.image , episodeID: item.id, webtoonID: this.props.navigation.getParam('id'), title: item.title })} style={styles.episodeItem}>
+                    <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.episodeImage} square />
+                    {/* {console.log(item)} */}
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>
                       <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>

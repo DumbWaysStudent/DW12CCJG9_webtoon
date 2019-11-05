@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Modal, AsyncStorage, BackHandler, Alert, Image, Dimensions } from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Modal, AsyncStorage, BackHandler, Alert, Image, Dimensions, RefreshControl } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { Text, Input, Item, Thumbnail, Button, Card } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -11,6 +11,7 @@ import * as actionFavourite from './../redux/actions/actionFavourite'
 import * as actionProfile from './../redux/actions/actionProfile'
 import SpinIcon from './../components/SpinIcon'
 import Axios from 'axios';
+import {Image_URL} from './../services/rest-api'
 
 
 class ForYou extends Component {
@@ -19,10 +20,13 @@ class ForYou extends Component {
     this.state = {
       searchValue: '',
       searchItem: [],
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif'),
       searchItemVisible: false,
       position: 1,
       interval: null,
       modalVisible: false,
+
       dataSource: [
         {
           url: require('../assets/images/gif/Preload1.gif')
@@ -293,7 +297,7 @@ class ForYou extends Component {
                         (this.state.searchItemVisible)
                           ? [styles.listofSearchData, styles.listofSearchDataShow]
                           : styles.listofSearchData}>
-                        <Thumbnail source={{ uri: item.image }} style={styles.searchDataImage} square />
+                        <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.searchDataImage} square />
                         <View>
                           <Text style={styles.searchDataTitle}>{item.title}</Text>
                           <Text style={styles.searchDataFavCount}>Favourite: {item.favourite_count} Users</Text>
@@ -332,14 +336,16 @@ class ForYou extends Component {
               renderItem={({ item }) =>
                 <Card style={styles.favoriteBannerItem}>
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.popularWebtoons[item.id - 1])}>
-                    <Thumbnail source={
-                      (item.hasOwnProperty('image'))
-                        ? { uri: `${item.image}` }
-                        : item.preload
-                    }
+                    <Thumbnail
+                      // onLoadStart={(e) => this.setState({preloadStatus: true})}
+                      onLoadEnd={(e) => this.setState({preloadStatus: false})}
+                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}`}}
                       style={styles.favoriteBannerItemImage}
                       square
                     />
+                    {/* (item.hasOwnProperty('image'))
+                        ? { uri: `${item.image}` }
+                        : item.preload */}
                   </TouchableOpacity>
                   <Text style={styles.favoriteBannerItemTitle}>{this.shortingTitle(item.title, 15)}</Text>
                 </Card>
@@ -365,12 +371,16 @@ class ForYou extends Component {
                 this.props.localWebtoons.webtoons
                   ? this.props.localWebtoons.webtoons
                   : this.state.listAllToonData}
-              renderItem={({ item }) =>
+              renderItem={({ item , index}) =>
                 <Card style={styles.listAllToonItem}>
-                  <Thumbnail source={(item.hasOwnProperty('image')) ? { uri: `${item.image}` } : item.preload} style={styles.listAllToonItemImage} square />
+                  <Thumbnail
+                      // onLoad={(e) => this.setState({preloadStatus: false})}
+                      onLoadEnd={(e) => this.setState({preloadStatus: false})}
+                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}`}} style={styles.listAllToonItemImage} square />
+                  {/* (item.hasOwnProperty('image')) ? { uri: `${Image_URL}/${item.image}` } : item.preload */}
                   <Item style={styles.listAllToonItemTB}>
                     <Text
-                      onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.webtoons[item.id - 1])}
+                      onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.webtoons[index])}
                       style={styles.listAllToonItemTitle}>
                       {item.title}
                     </Text>

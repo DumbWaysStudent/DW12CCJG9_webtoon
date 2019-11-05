@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import * as actionFavourite from './../redux/actions/actionFavourite'
 import Axios from 'axios'
+import {Image_URL} from './../services/rest-api'
 
 class MyFavourite extends Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class MyFavourite extends Component {
       sigInData: null,
       searchStatus: false,
       data: [],
-      error: null
+      error: null,
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
 
@@ -113,7 +116,10 @@ class MyFavourite extends Component {
             renderItem={({ item }) =>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.data[item.webtoonId.id - 1])}>
               <Card style={styles.favoriteBannerItem}>
-                <Thumbnail source={{uri: item.webtoonId.image}}  style={styles.favoriteBannerItemImage} square />
+                <Thumbnail
+                  onLoadStart={(e) => this.setState({preloadStatus: false})}
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.webtoonId.image}`}} 
+                  style={styles.favoriteBannerItemImage} square />
                 <View>
                   <Text style={styles.favoriteBannerTitle}>{item.webtoonId.title}</Text>
                   <Text style={styles.favouriteRating}>Favourite: {item.webtoonId.favourite_count} User</Text>

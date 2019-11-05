@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import * as actionProfile from './../redux/actions/actionProfile'
 import SpinIcon from './../components/SpinIcon'
+import { Image_URL } from './../services/rest-api'
 
 class Profile extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class Profile extends Component {
           <View style={styles.profilePicture}>
             <Image large source={(this.props.localProfile.profile.profile_image == 'default-pic')
                 ? this.state.profilePicture
-                : {uri: `https://smoketoon-api.herokuapp.com/${this.props.localProfile.profile.profile_image}`}} style={styles.profilePictureImage} />
+                : {uri: `${Image_URL}/${this.props.localProfile.profile.profile_image}`}} style={styles.profilePictureImage} />
             <Text style={styles.profileName}>{
               this.props.localProfile.profile.name
             }</Text>

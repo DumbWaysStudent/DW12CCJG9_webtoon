@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
 import * as actionImage from './../redux/actions/actionImage'
+import {Image_URL} from './../services/rest-api'
 
 class DetailEpisode extends Component {
   constructor(props) {
@@ -23,7 +24,9 @@ class DetailEpisode extends Component {
 
         }
       ],
-      inputValue: 'Shared React Native'
+      inputValue: 'Shared React Native',
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
 
@@ -81,7 +84,9 @@ class DetailEpisode extends Component {
             data={this.props.localImages.images}
             renderItem={({ item }) => 
               <View style={styles.page}>
-                <Image source={{uri: item.image}} style={styles.pageImage} />
+                <Image
+                  onLoadStart={(e) => this.setState({preloadStatus: false})}
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}} style={styles.pageImage} />
               </View>
             }
             keyExtractor={item => item.id}

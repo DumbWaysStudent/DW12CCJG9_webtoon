@@ -132,7 +132,6 @@ export default function reducerWebtoon(state = initialState, action) {
             dataEp2 = data2.pop();
             state.myWebtoonsEpisodes.push(dataEp2)
             state.myWebtoons.push(action.payload.data[0])
-            alert('Webtoon Created!')
             return {
                 ...state,
                 isLoading: false,
@@ -153,13 +152,14 @@ export default function reducerWebtoon(state = initialState, action) {
             }
         case `${types.UPDATE_WEBTOON}_FULFILLED`:
             var index, index2;
+            console.log(action.payload.data)
 
-            if (action.payload.data == true) {
+            // if (action.payload.data == true) {
                 index = state.webtoons.findIndex(x => x.id == action.payload.data[0].id)
                 index2 = state.myWebtoons.findIndex(x => x.id == action.payload.data[0].id)
-            } else {
-                alert('Nothing Changed')
-            }
+            // } else {
+            //     alert('Nothing Changed')
+            // }
 
             if (index !== -1) {
                 state.webtoons[index] = action.payload.data[0]

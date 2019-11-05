@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
 import * as actionWebtoon from './../redux/actions/actionWebtoon'
 import SpinIcon from './../components/SpinIcon'
+import {Image_URL} from './../services/rest-api'
 
 class MyWebtoonCreation extends Component {
   constructor(props) {
@@ -42,7 +43,9 @@ class MyWebtoonCreation extends Component {
           preload: require('../assets/images/gif/Preload1.gif'),
           episodes: '40 Episode(s)'
         }
-      ]
+      ],
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
 
@@ -115,11 +118,10 @@ class MyWebtoonCreation extends Component {
             renderItem={({ item, index }) =>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('EditMyWebtoon', this.props.localWebtoons.myWebtoons[index])}>
                 <Card style={styles.webtoonItem}>
-                  <Thumbnail source={
-                    item.hasOwnProperty('image')
-                      ? {uri: item.image}
-                      : item.preload
-                  } style={styles.webtoonImage} square />
+                  <Thumbnail
+                    onLoadStart={(e) => this.setState({preloadStatus: false})}
+                    source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}}
+                    style={styles.webtoonImage} square />
                   <View>
                     <Text style={styles.webtoonTitle}>{item.title}</Text>
                     <Text style={styles.episodes}>{
