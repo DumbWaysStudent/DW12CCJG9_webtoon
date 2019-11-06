@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share, AsyncStorage} from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Share, AsyncStorage, Dimensions} from 'react-native';
+import { Toast } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
 import * as actionImage from './../redux/actions/actionImage'
@@ -46,9 +47,13 @@ class DetailEpisode extends Component {
             episodeID: this.props.navigation.getParam('episode_id'),
             token: this.state.sigInData.token
           })
+          .then(() => {})
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't load pages data")
+          })
         }
       } else {
-        console.log(err)
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
@@ -58,6 +63,15 @@ class DetailEpisode extends Component {
       message: this.state.inputValue.toString()
     }).then(result => console.log(result))
       .catch(errorMsg => console.log(errorMsg))
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
@@ -109,6 +123,8 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+const { width, height } = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -139,7 +155,24 @@ const styles = StyleSheet.create({
     pageImage: {
         width: '100%',
         height: 500
-    }
+    },
+    toastStyle: {
+      marginHorizontal: 5,
+      marginBottom: 10,
+      borderRadius: 5
+    },
+    errorToast: {
+      backgroundColor: '#ff3333'
+    },
+    successToast: {
+      backgroundColor: '#2ab325'
+    },
+    signIntoastError: {
+      backgroundColor: '#ff3333',
+      marginHorizontal: 5,
+      marginBottom: 5,
+      borderRadius: 5
+    },
 })
 
 export default connect(

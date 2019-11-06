@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, AsyncStorage, Modal, Dimensions } from 'react-native';
-import { Text, Button, Fab, Card, Thumbnail } from 'native-base'
+import { Text, Button, Fab, Card, Thumbnail, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
 import * as actionWebtoon from './../redux/actions/actionWebtoon'
@@ -68,16 +68,29 @@ class MyWebtoonCreation extends Component {
             userID: this.state.signInData.id,
             token: this.state.signInData.token
           })
+          .then(() => {})
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't load my webtoon data")
+          })
 
-          console.log(this.props.localWebtoons)
+          // console.log(this.props.localWebtoons)
           // this.props.handleGetProfileImage(this.state.sigInData.id)
           // this.props.handleGetProfileName(this.state.sigInData.id)
 
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
@@ -209,7 +222,25 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontFamily: 'KOMIKAH_',
     color: '#ddd'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
+
 })
 
 export default connect(

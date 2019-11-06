@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, AsyncStorage } from 'react-native';
-import { Text } from 'native-base'
+import { Text, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ImagePicker from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -32,7 +32,8 @@ class EditProfile extends Component {
           
         }
       } else {
-        console.log(err)
+        // console.log(err)
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
@@ -50,14 +51,14 @@ class EditProfile extends Component {
       }
     }
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response =', response);
+      // console.log('Response =', response);
 
       if (response.didCancel) {
-        console.log('User Cancelled image picker')
+        // console.log('User Cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
+        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
+        // console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = {
           uri: response.uri,
@@ -89,8 +90,11 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
+      .then(() => {})
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't update profile")
+      })
     } else if (profile_image != null) {
-      console.log('Profile Image')
       formData.append('profileImage', this.state.profile_image);
       this.props.handleUpdateProfile({
         userID: this.state.sigInData.id,
@@ -98,6 +102,10 @@ class EditProfile extends Component {
           formData
         },
         token: this.state.sigInData.token
+      })
+      .then(() => {})
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't update profile")
       })
     } else if (profileName != name) {
       formData.append('name', this.state.profileName);
@@ -108,6 +116,10 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
+      .then(() => {})
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't update profile")
+      })
     }
 
     this.props.navigation.goBack()
@@ -116,6 +128,15 @@ class EditProfile extends Component {
   updateDataHanlder = (x, y) => {
     this.props.navigation.state.params.updateData(x, y)
     this.props.navigation.navigate('Profile', { name: this.state.profileName, profilePic: this.state.profilePicture })
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   // getPicture = () => {
@@ -129,7 +150,7 @@ class EditProfile extends Component {
   // }
 
   render() {
-    // console.log(this.state.profilePicture.uri.toString().match(/(^\d+)/g))
+    console.log(this.state.profilePicture.uri.toString().match(/(^\d+)/g))
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -236,7 +257,24 @@ const styles = StyleSheet.create({
   },
   optionsItemTopBorder: {
     borderTopWidth: 2,
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Modal, AsyncStorage, BackHandler, Alert, Image, Dimensions, RefreshControl } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
-import { Text, Input, Item, Thumbnail, Button, Card } from 'native-base';
+import { Text, Input, Item, Thumbnail, Button, Card, Toast } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Slideshow from 'react-native-image-slider-show';
-import SearchSuggestion from '../components/SearchSuggestion';
+// import SearchSuggestion from '../components/SearchSuggestion';
 import { connect } from 'react-redux'
 import * as actionWebtoon from './../redux/actions/actionWebtoon'
 import * as actionFavourite from './../redux/actions/actionFavourite'
 import * as actionProfile from './../redux/actions/actionProfile'
 import SpinIcon from './../components/SpinIcon'
-import Axios from 'axios';
-import {Image_URL} from './../services/rest-api'
+// import Axios from 'axios';
+import { Image_URL } from './../services/rest-api'
 
 
 class ForYou extends Component {
@@ -118,23 +118,39 @@ class ForYou extends Component {
           } else if (this.props.localWebtoons.isSuccess) {
 
           }
-          this.props.handleGetChoicesWebtoons(this.state.sigInData.token)
-          this.props.handleGetPopularWebtoons(this.state.sigInData.token)
-          this.props.handleGetMyFavourite({
-            token: this.state.sigInData.token,
-            userID: this.state.sigInData.id
-          })
-
-          this.setState({
-            searchItem: this.props.localWebtoons.webtoons
-          })
-
+          this.props.handleGetChoicesWebtoons(
+            this.state.sigInData.token
+          )
+            .then(() => {
+              this.props.handleGetPopularWebtoons(
+                this.state.sigInData.token
+              )
+                .then(() => {
+                  this.props.handleGetMyFavourite({
+                    token: this.state.sigInData.token,
+                    userID: this.state.sigInData.id
+                  })
+                    .then(() => {
+                      this.setState({
+                        searchItem: this.props.localWebtoons.webtoons
+                      })
+                    })
+                    .catch(e => {
+                      this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+                    })
+                })
+                .catch((e) => {
+                  this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+                })
+            })
+            .catch((e) => {
+              this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+            })
           // this.props.handleGetProfileImage(this.state.sigInData.id)
           // this.props.handleGetProfileName(this.state.sigInData.id)
-
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        this.toastGenerator('error', "Error: Can't Load Data From LocalStorage")
       }
     })
 
@@ -161,6 +177,15 @@ class ForYou extends Component {
     })
   }
 
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
+  }
+
   // onEnableScroll(value) {
   //   this.setState({enableScrollViewScroll: value})
   // }
@@ -179,6 +204,10 @@ class ForYou extends Component {
       webtoonID: webtoon_id,
       token: this.state.sigInData.token
     })
+      .then(() => { })
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't add my favourite, please check your internet connection and try again.")
+      })
     // Axios({
     //   method: 'post',
     //   url: 'http://192.168.0.35:5320/api/v1/user/' + this.state.sigInData.id + '/webtoon/' + webtoon_id + '/favourite',
@@ -250,66 +279,66 @@ class ForYou extends Component {
           </View>
         </Modal>
         <Item style={styles.appTitleContainer}>
-            <Image style={styles.appTitleLogo} source={require('../assets/images/logo/smokeLogo.png')} />
-            <Text style={styles.appTitle}>SMOKETOON</Text>
-            <Icon
-              onPress={() => this.setModalVisible(true)}
-              name="search"
-              size={20}
-              style={styles.searchIcon}
-            />
-          </Item>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              this.setModalVisible(false)
-            }}
-            style={{ backgroundColor: 'red' }}
-          ><View style={styles.searchModal}>
-              <Item style={styles.searchBox}>
-                <Input
-                  value={this.state.searchValue}
-                  placeholder="Search Your Webtoon..."
-                  placeholderTextColor="#888"
-                  style={styles.searchBoxInput}
-                  onChangeText={(text) => this.searchFilter(text)}
-                />
-                <Icon
-                  onPress={() => this.setModalVisible(false)}
-                  name="times"
-                  size={20}
-                  style={styles.searchBoxIcon}
-                />
-              </Item>
-              <View style={styles.searchBarBottomBorder}></View>
-              <View style={styles.searchSuggestionContainer}>
-                <FlatList
-                  showsHorizontalScrollIndicator={false}
-                  data={this.state.searchItem}
-                  renderItem={({ item }) =>
-                    <TouchableOpacity onPress={() => {
-                      this.setModalVisible(false)
-                      this.props.navigation.navigate('DetailWebtoon', this.state.searchItem[item.id - 1])
-                    }}>
-                      <Card style={
-                        (this.state.searchItemVisible)
-                          ? [styles.listofSearchData, styles.listofSearchDataShow]
-                          : styles.listofSearchData}>
-                        <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.searchDataImage} square />
-                        <View>
-                          <Text style={styles.searchDataTitle}>{item.title}</Text>
-                          <Text style={styles.searchDataFavCount}>Favourite: {item.favourite_count} Users</Text>
-                        </View>
-                      </Card>
-                    </TouchableOpacity>
-                  }
-                  keyExtractor={item => item.id}
-                />
-              </View>
+          <Image style={styles.appTitleLogo} source={require('../assets/images/logo/smokeLogo.png')} />
+          <Text style={styles.appTitle}>SMOKETOON</Text>
+          <Icon
+            onPress={() => this.setModalVisible(true)}
+            name="search"
+            size={20}
+            style={styles.searchIcon}
+          />
+        </Item>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(false)
+          }}
+          style={{ backgroundColor: 'red' }}
+        ><View style={styles.searchModal}>
+            <Item style={styles.searchBox}>
+              <Input
+                value={this.state.searchValue}
+                placeholder="Search Your Webtoon..."
+                placeholderTextColor="#888"
+                style={styles.searchBoxInput}
+                onChangeText={(text) => this.searchFilter(text)}
+              />
+              <Icon
+                onPress={() => this.setModalVisible(false)}
+                name="times"
+                size={20}
+                style={styles.searchBoxIcon}
+              />
+            </Item>
+            <View style={styles.searchBarBottomBorder}></View>
+            <View style={styles.searchSuggestionContainer}>
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                data={this.state.searchItem}
+                renderItem={({ item }) =>
+                  <TouchableOpacity onPress={() => {
+                    this.setModalVisible(false)
+                    this.props.navigation.navigate('DetailWebtoon', this.state.searchItem[item.id - 1])
+                  }}>
+                    <Card style={
+                      (this.state.searchItemVisible)
+                        ? [styles.listofSearchData, styles.listofSearchDataShow]
+                        : styles.listofSearchData}>
+                      <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.searchDataImage} square />
+                      <View>
+                        <Text style={styles.searchDataTitle}>{item.title}</Text>
+                        <Text style={styles.searchDataFavCount}>Favourite: {item.favourite_count} Users</Text>
+                      </View>
+                    </Card>
+                  </TouchableOpacity>
+                }
+                keyExtractor={item => item.id}
+              />
             </View>
-          </Modal>
+          </View>
+        </Modal>
         {/* {(this.props.localWebtoons.isError && this.props.localFavourites.isError) ? alert("Can't load data, please check your internet connection") : console.log('')} */}
         <ScrollView>
           <View style={styles.bannerContainer}>
@@ -338,8 +367,8 @@ class ForYou extends Component {
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.popularWebtoons[item.id - 1])}>
                     <Thumbnail
                       // onLoadStart={(e) => this.setState({preloadStatus: true})}
-                      onLoadEnd={(e) => this.setState({preloadStatus: false})}
-                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}`}}
+                      onLoadEnd={(e) => this.setState({ preloadStatus: false })}
+                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}` }}
                       style={styles.favoriteBannerItemImage}
                       square
                     />
@@ -371,12 +400,12 @@ class ForYou extends Component {
                 this.props.localWebtoons.webtoons
                   ? this.props.localWebtoons.webtoons
                   : this.state.listAllToonData}
-              renderItem={({ item , index}) =>
+              renderItem={({ item, index }) =>
                 <Card style={styles.listAllToonItem}>
                   <Thumbnail
-                      // onLoad={(e) => this.setState({preloadStatus: false})}
-                      onLoadEnd={(e) => this.setState({preloadStatus: false})}
-                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}`}} style={styles.listAllToonItemImage} square />
+                    // onLoad={(e) => this.setState({preloadStatus: false})}
+                    onLoadEnd={(e) => this.setState({ preloadStatus: false })}
+                    source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}` }} style={styles.listAllToonItemImage} square />
                   {/* (item.hasOwnProperty('image')) ? { uri: `${Image_URL}/${item.image}` } : item.preload */}
                   <Item style={styles.listAllToonItemTB}>
                     <Text
@@ -434,7 +463,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const {width, height } = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
@@ -659,7 +688,24 @@ const styles = StyleSheet.create({
     color: '#777',
     fontSize: 10,
     fontFamily: 'KOMIKAH_'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

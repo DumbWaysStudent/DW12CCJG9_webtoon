@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, AsyncStorage, Modal, Dimensions } from 'react-native';
-import { Text } from 'native-base'
+import { Text, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
@@ -19,7 +19,7 @@ class Profile extends Component {
 
   componentDidMount() {
     AsyncStorage.getItem('sigInData', (err, res) => {
-      if (!err){
+      if (!err) {
         if (res == null) {
           this.props.navigation.navigate('SignIn');
         } else {
@@ -32,12 +32,26 @@ class Profile extends Component {
             userID: this.state.sigInData.id,
             token: this.state.sigInData.token
           })
-          
+            .then(() => { })
+            .catch((e) => {
+              this.toastGenerator('error', "Error: Can't load profile data")
+            })
+
+
         }
       } else {
-        console.log(err)
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   // updateData = (newData1, newData2) => {
@@ -77,12 +91,12 @@ class Profile extends Component {
             </View>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate('EditProfile',
-              {
-                name: this.props.localProfile.profile.name,
-                profilePic: (this.props.localProfile.profile.profile_image == 'default-pic')
-                ? this.state.profilePicture
-                : this.props.localProfile.profile.profile_image
-              })}
+                {
+                  name: this.props.localProfile.profile.name,
+                  profilePic: (this.props.localProfile.profile.profile_image == 'default-pic')
+                    ? this.state.profilePicture
+                    : this.props.localProfile.profile.profile_image
+                })}
               style={styles.headerEditBtn}>
               <Icon name="edit" style={{ color: '#fff' }} size={23} />
             </TouchableOpacity>
@@ -90,8 +104,8 @@ class Profile extends Component {
           </View>
           <View style={styles.profilePicture}>
             <Image large source={(this.props.localProfile.profile.profile_image == 'default-pic')
-                ? this.state.profilePicture
-                : {uri: `${Image_URL}/${this.props.localProfile.profile.profile_image}`}} style={styles.profilePictureImage} />
+              ? this.state.profilePicture
+              : { uri: `${Image_URL}/${this.props.localProfile.profile.profile_image}` }} style={styles.profilePictureImage} />
             <Text style={styles.profileName}>{
               this.props.localProfile.profile.name
             }</Text>
@@ -128,7 +142,7 @@ const mapDispatchToProps = dispatch => {
   return {
     // --------- PROFILE -----------//
     handleGetProfile: (params) => dispatch(actionProfile.handleGetProfile(params)),
-    handleUpdateProfile:(params) => dispatch(actionProfile.handleUpdateProfile(params))
+    handleUpdateProfile: (params) => dispatch(actionProfile.handleUpdateProfile(params))
   }
 }
 
@@ -193,7 +207,24 @@ const styles = StyleSheet.create({
   optionsText: {
     fontFamily: 'KOMIKAHB',
     color: '#fff'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

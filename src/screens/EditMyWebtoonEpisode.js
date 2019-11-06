@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, AsyncStorage, Modal, Dimensions } from 'react-native';
-import { Text, Thumbnail, Item, Button } from 'native-base';
+import { Text, Thumbnail, Item, Button, Toast } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux';
 import * as actionEpisode from './../redux/actions/actionEpisode';
 import * as actionImage from './../redux/actions/actionImage';
+import * as actionWebtoon from './../redux/actions/actionWebtoon';
 import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -15,13 +16,11 @@ class EditMyWebtoonEpisode extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      titleValue: '',
+      titleValue: this.props.navigation.getParam('title'),
       signInData: null,
       images: []
     }
-  }
 
-  componentDidMount() {
     AsyncStorage.getItem('sigInData', (err, res) => {
       if (!err) {
         if (res == null) {
@@ -34,29 +33,48 @@ class EditMyWebtoonEpisode extends Component {
           })
           // console.log(res.id)
           // console.log(JSON.parse(res).token)
-
-          Axios({
-            method: 'get',
-            url: `${API_URL}/webtoon/${this.props.navigation.getParam('webtoonID')}/episode/${this.props.navigation.getParam('episodeID')}`,
-            headers: {
-              Authorization: this.state.signInData.token
-            }
+          this.props.handleGetImages({
+            webtoonID: this.props.navigation.getParam('webtoonID'),
+            episodeID: this.props.navigation.getParam('episodeID'),
+            token: this.state.signInData.token
           })
-            .then(result => {
-              this.setState({
-                images: result.data,
-                titleValue: this.props.navigation.getParam('title')
-              })
+          .then(result => {
+            console.log(this.props.navigation)
+            this.setState({
+              // images: result.data,
+              titleValue: this.props.navigation.getParam('title')
             })
-            .catch(err => {
-              console.log(err)
-            })
+          })
+          .catch(err => {
+            this.toastGenerator('error', "Error: Can't load episode pages data")
+          })
+          // Axios({
+          //   method: 'get',
+          //   url: `${API_URL}/webtoon/${this.props.navigation.getParam('webtoonID')}/episode/${this.props.navigation.getParam('episodeID')}`,
+          //   headers: {
+          //     Authorization: this.state.signInData.token
+          //   }
+          // })
+          //   .then(result => {
+          //     this.setState({
+          //       images: result.data,
+          //       titleValue: this.props.navigation.getParam('title')
+          //     })
+          //   })
+          //   .catch(err => {
+          //     this.toastGenerator('error', "Error: Can't load episode pages data")
+          //   })
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
+
+  // componentDidMount() {
+  //   console.log(this.props.navigation.state.params)
+    
+  // }
 
   convertDate(date) {
     let
@@ -102,14 +120,18 @@ class EditMyWebtoonEpisode extends Component {
           token: this.state.signInData.token,
           formData
         })
-
-        images.push({
-          page: images.length + 1,
-          image: response.uri,
-        });
-
-        this.setState({
-          images: images
+        .then(() => {
+          images.push({
+            page: images.length + 1,
+            image: response.uri,
+          });
+  
+          this.setState({
+            images: images
+          })
+        })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't add image")
         })
       }
     })
@@ -123,10 +145,18 @@ class EditMyWebtoonEpisode extends Component {
       episodeID: this.props.navigation.getParam('episodeID'),
       token: this.state.signInData.token
     })
-
-    if (this.props.localEpisodes.isSuccess) {
+    .then(() => {
+      this.props.handleGetMyWebtoons({
+        userID: this.state.signInData.id,
+        token: this.state.signInData.token
+      })
+      this.toastGenerator('success', "Delete episode success")
       this.props.navigation.goBack()
-    }
+    })
+    .catch((e) => {
+      this.toastGenerator('error', "Error: Can't delete episode")
+      this.props.navigation.goBack()
+    })
   }
 
   deleteImageHandle(id, page) {
@@ -138,6 +168,12 @@ class EditMyWebtoonEpisode extends Component {
       episodeID: this.props.navigation.getParam('episodeID'),
       imageID: id,
       token: this.state.signInData.token
+    })
+    .then(() => {
+      this.toastGenerator('success', "Delete image success")
+    })
+    .catch((e) => {
+      this.toastGenerator('error', "Error: Can't delete image")
     })
 
     // this.setState({
@@ -155,13 +191,26 @@ class EditMyWebtoonEpisode extends Component {
         image: (this.props.localImages.images != false) ? this.props.localImages.images[0].image : this.props.navigation.getParam('image'),
         token: this.state.signInData.token
       })
-
-      if (this.props.localEpisodes.isSuccess) {
+      .then(() => {
+        this.toastGenerator('success', "Update episode success")
         this.props.navigation.goBack()
-      }
+      })
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't update episode")
+        this.props.navigation.goBack()
+      })
     } else {
       this.props.navigation.goBack()
     }
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
@@ -244,6 +293,7 @@ const { width, height } = Dimensions.get('window')
 
 const mapStateToProps = state => {
   return {
+    localWebtoons: state.webtoons,
     localEpisodes: state.episodes,
     localImages: state.images
   }
@@ -251,9 +301,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+     // ----------- Webtoons ------------//
+     handleGetMyWebtoons: (params) => dispatch(actionWebtoon.handleGetMyWebtoons(params)),
     // ----------- Episodes ------------//
     handleUpdateEpisode: (params) => dispatch(actionEpisode.handleUpdateEpisode(params)),
     handleDeleteEpisode: (params) => dispatch(actionEpisode.handleDeleteEpisode(params)),
+    handleGetImages: (params) => dispatch(actionImage.handleGetImages(params)),
     handleAddImage: (params) => dispatch(actionImage.handleAddImage(params)),
     handleDeleteImage: (params) => dispatch(actionImage.handleDeleteImage(params))
   }
@@ -358,6 +411,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 62,
     marginTop: 15,
     backgroundColor: '#DA2F2B'
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
   },
 })
 

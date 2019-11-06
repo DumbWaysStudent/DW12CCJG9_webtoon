@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, ImageBackground, AsyncStorage, Dimensions, Modal } from 'react-native';
-import { Text, Thumbnail, Item, Button, Fab } from 'native-base'
+import { Text, Thumbnail, Item, Button, Fab, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux';
 import * as actionWebtoon from './../redux/actions/actionWebtoon';
@@ -68,9 +68,13 @@ class EditMyWebtoon extends Component {
             webtoonID: this.props.navigation.getParam('id'),
             token: this.state.signInData.token
           })
+          .then(() => {})
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't load episodes data")
+          })
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
@@ -125,10 +129,11 @@ class EditMyWebtoon extends Component {
         token: this.state.signInData.token
       })
         .then(() => {
+          this.toastGenerator('success', "Update my webtoon success")
           this.props.navigation.goBack()
         })
         .catch(e => {
-          console.log(e)
+          this.toastGenerator('error', "Error: Can't update my webtoon")
         })
       // this.props.handleUpdateWebtoon({
       //   userID: this.state.signInData.id,
@@ -219,7 +224,7 @@ class EditMyWebtoon extends Component {
       //     this.props.navigation.goBack()
       //   })
     } else {
-      alert('Nothing Changed')
+      this.toastGenerator('error', "Nothing Changed")
     }
 
   }
@@ -236,7 +241,7 @@ class EditMyWebtoon extends Component {
         : { currEpisode: this.props.localEpisodes.episodes, screenType: 'edit', webtoonID: this.props.navigation.getParam('id') }
       ))
     } else {
-      alert('Title, Genre cannot be empty & Banner must be set!')
+      this.toastGenerator('error', "Title, Genre cannot be empty & Banner must be set!")
     }
   }
 
@@ -246,17 +251,34 @@ class EditMyWebtoon extends Component {
       webtoonID: this.props.navigation.getParam('id'),
       token: this.state.signInData.token
     })
+    .then(() => {
+      if (this.props.localWebtoons.isSuccess) {
+        this.toastGenerator('success', "Delete my wbtoon success")
+        this.props.navigation.goBack()
+      }
+    })
+    .catch((e) => {
+      if (this.props.localWebtoons.isSuccess) {
+        this.toastGenerator('error', "Error: Can't delete my webtoon")
+        this.props.navigation.goBack()
+      }
+    })
+  }
 
-    if (this.props.localWebtoons.isSuccess) {
-      this.props.navigation.goBack()
-    }
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
     // console.log(this.props.navigation.state.params)
     return (
       <SafeAreaView style={styles.container}>
-        <Modal animationType="none"
+        {/* <Modal animationType="none"
           transparent={true}
           visible={(this.props.localEpisodes.isLoading)}
           // onRequestClose={() => {
@@ -271,7 +293,7 @@ class EditMyWebtoon extends Component {
               </SpinIcon>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
         <View style={styles.header}>
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate('MyWebtoonCreation')} style={styles.headerBackBtn}>
@@ -488,7 +510,24 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'capitalize',
     fontFamily: 'KOMIKAH_'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

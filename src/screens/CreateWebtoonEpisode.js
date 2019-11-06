@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, AsyncStorage } from 'react-native';
-import { Text, Thumbnail, Item, Button } from 'native-base'
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, AsyncStorage, Modal, Dimensions } from 'react-native';
+import { Text, Thumbnail, Item, Button, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
+import SpinIcon from './../components/SpinIcon'
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import * as actionEpisode from './../redux/actions/actionEpisode';
@@ -52,7 +53,7 @@ class CreateWebtoonEpisode extends Component {
           //   })
         }
       } else {
-        alert('Error While Load Data From LocalStorage')
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
@@ -164,25 +165,30 @@ class CreateWebtoonEpisode extends Component {
               webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
               token: this.state.signInData.token
             })
-
-            this.props.navigation.navigate('CreateWebtoon', {
-              webtoonCreated: true,
-              webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
-              episodes: [
-                ...this.props.navigation.getParam('currEpisode'),
-                {
-                  title: this.state.titleValue,
-                  // webtoon_id: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id + 1,
-                  // created_by: (this.state.sigInData !== null) ? this.state.signInData.id : this.state.signInData,
-                  image: this.state.images[0].image,
-                  lastCreated: this.convertDate(new Date()),
-                  pages: this.state.images
-                }],
-              // images: this.state.images.concat((this.props.navigation.getParam('currImage') != false) ? this.props.navigation.getParam('currImage') : [])
+            .then(() => {
+              this.toastGenerator('success', "Add webtoon episode success")
+              this.props.navigation.navigate('CreateWebtoon', {
+                webtoonCreated: true,
+                webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
+                episodes: [
+                  ...this.props.navigation.getParam('currEpisode'),
+                  {
+                    title: this.state.titleValue,
+                    // webtoon_id: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id + 1,
+                    // created_by: (this.state.sigInData !== null) ? this.state.signInData.id : this.state.signInData,
+                    image: this.state.images[0].image,
+                    lastCreated: this.convertDate(new Date()),
+                    pages: this.state.images
+                  }],
+                // images: this.state.images.concat((this.props.navigation.getParam('currImage') != false) ? this.props.navigation.getParam('currImage') : [])
+              })
+            })
+            .catch((e) => {
+              this.toastGenerator('error', "Error: Can't load episodes data")
             })
           })
           .catch(e => {
-            console.log(e)
+            this.toastGenerator('error', "Error: Can't add webtoon episode data")
           })
 
         // if (this.props.localEpisodes.isSuccess) {
@@ -205,34 +211,66 @@ class CreateWebtoonEpisode extends Component {
             userID: this.state.signInData.id,
             token: this.state.signInData.token
           })
-
-          this.props.navigation.navigate('EditMyWebtoon', {
-            webtoonID: this.props.navigation.getParam('webtoonID'),
-            episodes: [
-              ...this.props.navigation.getParam('currEpisode'),
-              {
-                // id: (this.props.navigation.getParam('currEpisode') != false)
-                //   ? this.props.navigation.getParam('currEpisode')[this.props.navigation.getParam('currEpisode').length - 1].id + 1
-                //   : (this.state.episode_id > 0) ? this.state.episode_id + 1 : this.state.episode_id,
-                title: this.state.titleValue,
-                // // webtoon_id: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id + 1,
-                // // created_by: (this.state.sigInData !== null) ? this.state.signInData.id : this.state.signInData,
-                image: this.state.images[0].image,
-                lastCreated: this.convertDate(new Date()),
-                // pages: this.state.images
-              }],
-            // images: this.state.images.concat((this.props.navigation.getParam('currImage') != false) ? this.props.navigation.getParam('currImage') : [])
+          .then(() => {
+            this.props.navigation.navigate('EditMyWebtoon', {
+              webtoonID: this.props.navigation.getParam('webtoonID'),
+              episodes: [
+                ...this.props.navigation.getParam('currEpisode'),
+                {
+                  // id: (this.props.navigation.getParam('currEpisode') != false)
+                  //   ? this.props.navigation.getParam('currEpisode')[this.props.navigation.getParam('currEpisode').length - 1].id + 1
+                  //   : (this.state.episode_id > 0) ? this.state.episode_id + 1 : this.state.episode_id,
+                  title: this.state.titleValue,
+                  // // webtoon_id: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id + 1,
+                  // // created_by: (this.state.sigInData !== null) ? this.state.signInData.id : this.state.signInData,
+                  image: this.state.images[0].image,
+                  lastCreated: this.convertDate(new Date()),
+                  // pages: this.state.images
+                }],
+              // images: this.state.images.concat((this.props.navigation.getParam('currImage') != false) ? this.props.navigation.getParam('currImage') : [])
+            })
           })
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't my webtoons data")
+          })
+        })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't add my webtoon data")
         })
       }
     } else {
-      alert('Title cannot be empty & Page must be set')
+      this.toastGenerator('error', "Title cannot be empty & Page must be set")
     }
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <Modal animationType="none"
+          transparent={true}
+          visible={(this.props.localEpisodes.isLoading)}
+          // onRequestClose={() => {
+          //   this.setModalVisible(this.props.localWebtoons.isLoading)
+          // }}
+          style={{ backgroundColor: 'red' }}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={{ position: 'absolute', top: height / 2.3, left: width / 2.1 }}>
+              <SpinIcon>
+                <Icon name="spinner" size={30} style={{ color: "#fff", alignSelf: 'center' }} />
+              </SpinIcon>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.header}>
 
           <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.headerBackBtn}>
@@ -306,6 +344,8 @@ const mapDispatchToProps = dispatch => {
     handleDeleteEpisode: (params) => dispatch(actionEpisode.handleDeleteEpisode(params))
   }
 }
+
+const { width, height } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
@@ -408,7 +448,24 @@ const styles = StyleSheet.create({
   palleteBtnText: {
     textTransform: 'capitalize',
     fontFamily: 'KOMIKAH_'
-  }
+  },
+  toastStyle: {
+    marginHorizontal: 5,
+    marginBottom: 10,
+    borderRadius: 5
+  },
+  errorToast: {
+    backgroundColor: '#ff3333'
+  },
+  successToast: {
+    backgroundColor: '#2ab325'
+  },
+  signIntoastError: {
+    backgroundColor: '#ff3333',
+    marginHorizontal: 5,
+    marginBottom: 5,
+    borderRadius: 5
+  },
 })
 
 export default connect(

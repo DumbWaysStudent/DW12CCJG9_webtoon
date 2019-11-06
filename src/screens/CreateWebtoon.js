@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, ImageBackground, AsyncStorage } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, TextInput, ImageBackground, AsyncStorage, Modal, Dimensions } from 'react-native';
 import { Text, Thumbnail, Item, Button, Toast } from 'native-base';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import SpinIcon from './../components/SpinIcon'
 import { connect } from 'react-redux';
 import * as actionWebtoon from './../redux/actions/actionWebtoon';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -40,12 +41,7 @@ class CreateWebtoon extends Component {
           })
         }
       } else {
-        Toast.show({
-          text: 'Error While Load Data From LocalStorage',
-          textStyle: { fontSize: 12, fontWeight: 'bold' },
-          duration: 1000,
-          style: styles.signIntoastError
-        });
+        this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
     })
   }
@@ -95,29 +91,39 @@ class CreateWebtoon extends Component {
           data: formData,
           token: this.state.signInData.token
         })
+        .then(() => {
+          this.setState({
+            webtoonCreated: true
+          })
 
-        this.setState({
-          webtoonCreated: true
+          this.props.navigation.navigate('CreateWebtoonEpisode', (
+            this.props.navigation.state.params
+              ? {
+                currEpisode: this.props.navigation.getParam('episodes'),
+                currImage: this.props.navigation.getParam('images'),
+                screenType: 'add',
+                webtoonCreated: this.state.webtoonCreated
+              }
+              : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
+          ))
         })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't add my webtoon")
+        })
+      } else {
+        this.props.navigation.navigate('CreateWebtoonEpisode', (
+          this.props.navigation.state.params
+            ? {
+              currEpisode: this.props.navigation.getParam('episodes'),
+              currImage: this.props.navigation.getParam('images'),
+              screenType: 'add',
+              webtoonCreated: this.state.webtoonCreated
+            }
+            : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
+        ))
       }
-
-      this.props.navigation.navigate('CreateWebtoonEpisode', (
-        this.props.navigation.state.params
-          ? {
-            currEpisode: this.props.navigation.getParam('episodes'),
-            currImage: this.props.navigation.getParam('images'),
-            screenType: 'add',
-            webtoonCreated: this.state.webtoonCreated
-          }
-          : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
-      ))
     } else {
-      Toast.show({
-        text: 'Title, Genre cannot be empty & Banner must be set!',
-        textStyle: { fontSize: 12, fontWeight: 'bold' },
-        duration: 1000,
-        style: styles.signIntoastError
-      });
+      this.toastGenerator('error', "Error: Title, Genre cannot be empty & Banner must be set!")
     }
   }
 
@@ -128,9 +134,15 @@ class CreateWebtoon extends Component {
         webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
         token: this.state.signInData.token
       })
-    }
-
-    if (this.props.localWebtoons.isSuccess) {
+      .then(() => {
+        this.props.navigation.goBack()
+        this.toastGenerator('success', "Delete my webtoon success")
+      })
+      .catch((e) => {
+        this.props.navigation.goBack()
+        this.toastGenerator('success', "Error: Can't delete my webtoon")
+      })
+    } else {
       this.props.navigation.goBack()
     }
   }
@@ -168,31 +180,51 @@ class CreateWebtoon extends Component {
           data: formData,
           token: this.state.signInData.token
         })
-        if (this.props.localWebtoons.isSuccess) {
+        .then(() => {
+          this.toastGenerator('success', "Add my webtoon success")
           this.props.navigation.goBack()
-        }
+        })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't add my webtoon")
+          this.props.navigation.goBack()
+        })
       } else {
-        Toast.show({
-          text: 'Episode must be set!',
-          textStyle: { fontSize: 12, fontWeight: 'bold' },
-          duration: 1000,
-          style: styles.signIntoastError
-        });
+        this.toastGenerator('error', "Error: Episode must be set!")
       }
     } else {
-      Toast.show({
-        text: 'Title & Genre cannot be empty',
-        textStyle: { fontSize: 12, fontWeight: 'bold' },
-        duration: 1000,
-        style: styles.signIntoastError
-      });
+      this.toastGenerator('error', "Title & Genre cannot be empty")
     }
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
   }
 
   render() {
     // console.log(this.props.navigation.getParam('images'))
     return (
       <SafeAreaView style={styles.container}>
+        <Modal animationType="none"
+          transparent={true}
+          visible={(this.props.localWebtoons.isLoading)}
+          // onRequestClose={() => {
+          //   this.setModalVisible(this.props.localWebtoons.isLoading)
+          // }}
+          style={{ backgroundColor: 'red' }}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={{ position: 'absolute', top: height / 2.3, left: width / 2.1 }}>
+              <SpinIcon>
+                <Icon name="spinner" size={30} style={{ color: "#fff", alignSelf: 'center' }} />
+              </SpinIcon>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.header}>
 
           <TouchableOpacity onPress={() => this.goBackValidator()} style={styles.headerBackBtn}>
@@ -250,6 +282,7 @@ class CreateWebtoon extends Component {
                 data={(this.props.navigation.state.params) ? this.props.localEpisodes.episodes : this.state.listEpisode}
                 renderItem={({ item, index }) =>
                   <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', {
+                    title: item.title,
                     webtoonID: this.props.navigation.getParam('webtoonID'),
                     episodeID: item.id
                   })} style={styles.episodeItem}>
@@ -290,6 +323,8 @@ const mapDispatchToProps = dispatch => {
     handleDeleteWebtoon: (params) => dispatch(actionWebtoon.handleDeleteWebtoon(params))
   }
 }
+
+const { width, height } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
@@ -411,7 +446,7 @@ const styles = StyleSheet.create({
   },
   toastStyle: {
     marginHorizontal: 5,
-    marginBottom: 70,
+    marginBottom: 10,
     borderRadius: 5
   },
   errorToast: {

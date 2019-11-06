@@ -38,7 +38,6 @@ export default function reducerEpisode(state = initialState, action) {
             }
         case `${types.ADD_EPISODE}_FULFILLED`:
             state.episodes.unshift(action.payload.data)
-            alert('Episode Created!')
             return {
                 ...state,
                 isLoading: false,
