@@ -132,7 +132,8 @@ class CreateWebtoon extends Component {
       this.props.handleDeleteWebtoon({
         userID: this.state.signInData.id,
         webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
-        token: this.state.signInData.token
+        token: this.state.signInData.token,
+        // prevPic: this.state.bannerImage
       })
       .then(() => {
         this.props.navigation.goBack()

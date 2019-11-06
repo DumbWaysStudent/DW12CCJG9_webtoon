@@ -12,16 +12,17 @@ class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePicture: {uri: this.props.navigation.getParam('profilePic')},
+      profilePicture: { uri: this.props.navigation.getParam('profilePic') },
       profileName: this.props.navigation.getParam('name'),
       profile_image: null,
+      prevPic: this.props.navigation.getParam('profilePic'),
       sigInData: null
     };
   }
 
   componentDidMount() {
     AsyncStorage.getItem('sigInData', (err, res) => {
-      if (!err){
+      if (!err) {
         if (res == null) {
           this.props.navigation.navigate('SignIn');
         } else {
@@ -29,7 +30,7 @@ class EditProfile extends Component {
           this.setState({
             sigInData: JSON.parse(res)
           })
-          
+
         }
       } else {
         // console.log(err)
@@ -78,8 +79,9 @@ class EditProfile extends Component {
     let { profilePic, name } = this.props.navigation.state.params;
     const formData = new FormData();
     if (profileName != name && profile_image !== null) {
-      formData.append('profileImage', this.state.profile_image);
       formData.append('name', this.state.profileName);
+      // formData.append('prevPic', this.state.prevPic)
+      formData.append('profileImage', this.state.profile_image);
 
       this.props.handleUpdateProfile({
         userID: this.state.sigInData.id,
@@ -90,11 +92,13 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-      .then(() => {})
-      .catch((e) => {
-        this.toastGenerator('error', "Error: Can't update profile")
-      })
+        .then(() => { })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't update profile")
+        })
     } else if (profile_image != null) {
+      formData.append('name', this.state.profileName);
+      // formData.append('prevPic', this.state.prevPic)
       formData.append('profileImage', this.state.profile_image);
       this.props.handleUpdateProfile({
         userID: this.state.sigInData.id,
@@ -103,10 +107,10 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-      .then(() => {})
-      .catch((e) => {
-        this.toastGenerator('error', "Error: Can't update profile")
-      })
+        .then(() => { })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't update profile")
+        })
     } else if (profileName != name) {
       formData.append('name', this.state.profileName);
       this.props.handleUpdateProfile({
@@ -116,10 +120,10 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-      .then(() => {})
-      .catch((e) => {
-        this.toastGenerator('error', "Error: Can't update profile")
-      })
+        .then(() => { })
+        .catch((e) => {
+          this.toastGenerator('error', "Error: Can't update profile")
+        })
     }
 
     this.props.navigation.goBack()
@@ -168,7 +172,7 @@ class EditProfile extends Component {
 
           </View>
           <View style={styles.profilePicture}>
-            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : (this.state.profilePicture.uri.toString().match(/(^\d+)/g) === null) ? {uri: `${Image_URL}/${this.state.profilePicture.uri}`} : this.state.profilePicture.uri} style={styles.profilePictureImage} />
+            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : (this.state.profilePicture.uri.toString().match(/(^\d+)/g) === null) ? { uri: `${Image_URL}/${this.state.profilePicture.uri}` } : this.state.profilePicture.uri} style={styles.profilePictureImage} />
             <TouchableOpacity onPress={() => this.imagePickerHandler()}>
               <Icon name="camera" style={{ color: '#fff' }} size={20} />
             </TouchableOpacity>
@@ -193,7 +197,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     // --------- PROFILE -----------//
-    handleUpdateProfile:(params) => dispatch(actionProfile.handleUpdateProfile(params))
+    handleUpdateProfile: (params) => dispatch(actionProfile.handleUpdateProfile(params))
   }
 }
 
