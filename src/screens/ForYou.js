@@ -30,12 +30,6 @@ class ForYou extends Component {
       dataSource: [
         {
           url: require('../assets/images/gif/Preload1.gif')
-        },
-        {
-          url: require('../assets/images/gif/Preload1.gif')
-        },
-        {
-          url: require('../assets/images/gif/Preload1.gif')
         }
       ],
       favouriteData: [
@@ -260,12 +254,13 @@ class ForYou extends Component {
   }
 
   render() {
-    // console.log(this.props.localWebtoons.choicesWebtoons)
     return (
       <SafeAreaView style={styles.container}>
         <Modal animationType="none"
           transparent={true}
-          visible={(this.props.localWebtoons.isLoading && this.props.localFavourites.isLoading)}
+          visible={(this.props.localFavourites.favourites != false)
+            ? this.props.localWebtoons.isLoading && this.props.localFavourites.isLoading
+            : this.props.localWebtoons.isLoaing}
           // onRequestClose={() => {
           //   this.setModalVisible(this.props.localWebtoons.isLoading)
           // }}
@@ -349,7 +344,7 @@ class ForYou extends Component {
               containerStyle={{ borderRadius: 10 }}
               height={178}
               dataSource={
-                this.props.localWebtoons.choicesWebtoons
+                this.props.localWebtoons.choicesWebtoons != false
                   ? this.props.localWebtoons.choicesWebtoons
                   : this.state.dataSource}
               position={this.state.position}
@@ -357,6 +352,7 @@ class ForYou extends Component {
           </View>
           <Item style={styles.favoriteBannerList}>
             <Text style={styles.favoriteBannerTitle}><Icon name="star" /> Favourite</Text>
+            {this.props.localWebtoons.popularWebtoons == false ? <Image style={{width: '99%', height: 100, marginTop: 5}} source={require('../assets/images/gif/Preload1.gif')} /> : <View></View>}
             <FlatList
               showsHorizontalScrollIndicator={false}
               data={
@@ -386,6 +382,7 @@ class ForYou extends Component {
           </Item>
           <Item style={styles.listAllToon}>
             <Text style={styles.listAllToonTitle}><Icon name="list" /> All</Text>
+            {this.props.localWebtoons.webtoons == false && this.props.localWebtoons.isLoading == false ? <Image style={{width: '99%', height: 200, marginTop: 5}} source={require('../assets/images/gif/Preload1.gif')} /> : <View></View>}
             <FlatList
               // onTouchStart={() =>  {
               //   this.onEnableScroll(false)

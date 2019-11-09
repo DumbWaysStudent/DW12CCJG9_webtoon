@@ -160,7 +160,7 @@ export default function reducerWebtoon(state = initialState, action) {
             // } else {
             //     alert('Nothing Changed')
             // }
-
+            // console.log(index, index2)
             if (index !== -1) {
                 state.webtoons[index] = action.payload.data[0]
                 state.myWebtoons[index] = action.payload.data[0]

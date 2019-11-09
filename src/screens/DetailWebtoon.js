@@ -83,6 +83,14 @@ class DetailWebtoon extends Component {
       .catch(errorMsg => console.log(errorMsg))
   }
 
+  convertDate(date) {
+    let
+      day = ['Sun', 'Mon', 'Tue', 'Thu', 'Fri', 'Sat'],
+      month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return `${date.getDate()} ${month[date.getMonth()]} ${date.getFullYear()}`;
+  }
+
   toastGenerator = (type = 'error', message) => {
     Toast.show({
       text: message,
@@ -136,7 +144,7 @@ class DetailWebtoon extends Component {
                   source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
                   <Text style={styles.episodeTitle}>{item.title}</Text>
-                  <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
+                  <Text style={styles.episodeLastUpade}>{this.convertDate(new Date(item.createdAt))}</Text>
                 </View>
               </Card>
             </TouchableOpacity>
@@ -215,7 +223,7 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       borderColor: '#444',
       borderRadius: 5,
-      width: '95%',
+      width: '87%',
       alignSelf: 'center',
       backgroundColor: '#444',
       height: 70
@@ -235,8 +243,8 @@ const styles = StyleSheet.create({
       color: '#fff'
     },
     episodeLastUpade: {
-      fontSize: 9,
-      fontFamily: 'KOMIKAH_',
+      fontSize: 10,
+      fontWeight: 'bold',
       color: '#999'
     },
     toastStyle: {

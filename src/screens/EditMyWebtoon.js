@@ -21,6 +21,7 @@ class EditMyWebtoon extends Component {
       preload: require('../assets/images/gif/Preload1.gif'),
       webtoonData: null,
       signInData: null,
+      publishStatus: false,
       bannerImage: '',
       fabstatus: false,
       listEpisode: [
@@ -45,6 +46,7 @@ class EditMyWebtoon extends Component {
             signInData: JSON.parse(res),
             titleValue: this.props.navigation.getParam('title'),
             genreValue: this.props.navigation.getParam('genre'),
+            publishStatus: (this.props.navigation.getParam('status') == 'published' ? true : false )
             // bannerImage: this.props.navigation.getParam('image')
           })
 
@@ -120,6 +122,7 @@ class EditMyWebtoon extends Component {
       let formData = new FormData();
       formData.append('title', this.state.titleValue)
       formData.append('genre', this.state.genreValue)
+      formData.append('status', (this.state.publishStatus) ? 'published' : 'unpublished')
       formData.append('banner', this.state.bannerImage)
 
       this.props.handleUpdateWebtoon({
@@ -265,6 +268,14 @@ class EditMyWebtoon extends Component {
     })
   }
 
+  convertDate(date) {
+    let
+      day = ['Sun', 'Mon', 'Tue', 'Thu', 'Fri', 'Sat'],
+      month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return `${date.getDate()} ${month[date.getMonth()]} ${date.getFullYear()}`;
+  }
+
   toastGenerator = (type = 'error', message) => {
     Toast.show({
       text: message,
@@ -347,6 +358,15 @@ class EditMyWebtoon extends Component {
             </View>
 
             <View style={styles.palleteItem}>
+              <Text style={styles.palleteItemTitle}>Status</Text>
+              <Button
+                style={styles.publishBtn}
+                onPress={() => this.setState({ publishStatus: (this.state.publishStatus) ? false : true})}>
+                  <Text style={styles.publishBtnText}>{this.state.publishStatus ? 'unpublish' : 'publish'}</Text>
+              </Button>
+            </View>
+
+            <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Episode</Text>
               <FlatList
                 showsHorizontalScrollIndicator={false}
@@ -357,7 +377,7 @@ class EditMyWebtoon extends Component {
                     {/* {console.log(item)} */}
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>
-                      <Text style={styles.episodeLastUpade}>{item.lastUpdate}</Text>
+                      <Text style={styles.episodeLastUpade}>{this.convertDate(new Date(item.createdAt))}</Text>
                     </View>
                   </Item>
                 }
@@ -469,6 +489,19 @@ const styles = StyleSheet.create({
     fontFamily: 'KOMIKAH_',
     fontSize: 12
   },
+  publishBtn: {
+    width: 100,
+    backgroundColor: '#ee7a33',
+    borderRadius: 6
+  },
+  publishBtnText: {
+    width: '100%',
+    textAlign: 'center',
+    textTransform: 'capitalize',
+    alignSelf: 'center',
+    fontFamily: 'KOMIKAH_',
+    fontSize: 12
+  },
   episodeItem: {
     alignItems: 'flex-start',
     borderBottomWidth: 0,
@@ -485,12 +518,12 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   episodeTitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#fff',
-    fontWeight: 'bold'
+    fontFamily: 'KOMIKAH_'
   },
   episodeLastUpade: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
     color: '#999'
   },

@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   imageTitle: {
     fontSize: 14,
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'KOMIKAH_',
     marginBottom: 10
   },
   imageDeleteBtn: {

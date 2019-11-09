@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import * as actionWebtoon from './../redux/actions/actionWebtoon';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
-import {Image_URL} from './../services/rest-api';
+import { Image_URL } from './../services/rest-api';
 
 class CreateWebtoon extends Component {
   constructor(props) {
@@ -16,7 +16,9 @@ class CreateWebtoon extends Component {
       titleValue: '',
       genreValue: '',
       webtoonCreated: false,
-      bannerImage: require('../assets/images/image-banner-default.png'),
+      bannerImage: '',
+      defaultBanner: require('../assets/images/image-banner-default.png'),
+      publishStatus: false,
       signInData: null,
       listEpisode: [
         // {
@@ -85,31 +87,32 @@ class CreateWebtoon extends Component {
         let formData = new FormData();
         formData.append('title', this.state.titleValue)
         formData.append('genre', this.state.genreValue)
+        formData.append('status', 'unpublished')
         formData.append('banner', this.state.bannerImage)
         this.props.handleAddWebtoon({
           userID: this.state.signInData.id,
           data: formData,
           token: this.state.signInData.token
         })
-        .then(() => {
-          this.setState({
-            webtoonCreated: true
-          })
+          .then(() => {
+            this.setState({
+              webtoonCreated: true
+            })
 
-          this.props.navigation.navigate('CreateWebtoonEpisode', (
-            this.props.navigation.state.params
-              ? {
-                currEpisode: this.props.navigation.getParam('episodes'),
-                currImage: this.props.navigation.getParam('images'),
-                screenType: 'add',
-                webtoonCreated: this.state.webtoonCreated
-              }
-              : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
-          ))
-        })
-        .catch((e) => {
-          this.toastGenerator('error', "Error: Can't add my webtoon")
-        })
+            this.props.navigation.navigate('CreateWebtoonEpisode', (
+              this.props.navigation.state.params
+                ? {
+                  currEpisode: this.props.navigation.getParam('episodes'),
+                  currImage: this.props.navigation.getParam('images'),
+                  screenType: 'add',
+                  webtoonCreated: this.state.webtoonCreated
+                }
+                : { currEpisode: [], screenType: 'add', webtoonCreated: this.state.webtoonCreated }
+            ))
+          })
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't add my webtoon")
+          })
       } else {
         this.props.navigation.navigate('CreateWebtoonEpisode', (
           this.props.navigation.state.params
@@ -135,14 +138,14 @@ class CreateWebtoon extends Component {
         token: this.state.signInData.token,
         // prevPic: this.state.bannerImage
       })
-      .then(() => {
-        this.props.navigation.goBack()
-        this.toastGenerator('success', "Delete my webtoon success")
-      })
-      .catch((e) => {
-        this.props.navigation.goBack()
-        this.toastGenerator('success', "Error: Can't delete my webtoon")
-      })
+        .then(() => {
+          this.props.navigation.goBack()
+          this.toastGenerator('success', "Delete my webtoon success")
+        })
+        .catch((e) => {
+          this.props.navigation.goBack()
+          this.toastGenerator('success', "Error: Can't delete my webtoon")
+        })
     } else {
       this.props.navigation.goBack()
     }
@@ -172,8 +175,8 @@ class CreateWebtoon extends Component {
         let formData = new FormData();
         formData.append('title', this.state.titleValue)
         formData.append('genre', this.state.genreValue)
+        formData.append('status', (this.state.publishStatus) ? 'published' : 'unpublished')
         formData.append('banner', this.state.bannerImage)
-        formData.append('status', 'published')
 
         this.props.handleAddMyWebtoon({
           userID: this.state.signInData.id,
@@ -181,20 +184,28 @@ class CreateWebtoon extends Component {
           data: formData,
           token: this.state.signInData.token
         })
-        .then(() => {
-          this.toastGenerator('success', "Add my webtoon success")
-          this.props.navigation.goBack()
-        })
-        .catch((e) => {
-          this.toastGenerator('error', "Error: Can't add my webtoon")
-          this.props.navigation.goBack()
-        })
+          .then(() => {
+            this.toastGenerator('success', "Add my webtoon success")
+            this.props.navigation.goBack()
+          })
+          .catch((e) => {
+            this.toastGenerator('error', "Error: Can't add my webtoon")
+            this.props.navigation.goBack()
+          })
       } else {
         this.toastGenerator('error', "Error: Episode must be set!")
       }
     } else {
       this.toastGenerator('error', "Title & Genre cannot be empty")
     }
+  }
+
+  convertDate(date) {
+    let
+      day = ['Sun', 'Mon', 'Tue', 'Thu', 'Fri', 'Sat'],
+      month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return `${date.getDate()} ${month[date.getMonth()]} ${date.getFullYear()}`;
   }
 
   toastGenerator = (type = 'error', message) => {
@@ -268,11 +279,20 @@ class CreateWebtoon extends Component {
 
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Banner</Text>
-              <ImageBackground style={styles.wtimageBanner} source={this.state.bannerImage} />
+              <ImageBackground resizeMode={(this.state.bannerImage == '') ? 'repeat' : 'cover'} resizeMethod="auto" style={styles.wtimageBanner} source={(this.state.bannerImage == '') ? this.state.defaultBanner : this.state.bannerImage} />
               <Button onPress={() => this.imagePickerHandler()} style={styles.wtimageBannerChooseBtn}>
                 <Text style={styles.wtimageBannerChooseBtnText}>
                   <Icon name="image" size={20} />  Choose File...
                 </Text>
+              </Button>
+            </View>
+
+            <View style={styles.palleteItem}>
+              <Text style={styles.palleteItemTitle}>Status</Text>
+              <Button
+                style={styles.publishBtn}
+                onPress={() => this.setState({ publishStatus: (this.state.publishStatus) ? false : true})}>
+                  <Text style={styles.publishBtnText}>{this.state.publishStatus ? 'unpublish' : 'publish'}</Text>
               </Button>
             </View>
 
@@ -290,7 +310,7 @@ class CreateWebtoon extends Component {
                     <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.episodeImage} square />
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>
-                      <Text style={styles.episodeLastUpade}>{item.lastCreated}</Text>
+                      <Text style={styles.episodeLastUpade}>{this.convertDate(new Date(item.createdAt))}</Text>
                     </View>
                   </Item>
                 }
@@ -385,10 +405,10 @@ const styles = StyleSheet.create({
   },
   wtimageBanner: {
     width: '100%',
-    height: 150,
-    borderWidth: 1,
-    borderColor: '#444',
-    borderRadius: 4,
+    height: 170,
+    // borderWidth: 4,
+    borderColor: '#666',
+    // borderRadius: 5,
     marginBottom: 10
   },
   wtimageBannerChooseBtn: {
@@ -397,6 +417,19 @@ const styles = StyleSheet.create({
     borderRadius: 6
   },
   wtimageBannerChooseBtnText: {
+    textTransform: 'capitalize',
+    alignSelf: 'center',
+    fontFamily: 'KOMIKAH_',
+    fontSize: 12
+  },
+  publishBtn: {
+    width: 100,
+    backgroundColor: '#ee7a33',
+    borderRadius: 6
+  },
+  publishBtnText: {
+    width: '100%',
+    textAlign: 'center',
     textTransform: 'capitalize',
     alignSelf: 'center',
     fontFamily: 'KOMIKAH_',
@@ -422,12 +455,12 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   episodeTitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#fff',
-    fontWeight: 'bold'
+    fontFamily: 'KOMIKAH_'
   },
   episodeLastUpade: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
     color: '#999'
   },

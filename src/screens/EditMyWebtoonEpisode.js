@@ -219,7 +219,7 @@ class EditMyWebtoonEpisode extends Component {
       <SafeAreaView style={styles.container}>
         <Modal animationType="none"
           transparent={true}
-          visible={(this.props.localImages.isLoading)}
+          visible={(this.props.localImages.isLoading || this.props.localEpisodes.isLoading)}
           // onRequestClose={() => {
           //   this.setModalVisible(this.props.localWebtoons.isLoading)
           // }}
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   imageTitle: {
     fontSize: 14,
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'KOMIKAH_',
     marginBottom: 10
   },
   imageDeleteBtn: {
