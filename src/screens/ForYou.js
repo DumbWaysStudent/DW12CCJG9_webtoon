@@ -260,6 +260,7 @@ class ForYou extends Component {
   }
 
   render() {
+    // console.log(this.props.localWebtoons.choicesWebtoons)
     return (
       <SafeAreaView style={styles.container}>
         <Modal animationType="none"

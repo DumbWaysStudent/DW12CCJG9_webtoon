@@ -16,7 +16,7 @@ class CreateWebtoon extends Component {
       titleValue: '',
       genreValue: '',
       webtoonCreated: false,
-      bannerImage: require('../assets/images/gif/Preload1.gif'),
+      bannerImage: require('../assets/images/image-banner-default.png'),
       signInData: null,
       listEpisode: [
         // {

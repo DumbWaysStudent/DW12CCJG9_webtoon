@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, Image, AsyncStorage, BackHandler, Alert } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image, AsyncStorage, BackHandler, Alert, KeyboardAvoidingView } from 'react-native';
 import { Button, Text, Input, Form, Label, Item, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Axios from "axios";
 import SpinIcon from '../components/SpinIcon';
 import { API_URL } from './../services/rest-api';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class SignIn extends Component {
     constructor(props) {
@@ -130,6 +131,8 @@ class SignIn extends Component {
     render() {
         return (
             <SafeAreaView style={styles.appContainer}>
+                <ScrollView>
+                <KeyboardAvoidingView behavior="position" enabled>
                 <View style={styles.titleContainer}>
                     <Image style={styles.logo} source={require('../assets/images/logo/bannerSomkeToonBordered.png')} />
                     <Text style={styles.appTitle}>
@@ -184,6 +187,8 @@ class SignIn extends Component {
                         <Button style={styles.moveToSignUp} onPress={() => this.props.navigation.navigate('SignUp')}><Text style={styles.signUpDialogText}>Sign Up Now!</Text></Button>
                     </View>
                 </View>
+                </KeyboardAvoidingView>
+                </ScrollView>
             </SafeAreaView>
         );
     }
