@@ -4,7 +4,7 @@
 This project is still under development, so there still needs to be some improvement.
 
 ## SMOKETOON
-Smoketoon is an aplication for read webtoon online/offline for free
+Smoketoon is an aplication for read comic online/offline for free. The screen names are still following the mockup, i will change it soon as possible.
 ## <img src="https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/image_etc/smoketoonhandhandled.png" width="300">
 
 ## Screenshot
@@ -20,6 +20,7 @@ Smoketoon is an aplication for read webtoon online/offline for free
 
 ## Tech Stack
 * React Native for the Mobile Frontend
+* NodeJS for the API server, The API can be seen at (https://github.com/thisfikri/smoketoon-rest-api)
 
 ## Prerequisites
 * Make sure You had been install NodeJs in your system (https://nodejs.org/)
