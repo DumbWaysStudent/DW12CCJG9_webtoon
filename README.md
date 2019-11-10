@@ -33,7 +33,8 @@ Follow these step to install
 ```console
 $ git clone https://github.com/DumbWaysStudent/DW12CCJG9_webtoon.git
 $ cd DW12CCJG9_webtoon
-$ yarn install or npm install
+$ yarn install # for yarn
+$ npm install # for npm
 $ react-native run-ios #for ios
 $ react-native run-android #for android
 ```
