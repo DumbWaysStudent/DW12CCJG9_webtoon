@@ -26,10 +26,10 @@ class ForYou extends Component {
       position: 1,
       interval: null,
       modalVisible: false,
-
+      dataVisible: 'none',
       dataSource: [
         {
-          url: require('../assets/images/gif/Preload1.gif')
+          url: require('../assets/images/default/not-found-banner-480x300.png')
         }
       ],
       favouriteData: [
@@ -105,41 +105,7 @@ class ForYou extends Component {
             sigInData: JSON.parse(res)
           })
 
-          // load data from redux store
-          this.props.handleGetWebtoons(this.state.sigInData.token)
-          if (this.props.localWebtoons.isLoading) {
-
-          } else if (this.props.localWebtoons.isSuccess) {
-
-          }
-          this.props.handleGetChoicesWebtoons(
-            this.state.sigInData.token
-          )
-            .then(() => {
-              this.props.handleGetPopularWebtoons(
-                this.state.sigInData.token
-              )
-                .then(() => {
-                  this.props.handleGetMyFavourite({
-                    token: this.state.sigInData.token,
-                    userID: this.state.sigInData.id
-                  })
-                    .then(() => {
-                      this.setState({
-                        searchItem: this.props.localWebtoons.webtoons
-                      })
-                    })
-                    .catch(e => {
-                      this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
-                    })
-                })
-                .catch((e) => {
-                  this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
-                })
-            })
-            .catch((e) => {
-              this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
-            })
+          this.loadData()
           // this.props.handleGetProfileImage(this.state.sigInData.id)
           // this.props.handleGetProfileName(this.state.sigInData.id)
         }
@@ -253,10 +219,45 @@ class ForYou extends Component {
     });
   }
 
+  loadData = () => {
+    // load data from redux store
+    this.setState({ dataVisible: 'none'})
+    this.props.handleGetWebtoons(this.state.sigInData.token)
+    this.props.handleGetChoicesWebtoons(
+      this.state.sigInData.token
+    )
+      .then(() => {
+        this.props.handleGetPopularWebtoons(
+          this.state.sigInData.token
+        )
+          .then(() => {
+            this.props.handleGetMyFavourite({
+              token: this.state.sigInData.token,
+              userID: this.state.sigInData.id
+            })
+              .then(() => {
+                this.setState({
+                  searchItem: this.props.localWebtoons.webtoons,
+                  dataVisible: 'flex'
+                })
+              })
+              .catch(e => {
+                this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+              })
+          })
+          .catch((e) => {
+            this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+          })
+      })
+      .catch((e) => {
+        this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+      })
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Modal animationType="none"
+        {/* <Modal animationType="none"
           transparent={true}
           visible={(this.props.localFavourites.favourites != false)
             ? this.props.localWebtoons.isLoading && this.props.localFavourites.isLoading
@@ -273,7 +274,7 @@ class ForYou extends Component {
               </SpinIcon>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
         <Item style={styles.appTitleContainer}>
           <Image style={styles.appTitleLogo} source={require('../assets/images/logo/smokeLogo.png')} />
           <Text style={styles.appTitle}>SMOKETOON</Text>
@@ -335,8 +336,15 @@ class ForYou extends Component {
             </View>
           </View>
         </Modal>
-        {/* {(this.props.localWebtoons.isError && this.props.localFavourites.isError) ? alert("Can't load data, please check your internet connection") : console.log('')} */}
-        <ScrollView>
+        <ScrollView
+          style={{display: this.state.dataVisible}}
+          refreshControl={
+            <RefreshControl
+              colors={['#ee7a33']}
+              progressBackgroundColor="#383332"
+              refreshing={this.props.localWebtoons.isLoading && this.props.localFavourites.isLoading || (this.state.dataVisible == 'none' ? true : false)}
+              onRefresh={() => this.loadData()}/>
+          }>
           <View style={styles.bannerContainer}>
             <Slideshow
               titleStyle={{ color: '#fff', fontFamily: 'KOMIKAHB' }}
@@ -352,16 +360,28 @@ class ForYou extends Component {
           </View>
           <Item style={styles.favoriteBannerList}>
             <Text style={styles.favoriteBannerTitle}><Icon name="star" /> Favourite</Text>
-            {this.props.localWebtoons.popularWebtoons == false ? <Image style={{width: '99%', height: 100, marginTop: 5}} source={require('../assets/images/gif/Preload1.gif')} /> : <View></View>}
+            {
+            (this.props.localWebtoons.popularWebtoons == false && this.props.localWebtoons.isLoading == false)
+              ? <Image style={{width: '99%', height: 100, marginTop: 5}}
+                  source={require('../assets/images/default/not-found-banner-480x200.png')} />
+              : <View></View>
+            }
             <FlatList
               showsHorizontalScrollIndicator={false}
+              refreshing={this.props.localWebtoons.isLoading}
               data={
                 this.props.localWebtoons.popularWebtoons
                   ? this.props.localWebtoons.popularWebtoons
                   : this.state.popularWebtoonData}
               renderItem={({ item }) =>
                 <Card style={styles.favoriteBannerItem}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.popularWebtoons[item.id - 1])}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate(
+                        'DetailWebtoon',
+                        this.props.localWebtoons.popularWebtoons[item.id - 1]
+                      )
+                    }>
                     <Thumbnail
                       // onLoadStart={(e) => this.setState({preloadStatus: true})}
                       onLoadEnd={(e) => this.setState({ preloadStatus: false })}
@@ -382,16 +402,20 @@ class ForYou extends Component {
           </Item>
           <Item style={styles.listAllToon}>
             <Text style={styles.listAllToonTitle}><Icon name="list" /> All</Text>
-            {this.props.localWebtoons.webtoons == false && this.props.localWebtoons.isLoading == false ? <Image style={{width: '99%', height: 200, marginTop: 5}} source={require('../assets/images/gif/Preload1.gif')} /> : <View></View>}
+            {/* {
+            (this.props.localWebtoons.webtoons == false && this.props.localWebtoons.isLoading == false)
+              ? <Image style={{width: '99%', height: 200, marginTop: 5}}
+                  source={require('../assets/images/default/not-found-banner-480x300.png')} />
+              : <View></View>
+            } */}
+            {
+              (this.props.localWebtoons.webtoons == false && this.props.localWebtoons.isLoading == false)
+              ? <Image style={{width: '99%', height: 200, marginTop: 5}}
+                  source={require('../assets/images/default/not-found-banner-480x300.png')} />
+              : <View></View>
+            }
             <FlatList
-              // onTouchStart={() =>  {
-              //   this.onEnableScroll(false)
-              // }}
-
-              // onMomentumScrollEnd={()=>{
-              //   this.onEnableScroll(true)
-              // }}
-              // style={{flex: 1}}
+              refreshing={this.props.localWebtoons.isLoading}
               style={{ width: '100%' }}
               showsVerticalScrollIndicator={false}
               data={
@@ -399,12 +423,17 @@ class ForYou extends Component {
                   ? this.props.localWebtoons.webtoons
                   : this.state.listAllToonData}
               renderItem={({ item, index }) =>
-                <Card style={styles.listAllToonItem}>
+                <Card style={[styles.listAllToonItem, {display: (item.status == 'published' ? 'flex' : 'none')}]}>
                   <Thumbnail
-                    // onLoad={(e) => this.setState({preloadStatus: false})}
+                    // onLoadStart={(e) => console.log('Loading')}
+                    // onLoad={(e) => this.setState({ preloadStatus: true })}
                     onLoadEnd={(e) => this.setState({ preloadStatus: false })}
-                    source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}` }} style={styles.listAllToonItemImage} square />
-                  {/* (item.hasOwnProperty('image')) ? { uri: `${Image_URL}/${item.image}` } : item.preload */}
+                    // this.setState({ preloadStatus: false })
+                    source={
+                      (this.state.preloadStatus)
+                        ? this.state.preloadImage
+                        : { uri: `${Image_URL}/${item.image}` }}
+                    style={styles.listAllToonItemImage} square />
                   <Item style={styles.listAllToonItemTB}>
                     <Text
                       onPress={() => this.props.navigation.navigate('DetailWebtoon', this.props.localWebtoons.webtoons[index])}

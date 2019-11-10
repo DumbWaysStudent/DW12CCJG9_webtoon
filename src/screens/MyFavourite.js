@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, StyleSheet, SafeAreaView, AsyncStorage } from 'react-native';
-import { Button, Text, Input, Form, Label, Item, Card, Content, Thumbnail } from 'native-base'
+import { View, FlatList, StyleSheet, SafeAreaView, AsyncStorage, RefreshControl } from 'react-native';
+import { Button, Text, Input, Form, Label, Item, Card, Content, Thumbnail, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -19,6 +19,7 @@ class MyFavourite extends Component {
       data: [],
       error: null,
       preloadStatus: true,
+      dataVisible: 'none',
       preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
@@ -37,6 +38,8 @@ class MyFavourite extends Component {
           this.setState({
             data: this.props.localFavourites.favourites
           })
+
+          this.loadData()
 
         }
       } else {
@@ -106,6 +109,33 @@ class MyFavourite extends Component {
     //   .catch(err => console.log(err));
   }
 
+  loadData = () => {
+    this.setState({ dataVisible: 'none' })
+    this.props.handleGetMyFavourite({
+      token: this.state.sigInData.token,
+      userID: this.state.sigInData.id
+    })
+      .then(() => {
+        this.setState({ dataVisible: 'flex' })
+        // this.setState({
+        //   searchItem: this.props.localFavourites.favourites,
+        //   // dataVisible: 'flex'
+        // })
+      })
+      .catch(e => {
+        this.toastGenerator('error', 'Error: cannot load data, please check your internet connection');
+      })
+  }
+
+  toastGenerator = (type = 'error', message) => {
+    Toast.show({
+      text: message,
+      textStyle: { fontSize: 12, fontWeight: 'bold' },
+      duration: 1000,
+      style: (type == 'error') ? [styles.toastStyle, styles.errorToast] : [styles.toastStyle, styles.successToast]
+    });
+  }
+
   render() {
     // console.log(this.state.data)
     return (
@@ -123,11 +153,28 @@ class MyFavourite extends Component {
             style={styles.searchBoxIcon}
           />
         </Item>
+        {
+          (this.props.localFavourites.favourites == false && this.props.localFavourites.isLoading == false)
+            ? <Text
+              style={{ color: '#fff', fontFamily: 'KOMIKAH_', textAlign: 'center', fontSize: 12, marginVertical: 30, width: '100%' }}>
+              You Not Have Favourite Webtoon.
+              </Text>
+            : <View></View>
+        }
         <FlatList
+          style={{ height: 500 }}
+          refreshing={this.props.localFavourites.isLoading}
+          refreshControl={
+            <RefreshControl
+              colors={['#ee7a33']}
+              progressBackgroundColor="#383332"
+              refreshing={(this.state.dataVisible == 'none' ? true : false)}
+              onRefresh={() => this.loadData()} />
+          }
           showsHorizontalScrollIndicator={false}
           data={(this.state.searchStatus) ? this.state.data : this.props.localFavourites.favourites}
           renderItem={({ item }) =>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.data[item.webtoonId.id - 1])}>
+            <TouchableOpacity style={{ display: this.state.dataVisible }} onPress={() => this.props.navigation.navigate('DetailWebtoon', this.state.data[item.webtoonId.id - 1])}>
               <Card style={styles.favoriteBannerItem}>
                 <Thumbnail
                   onLoadStart={(e) => this.setState({ preloadStatus: false })}

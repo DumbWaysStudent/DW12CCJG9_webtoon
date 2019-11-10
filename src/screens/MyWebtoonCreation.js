@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, AsyncStorage, Modal, Dimensions } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, AsyncStorage, Modal, Dimensions, RefreshControl, Image } from 'react-native';
 import { Text, Button, Fab, Card, Thumbnail, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { connect } from 'react-redux'
@@ -12,6 +12,7 @@ class MyWebtoonCreation extends Component {
     super(props);
     this.state = {
       signInData: null,
+      dataVisible: 'none',
       listMyWebtoon: [
         {
           id: 1,
@@ -63,15 +64,7 @@ class MyWebtoonCreation extends Component {
           // load data from redux store
           // console.log(this.state.signInData)
 
-
-          this.props.handleGetMyWebtoons({
-            userID: this.state.signInData.id,
-            token: this.state.signInData.token
-          })
-          .then(() => {})
-          .catch((e) => {
-            this.toastGenerator('error', "Error: Can't load my webtoon data")
-          })
+          this.loadData();
 
           // console.log(this.props.localWebtoons)
           // this.props.handleGetProfileImage(this.state.sigInData.id)
@@ -81,6 +74,20 @@ class MyWebtoonCreation extends Component {
       } else {
         this.toastGenerator('error', "Error: Can't load data from localStorage")
       }
+    })
+  }
+
+  loadData = () => {
+    this.setState({ dataVisible: 'none' })
+    this.props.handleGetMyWebtoons({
+      userID: this.state.signInData.id,
+      token: this.state.signInData.token
+    })
+    .then(() => {
+      this.setState({ dataVisible: 'flex' })
+    })
+    .catch((e) => {
+      this.toastGenerator('error', "Error: Can't load my webtoon data")
     })
   }
 
@@ -97,7 +104,7 @@ class MyWebtoonCreation extends Component {
     // console.log(this.props.localWebtoons.myWebtoonsEpisodes[0])
     return (
       <SafeAreaView style={styles.container}>
-        <Modal animationType="none"
+        {/* <Modal animationType="none"
           transparent={true}
           visible={(this.props.localWebtoons.isLoading)}
           // onRequestClose={() => {
@@ -112,7 +119,7 @@ class MyWebtoonCreation extends Component {
               </SpinIcon>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
         <View style={styles.header}>
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')} style={styles.headerBackBtn}>
@@ -124,7 +131,24 @@ class MyWebtoonCreation extends Component {
         </View>
 
         <View style={{ flex: 1, borderTopWidth: 1, borderTopColor: '#4D4645' }}>
+          {
+            (this.props.localWebtoons.myWebtoons == false && this.props.localWebtoons.isLoading == false)
+            ? <Text
+                style={{color: '#fff', fontFamily: 'KOMIKAH_', textAlign: 'center', fontSize: 12, marginVertical: 30, width: '100%'}}>
+                  You Not Have Webtoon.
+              </Text>
+            : <View></View>
+          }
           <FlatList
+            style={{flex: 1, display: this.state.dataVisible}}
+            refreshing={this.props.localWebtoons.isLoading}
+            refreshControl={
+              <RefreshControl
+                colors={['#ee7a33']}
+                progressBackgroundColor="#383332"
+                refreshing={this.props.localWebtoons.isLoading || (this.state.dataVisible == 'none' ? true : false)}
+                onRefresh={() => this.loadData()}/>
+            }
             showsHorizontalScrollIndicator={false}
             data={
               (!this.props.localWebtoons.myWebtoons) ? this.state.listMyWebtoon : this.props.localWebtoons.myWebtoons}
@@ -184,10 +208,11 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingVertical: 17,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderColor: '#232222'
+    borderColor: '#232222',
+    height: 60
   },
   headerTitle: {
     fontSize: 16,

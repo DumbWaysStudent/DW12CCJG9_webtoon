@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, AsyncStorage } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, AsyncStorage, Modal, Dimensions } from 'react-native';
 import { Text, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ImagePicker from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import * as actionProfile from './../redux/actions/actionProfile'
+import SpinIcon from './../components/SpinIcon'
 import { Image_URL } from './../services/rest-api'
 
 class EditProfile extends Component {
@@ -92,7 +93,9 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-        .then(() => { })
+        .then(() => {
+          this.props.navigation.goBack()
+        })
         .catch((e) => {
           this.toastGenerator('error', "Error: Can't update profile")
         })
@@ -107,7 +110,9 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-        .then(() => { })
+        .then(() => {
+          this.props.navigation.goBack()
+        })
         .catch((e) => {
           this.toastGenerator('error', "Error: Can't update profile")
         })
@@ -120,13 +125,13 @@ class EditProfile extends Component {
         },
         token: this.state.sigInData.token
       })
-        .then(() => { })
+        .then(() => {
+          this.props.navigation.goBack()
+        })
         .catch((e) => {
           this.toastGenerator('error', "Error: Can't update profile")
         })
     }
-
-    this.props.navigation.goBack()
   }
 
   updateDataHanlder = (x, y) => {
@@ -157,6 +162,22 @@ class EditProfile extends Component {
     console.log(this.state.profilePicture.uri.toString().match(/(^\d+)/g))
     return (
       <SafeAreaView style={styles.container}>
+        <Modal animationType="none"
+          transparent={true}
+          visible={(this.props.localProfile.isLoading)}
+          // onRequestClose={() => {
+          //   this.setModalVisible(this.props.localWebtoons.isLoading)
+          // }}
+          style={{ backgroundColor: 'red' }}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={{ position: 'absolute', top: height / 2.3, left: width / 2.1 }}>
+              <SpinIcon>
+                <Icon name="spinner" size={30} style={{ color: "#fff", alignSelf: 'center' }} />
+              </SpinIcon>
+            </View>
+          </View>
+        </Modal>
         <ScrollView>
           <View style={styles.header}>
 
@@ -200,6 +221,8 @@ const mapDispatchToProps = dispatch => {
     handleUpdateProfile: (params) => dispatch(actionProfile.handleUpdateProfile(params))
   }
 }
+
+const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {

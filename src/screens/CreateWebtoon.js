@@ -17,7 +17,7 @@ class CreateWebtoon extends Component {
       genreValue: '',
       webtoonCreated: false,
       bannerImage: '',
-      defaultBanner: require('../assets/images/image-banner-default.png'),
+      defaultBanner: require('../assets/images/default/banner-480x300.png'),
       publishStatus: false,
       signInData: null,
       listEpisode: [
@@ -279,7 +279,7 @@ class CreateWebtoon extends Component {
 
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Banner</Text>
-              <ImageBackground resizeMode={(this.state.bannerImage == '') ? 'repeat' : 'cover'} resizeMethod="auto" style={styles.wtimageBanner} source={(this.state.bannerImage == '') ? this.state.defaultBanner : this.state.bannerImage} />
+              <ImageBackground resizeMode={(this.state.bannerImage == '') ? 'contain' : 'cover'} resizeMethod="auto" style={styles.wtimageBanner} source={(this.state.bannerImage == '') ? this.state.defaultBanner : this.state.bannerImage} />
               <Button onPress={() => this.imagePickerHandler()} style={styles.wtimageBannerChooseBtn}>
                 <Text style={styles.wtimageBannerChooseBtnText}>
                   <Icon name="image" size={20} />  Choose File...

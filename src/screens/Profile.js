@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, AsyncStorage, Modal, Dimensions } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Image, AsyncStorage, Modal, Dimensions, RefreshControl } from 'react-native';
 import { Text, Toast } from 'native-base'
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { ScrollView } from 'react-native-gesture-handler';
@@ -28,15 +28,7 @@ class Profile extends Component {
             sigInData: JSON.parse(res)
           })
 
-          this.props.handleGetProfile({
-            userID: this.state.sigInData.id,
-            token: this.state.sigInData.token
-          })
-            .then(() => { })
-            .catch((e) => {
-              this.toastGenerator('error', "Error: Can't load profile data")
-            })
-
+          this.loadData()
 
         }
       } else {
@@ -63,11 +55,21 @@ class Profile extends Component {
     this.props.navigation.navigate('SignIn')
   }
 
+  loadData = () => {
+    this.props.handleGetProfile({
+      userID: this.state.sigInData.id,
+      token: this.state.sigInData.token
+    })
+      .then(() => { })
+      .catch((e) => {
+        this.toastGenerator('error', "Error: Can't load profile data")
+      })
+  }
+
   render() {
-    console.log(this.props.localProfile.profile)
     return (
       <SafeAreaView style={styles.container}>
-        <Modal animationType="none"
+        {/* <Modal animationType="none"
           transparent={true}
           visible={(this.props.localProfile.isLoading)}
           // onRequestClose={() => {
@@ -82,8 +84,15 @@ class Profile extends Component {
               </SpinIcon>
             </View>
           </View>
-        </Modal>
-        <ScrollView>
+        </Modal> */}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={['#ee7a33']}
+              progressBackgroundColor="#383332"
+              refreshing={this.props.localProfile.isLoading}
+              onRefresh={() => this.loadData()}/>
+          }>
           <View style={styles.header}>
 
             <View style={styles.headerTitle}>
