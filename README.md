@@ -24,7 +24,6 @@ Smoketoon is an aplication for read webcomics online/offline for free, inspired 
 
 ## Tech Stack
 * React Native for the Mobile Frontend
-* NodeJS for the API server, The API can be seen at (https://github.com/thisfikri/smoketoon-rest-api)
 
 ## Prerequisites
 * Make sure You had been install NodeJs in your system (https://nodejs.org/)
