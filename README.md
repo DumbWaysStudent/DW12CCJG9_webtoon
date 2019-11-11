@@ -45,6 +45,7 @@ $ react-native run-android #for android
 
 ## Contact
 * WA: +6289514349836
+* LinkedIn: https://www.linkedin.com/in/fikri-haikal-478a24194/
 
 ## License
 BSD 3-Clause License
