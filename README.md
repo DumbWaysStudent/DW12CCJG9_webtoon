@@ -48,4 +48,4 @@ $ react-native run-android #for android
 
 ## License
 BSD 3-Clause License
-See [License](https://github.com/DumbwaysDotId/course-repo-example/blob/master/LICENSE)
+See [License](https://github.com/DumbWaysStudent/DW12CCJG9_webtoon/blob/master/LICENSE)
