@@ -24,6 +24,7 @@ class EditMyWebtoon extends Component {
       publishStatus: false,
       bannerImage: '',
       fabstatus: false,
+      editLoading: false,
       listEpisode: [
         // {
         //   id: 1,
@@ -46,7 +47,7 @@ class EditMyWebtoon extends Component {
             signInData: JSON.parse(res),
             titleValue: this.props.navigation.getParam('title'),
             genreValue: this.props.navigation.getParam('genre'),
-            publishStatus: (this.props.navigation.getParam('status') == 'published' ? true : false )
+            publishStatus: (this.props.navigation.getParam('status') == 'published' ? true : false)
             // bannerImage: this.props.navigation.getParam('image')
           })
 
@@ -70,10 +71,10 @@ class EditMyWebtoon extends Component {
             webtoonID: this.props.navigation.getParam('id'),
             token: this.state.signInData.token
           })
-          .then(() => {})
-          .catch((e) => {
-            this.toastGenerator('error', "Error: Can't load episodes data")
-          })
+            .then(() => { })
+            .catch((e) => {
+              this.toastGenerator('error', "Error: Can't load episodes data")
+            })
         }
       } else {
         this.toastGenerator('error', "Error: Can't load data from localStorage")
@@ -125,6 +126,7 @@ class EditMyWebtoon extends Component {
       formData.append('status', (this.state.publishStatus) ? 'published' : 'unpublished')
       formData.append('banner', this.state.bannerImage)
 
+      this.setState({ editLoading: true })
       this.props.handleUpdateWebtoon({
         userID: this.state.signInData.id,
         webtoonID: id,
@@ -132,10 +134,12 @@ class EditMyWebtoon extends Component {
         token: this.state.signInData.token
       })
         .then(() => {
-          this.toastGenerator('success', "Update my webtoon success")
+          this.setState({ editLoading: false })
           this.props.navigation.goBack()
+          this.toastGenerator('success', "Update my webtoon success")
         })
         .catch(e => {
+          this.setState({ editLoading: false })
           this.toastGenerator('error', "Error: Can't update my webtoon")
         })
       // this.props.handleUpdateWebtoon({
@@ -249,23 +253,22 @@ class EditMyWebtoon extends Component {
   }
 
   deleteWebtoon() {
+    this.setState({ editLoading: true })
     this.props.handleDeleteWebtoon({
       userID: this.state.signInData.id,
       webtoonID: this.props.navigation.getParam('id'),
       token: this.state.signInData.token
     })
-    .then(() => {
-      if (this.props.localWebtoons.isSuccess) {
-        this.toastGenerator('success', "Delete my wbtoon success")
+      .then(() => {
+        this.setState({ editLoading: false })
         this.props.navigation.goBack()
-      }
-    })
-    .catch((e) => {
-      if (this.props.localWebtoons.isSuccess) {
+        this.toastGenerator('success', "Delete my wbtoon success")
+      })
+      .catch((e) => {
+        this.setState({ editLoading: false })
         this.toastGenerator('error', "Error: Can't delete my webtoon")
         this.props.navigation.goBack()
-      }
-    })
+      })
   }
 
   convertDate(date) {
@@ -289,9 +292,9 @@ class EditMyWebtoon extends Component {
     // console.log(this.props.navigation.state.params)
     return (
       <SafeAreaView style={styles.container}>
-        {/* <Modal animationType="none"
+        <Modal animationType="none"
           transparent={true}
-          visible={(this.props.localEpisodes.isLoading)}
+          visible={(this.state.editLoading)}
           // onRequestClose={() => {
           //   this.setModalVisible(this.props.localWebtoons.isLoading)
           // }}
@@ -304,7 +307,7 @@ class EditMyWebtoon extends Component {
               </SpinIcon>
             </View>
           </View>
-        </Modal> */}
+        </Modal>
         <View style={styles.header}>
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate('MyWebtoonCreation')} style={styles.headerBackBtn}>
@@ -349,7 +352,7 @@ class EditMyWebtoon extends Component {
             {/* {console.log(this.state.bannerImage)} */}
             <View style={styles.palleteItem}>
               <Text style={styles.palleteItemTitle}>Banner</Text>
-              <ImageBackground style={styles.wtimageBanner} source={(this.state.bannerImage != false) ? this.state.bannerImage : { uri: `${Image_URL}/${this.props.navigation.getParam('image')}` }} />
+              <ImageBackground style={styles.wtimageBanner} source={(this.state.bannerImage != false) ? this.state.bannerImage : { uri: `${this.props.navigation.getParam('image')}` }} />
               <Button onPress={() => this.imagePickerHandler()} style={styles.wtimageBannerChooseBtn}>
                 <Text style={styles.wtimageBannerChooseBtnText}>
                   <Icon name="image" size={20} />  Choose File...
@@ -361,8 +364,8 @@ class EditMyWebtoon extends Component {
               <Text style={styles.palleteItemTitle}>Status</Text>
               <Button
                 style={styles.publishBtn}
-                onPress={() => this.setState({ publishStatus: (this.state.publishStatus) ? false : true})}>
-                  <Text style={styles.publishBtnText}>{this.state.publishStatus ? 'unpublish' : 'publish'}</Text>
+                onPress={() => this.setState({ publishStatus: (this.state.publishStatus) ? false : true })}>
+                <Text style={styles.publishBtnText}>{this.state.publishStatus ? 'unpublish' : 'publish'}</Text>
               </Button>
             </View>
 
@@ -372,8 +375,8 @@ class EditMyWebtoon extends Component {
                 showsHorizontalScrollIndicator={false}
                 data={this.props.localEpisodes.episodes}
                 renderItem={({ item }) =>
-                  <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', { image: item.image , episodeID: item.id, webtoonID: this.props.navigation.getParam('id'), title: item.title })} style={styles.episodeItem}>
-                    <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.episodeImage} square />
+                  <Item onPress={() => this.props.navigation.navigate('EditMyWebtoonEpisode', { image: item.image, episodeID: item.id, webtoonID: this.props.navigation.getParam('id'), title: item.title })} style={styles.episodeItem}>
+                    <Thumbnail source={{ uri: `${item.image}` }} style={styles.episodeImage} square />
                     {/* {console.log(item)} */}
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>

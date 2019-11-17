@@ -178,7 +178,7 @@ class MyFavourite extends Component {
               <Card style={styles.favoriteBannerItem}>
                 <Thumbnail
                   onLoadStart={(e) => this.setState({ preloadStatus: false })}
-                  source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.webtoonId.image}` }}
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${item.webtoonId.image}` }}
                   style={styles.favoriteBannerItemImage} square />
                 <View>
                   <Text style={styles.favoriteBannerTitle}>{item.webtoonId.title}</Text>

@@ -323,7 +323,7 @@ class ForYou extends Component {
                       (this.state.searchItemVisible)
                         ? [styles.listofSearchData, styles.listofSearchDataShow]
                         : styles.listofSearchData}>
-                      <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.searchDataImage} square />
+                      <Thumbnail source={{ uri: `${item.image}` }} style={styles.searchDataImage} square />
                       <View>
                         <Text style={styles.searchDataTitle}>{item.title}</Text>
                         <Text style={styles.searchDataFavCount}>Favourite: {item.favourite_count} Users</Text>
@@ -384,8 +384,8 @@ class ForYou extends Component {
                     }>
                     <Thumbnail
                       // onLoadStart={(e) => this.setState({preloadStatus: true})}
-                      onLoadEnd={(e) => this.setState({ preloadStatus: false })}
-                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${Image_URL}/${item.image}` }}
+                      onLoadStart={(e) => this.setState({ preloadStatus: false })}
+                      source={(this.state.preloadStatus) ? this.state.preloadImage : { uri: `${item.image}` }}
                       style={styles.favoriteBannerItemImage}
                       square
                     />
@@ -427,12 +427,12 @@ class ForYou extends Component {
                   <Thumbnail
                     // onLoadStart={(e) => console.log('Loading')}
                     // onLoad={(e) => this.setState({ preloadStatus: true })}
-                    onLoadEnd={(e) => this.setState({ preloadStatus: false })}
+                    onLoadStart={(e) => this.setState({ preloadStatus: false })}
                     // this.setState({ preloadStatus: false })
                     source={
                       (this.state.preloadStatus)
                         ? this.state.preloadImage
-                        : { uri: `${Image_URL}/${item.image}` }}
+                        : { uri: `${item.image}` }}
                     style={styles.listAllToonItemImage} square />
                   <Item style={styles.listAllToonItemTB}>
                     <Text

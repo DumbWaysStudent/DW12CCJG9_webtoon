@@ -133,6 +133,7 @@ class CreateWebtoon extends Component {
   goBackValidator() {
     if (this.state.webtoonCreated || this.props.navigation.state.params) {
       this.props.handleDeleteWebtoon({
+        title: this.state.titleValue,
         userID: this.state.signInData.id,
         webtoonID: this.props.localWebtoons.webtoons[this.props.localWebtoons.webtoons.length - 1].id,
         token: this.state.signInData.token,
@@ -307,7 +308,7 @@ class CreateWebtoon extends Component {
                     webtoonID: this.props.navigation.getParam('webtoonID'),
                     episodeID: item.id
                   })} style={styles.episodeItem}>
-                    <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.episodeImage} square />
+                    <Thumbnail source={{ uri: `${item.image}` }} style={styles.episodeImage} square />
                     <View style={styles.episodeInfo}>
                       <Text style={styles.episodeTitle}>{item.title}</Text>
                       <Text style={styles.episodeLastUpade}>{this.convertDate(new Date(item.createdAt))}</Text>

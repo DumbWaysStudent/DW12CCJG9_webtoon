@@ -131,6 +131,8 @@ class EditProfile extends Component {
         .catch((e) => {
           this.toastGenerator('error', "Error: Can't update profile")
         })
+    } else {
+      this.props.navigation.goBack()
     }
   }
 
@@ -178,7 +180,7 @@ class EditProfile extends Component {
             </View>
           </View>
         </Modal>
-        <ScrollView>
+        {/* <ScrollView> */}
           <View style={styles.header}>
 
             <View style={styles.headerTitle}>
@@ -193,7 +195,7 @@ class EditProfile extends Component {
 
           </View>
           <View style={styles.profilePicture}>
-            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : (this.state.profilePicture.uri.toString().match(/(^\d+)/g) === null) ? { uri: `${Image_URL}/${this.state.profilePicture.uri}` } : this.state.profilePicture.uri} style={styles.profilePictureImage} />
+            <Image large source={(this.state.profile_image !== null) ? this.state.profile_image : (this.state.profilePicture.uri.toString().match(/(^\d+)/g) === null) ? { uri: `${this.state.profilePicture.uri}` } : this.state.profilePicture.uri} style={styles.profilePictureImage} />
             <TouchableOpacity onPress={() => this.imagePickerHandler()}>
               <Icon name="camera" style={{ color: '#fff' }} size={20} />
             </TouchableOpacity>
@@ -203,7 +205,7 @@ class EditProfile extends Component {
               onChangeText={(text) => this.setState({ profileName: text })}
             />
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </SafeAreaView>
     )
   }

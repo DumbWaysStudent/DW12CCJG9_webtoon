@@ -157,7 +157,7 @@ class MyWebtoonCreation extends Component {
                 <Card style={styles.webtoonItem}>
                   <Thumbnail
                     onLoadStart={(e) => this.setState({preloadStatus: false})}
-                    source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}}
+                    source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${item.image}`}}
                     style={styles.webtoonImage} square />
                   <View>
                     <Text style={styles.webtoonTitle}>{item.title}</Text>

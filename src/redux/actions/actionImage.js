@@ -41,6 +41,10 @@ export const handleDeleteImage = (params) => ({
     payload: axios({
         method: 'delete',
         url: `${API_URL}/user/${params.userID}/webtoon/${params.webtoonID}/episode/${params.episodeID}/image/${params.imageID}`,
+        data: {
+            epTitle: params.epTitle,
+            pageImage: params.pageImage
+        },
         headers: {
             Authorization: params.token
         }

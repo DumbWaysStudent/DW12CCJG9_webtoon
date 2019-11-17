@@ -45,6 +45,9 @@ export const handleDeleteEpisode = (params) => ({
     payload: axios({
         method: 'delete',
         url: `${API_URL}/user/${params.userID}/webtoon/${params.webtoonID}/episode/${params.episodeID}`,
+        data: {
+            epTitle: params.epTitle
+        },
         headers: {
             'Authorization': params.token
         }

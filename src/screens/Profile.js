@@ -13,7 +13,9 @@ class Profile extends Component {
     super(props);
     this.state = {
       profilePicture: require('../assets/images/profile-picture-default.png'),
-      profileName: 'Fikri Haikal'
+      profileName: 'No Name',
+      preloadStatus: true,
+      preloadImage: require('../assets/images/gif/Preload1.gif')
     };
   }
 
@@ -112,9 +114,10 @@ class Profile extends Component {
 
           </View>
           <View style={styles.profilePicture}>
-            <Image large source={(this.props.localProfile.profile.profile_image == 'default-pic')
-              ? this.state.profilePicture
-              : { uri: `${Image_URL}/${this.props.localProfile.profile.profile_image}` }} style={styles.profilePictureImage} />
+            <Image large onLoadStart={(e) => this.setState({preloadStatus: false})}
+              source={(this.state.preloadStatus) ? this.state.preloadImage : (this.props.localProfile.profile.profile_image == 'default-pic')
+                ? this.state.profilePicture
+                : { uri: `${this.props.localProfile.profile.profile_image}` }} style={styles.profilePictureImage} />
             <Text style={styles.profileName}>{
               this.props.localProfile.profile.name
             }</Text>

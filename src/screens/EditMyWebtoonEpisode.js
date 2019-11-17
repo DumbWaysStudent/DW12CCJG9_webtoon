@@ -18,6 +18,7 @@ class EditMyWebtoonEpisode extends Component {
     this.state = {
       titleValue: this.props.navigation.getParam('title'),
       signInData: null,
+      changesStatus: false,
       images: []
     }
 
@@ -107,6 +108,7 @@ class EditMyWebtoonEpisode extends Component {
         let images = this.state.images
         let formData = new FormData();
         formData.append('page', this.props.localImages.images.length + 1)
+        formData.append('epTitle', this.props.navigation.getParam('title'))
         formData.append('pageImage', {
           uri: response.uri,
           type: response.type,
@@ -127,7 +129,8 @@ class EditMyWebtoonEpisode extends Component {
           });
   
           this.setState({
-            images: images
+            images: images,
+            changesStatus: true
           })
         })
         .catch((e) => {
@@ -143,6 +146,7 @@ class EditMyWebtoonEpisode extends Component {
       userID: this.state.signInData.id,
       webtoonID: this.props.navigation.getParam('webtoonID'),
       episodeID: this.props.navigation.getParam('episodeID'),
+      epTitle: this.props.navigation.getParam('title'),
       token: this.state.signInData.token
     })
     .then(() => {
@@ -159,17 +163,20 @@ class EditMyWebtoonEpisode extends Component {
     })
   }
 
-  deleteImageHandle(id, page) {
+  deleteImageHandle(id, image) {
     // let newItem = this.state.images.filter(item => item.page != page)
 
     this.props.handleDeleteImage({
       userID: this.state.signInData.id,
       webtoonID: this.props.navigation.getParam('webtoonID'),
       episodeID: this.props.navigation.getParam('episodeID'),
+      epTitle: this.props.navigation.getParam('title'),
+      pageImage: image,
       imageID: id,
       token: this.state.signInData.token
     })
     .then(() => {
+      this.setState({ changesStatus: true })
       this.toastGenerator('success', "Delete image success")
     })
     .catch((e) => {
@@ -179,6 +186,14 @@ class EditMyWebtoonEpisode extends Component {
     // this.setState({
     //   images: newItem
     // })
+  }
+
+  goBackValidator() {
+    if (this.state.changesStatus) {
+      this.toastGenerator('error', "Changes detected, you must apply changes by click 'Ok' Button")
+    } else {
+      this.props.navigation.goBack()
+    }
   }
 
   okBtnHandle() {
@@ -200,7 +215,7 @@ class EditMyWebtoonEpisode extends Component {
         this.props.navigation.goBack()
       })
     } else {
-      this.props.navigation.goBack()
+      this.toastGenerator('error', "Error: You must add min 1 page in a episode")
     }
   }
 
@@ -214,7 +229,6 @@ class EditMyWebtoonEpisode extends Component {
   }
 
   render() {
-    console.log(this.props.localImages.images)
     return (
       <SafeAreaView style={styles.container}>
         <Modal animationType="none"
@@ -235,7 +249,7 @@ class EditMyWebtoonEpisode extends Component {
         </Modal>
         <View style={styles.header}>
 
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.headerBackBtn}>
+          <TouchableOpacity onPress={() => this.goBackValidator()} style={styles.headerBackBtn}>
             <Icon name="arrow-left" style={{ color: '#fff' }} size={23} />
           </TouchableOpacity>
 
@@ -259,11 +273,11 @@ class EditMyWebtoonEpisode extends Component {
               data={this.props.localImages.images}
               renderItem={({ item }) =>
                 <Item style={styles.imageItem}>
-                  <Thumbnail source={{ uri: `${Image_URL}/${item.image}` }} style={styles.image} square />
+                  <Thumbnail source={{ uri: `${item.image}` }} style={styles.image} square />
                   <View style={styles.imageInfo}>
                     <Text style={styles.imageTitle}>Page {item.page}</Text>
                     <Button
-                      onPress={() => this.deleteImageHandle(item.id, item.page)}
+                      onPress={() => this.deleteImageHandle(item.id, item.image)}
                       style={styles.imageDeleteBtn}><Text style={styles.imageDeleteText}>Delete</Text></Button>
                   </View>
                 </Item>
