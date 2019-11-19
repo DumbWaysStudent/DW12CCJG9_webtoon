@@ -373,13 +373,13 @@ class ForYou extends Component {
                 this.props.localWebtoons.popularWebtoons
                   ? this.props.localWebtoons.popularWebtoons
                   : this.state.popularWebtoonData}
-              renderItem={({ item }) =>
+              renderItem={({ item, index }) =>
                 <Card style={styles.favoriteBannerItem}>
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate(
                         'DetailWebtoon',
-                        this.props.localWebtoons.popularWebtoons[item.id - 1]
+                        this.props.localWebtoons.popularWebtoons[index]
                       )
                     }>
                     <Thumbnail

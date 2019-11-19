@@ -121,9 +121,10 @@ class DetailWebtoon extends Component {
         </View>
         
         <View style={styles.banner}>
+        {console.log(this.props.navigation.state)}
           <Image
             onLoadStart={(e) => this.setState({preloadStatus: false})}
-            source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${this.props.navigation.getParam('image')}`}} style={styles.bannerImage} />
+            source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${this.props.navigation.getParam('image')}`}} style={styles.bannerImage} />
         </View>
         <View style={styles.listEpisode}>
           <FlatList
@@ -141,7 +142,7 @@ class DetailWebtoon extends Component {
                 <Thumbnail
                   square
                   onLoadStart={(e) => this.setState({preloadStatus: false})}
-                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}} style={styles.episodeImage} />
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${item.image}`}} style={styles.episodeImage} />
                 <View style={styles.episodeInfo}>
                   <Text style={styles.episodeTitle}>{item.title}</Text>
                   <Text style={styles.episodeLastUpade}>{this.convertDate(new Date(item.createdAt))}</Text>

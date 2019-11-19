@@ -304,7 +304,7 @@ class CreateWebtoonEpisode extends Component {
                 <Item style={styles.imageItem}>
                   <Thumbnail source={{ uri: item.image }} style={styles.image} square />
                   <View style={styles.imageInfo}>
-                    <Text style={styles.imageTitle}>Page {item.page}</Text>
+                    {/* <Text style={styles.imageTitle}>Page {item.page}</Text> */}
                     <Button
                       onPress={() => this.deleteImageHandle(item.page)}
                       style={styles.imageDeleteBtn}><Text style={styles.imageDeleteText}>Delete</Text>

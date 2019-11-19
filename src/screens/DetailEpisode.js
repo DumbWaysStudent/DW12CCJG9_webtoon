@@ -100,7 +100,7 @@ class DetailEpisode extends Component {
               <View style={styles.page}>
                 <Image
                   onLoadStart={(e) => this.setState({preloadStatus: false})}
-                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${Image_URL}/${item.image}`}} style={styles.pageImage} />
+                  source={(this.state.preloadStatus) ? this.state.preloadImage : {uri: `${item.image}`}} style={styles.pageImage} />
               </View>
             }
             keyExtractor={item => item.id}
